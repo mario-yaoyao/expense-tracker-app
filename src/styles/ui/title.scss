@@ -1,0 +1,15 @@
+@use "../colors" as *;
+
+.section-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 48px;
+
+  .btns-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}

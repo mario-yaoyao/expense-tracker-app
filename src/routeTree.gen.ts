@@ -9,68 +9,238 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ExpenseRouteImport } from './routes/expense'
+import { Route as PrivateRouteImport } from './routes/_private'
+import { Route as PublicRouteImport } from './routes/_public'
+import { Route as PrivateIndexRouteImport } from './routes/_private/index'
+import { Route as PrivateExpenseRouteImport } from './routes/_private/expense'
+import { Route as PrivateProfileRouteImport } from './routes/_private/profile'
+import { Route as PublicLoginRouteImport } from './routes/_public/login'
+import { Route as PublicRegisterRouteImport } from './routes/_public/register'
+import { Route as PrivateExpenseIndexRouteImport } from './routes/_private/expense.index'
+import { Route as PrivateExpenseExpenseIdRouteImport } from './routes/_private/expense.$expenseId'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PrivateRoute = PrivateRouteImport.update({
+  id: '/_private',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExpenseRoute = ExpenseRouteImport.update({
+const PublicRoute = PublicRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivateIndexRoute = PrivateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PrivateRoute,
+} as any)
+const PrivateExpenseRoute = PrivateExpenseRouteImport.update({
   id: '/expense',
   path: '/expense',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PrivateRoute,
+} as any)
+const PrivateProfileRoute = PrivateProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => PrivateRoute,
+} as any)
+const PublicLoginRoute = PublicLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicRegisterRoute = PublicRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PrivateExpenseIndexRoute = PrivateExpenseIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PrivateExpenseRoute,
+} as any)
+const PrivateExpenseExpenseIdRoute = PrivateExpenseExpenseIdRouteImport.update({
+  id: '/$expenseId',
+  path: '/$expenseId',
+  getParentRoute: () => PrivateExpenseRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/expense': typeof ExpenseRoute
+  '/': typeof PrivateIndexRoute
+  '/expense': typeof PrivateExpenseRouteWithChildren
+  '/profile': typeof PrivateProfileRoute
+  '/login': typeof PublicLoginRoute
+  '/register': typeof PublicRegisterRoute
+  '/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
+  '/expense/': typeof PrivateExpenseIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/expense': typeof ExpenseRoute
+  '/': typeof PrivateIndexRoute
+  '/profile': typeof PrivateProfileRoute
+  '/login': typeof PublicLoginRoute
+  '/register': typeof PublicRegisterRoute
+  '/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
+  '/expense': typeof PrivateExpenseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/expense': typeof ExpenseRoute
+  '/_private': typeof PrivateRouteWithChildren
+  '/_public': typeof PublicRouteWithChildren
+  '/_private/expense': typeof PrivateExpenseRouteWithChildren
+  '/_private/profile': typeof PrivateProfileRoute
+  '/_public/login': typeof PublicLoginRoute
+  '/_public/register': typeof PublicRegisterRoute
+  '/_private/': typeof PrivateIndexRoute
+  '/_private/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
+  '/_private/expense/': typeof PrivateExpenseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/expense'
+  fullPaths:
+    | '/'
+    | '/expense'
+    | '/profile'
+    | '/login'
+    | '/register'
+    | '/expense/$expenseId'
+    | '/expense/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/expense'
-  id: '__root__' | '/' | '/expense'
+  to:
+    | '/'
+    | '/profile'
+    | '/login'
+    | '/register'
+    | '/expense/$expenseId'
+    | '/expense'
+  id:
+    | '__root__'
+    | '/_private'
+    | '/_public'
+    | '/_private/expense'
+    | '/_private/profile'
+    | '/_public/login'
+    | '/_public/register'
+    | '/_private/'
+    | '/_private/expense/$expenseId'
+    | '/_private/expense/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ExpenseRoute: typeof ExpenseRoute
+  PrivateRoute: typeof PrivateRouteWithChildren
+  PublicRoute: typeof PublicRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_private': {
+      id: '/_private'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof PrivateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/expense': {
-      id: '/expense'
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_private/': {
+      id: '/_private/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PrivateIndexRouteImport
+      parentRoute: typeof PrivateRoute
+    }
+    '/_private/expense': {
+      id: '/_private/expense'
       path: '/expense'
       fullPath: '/expense'
-      preLoaderRoute: typeof ExpenseRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PrivateExpenseRouteImport
+      parentRoute: typeof PrivateRoute
+    }
+    '/_private/profile': {
+      id: '/_private/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof PrivateProfileRouteImport
+      parentRoute: typeof PrivateRoute
+    }
+    '/_public/login': {
+      id: '/_public/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PublicLoginRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/register': {
+      id: '/_public/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof PublicRegisterRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_private/expense/': {
+      id: '/_private/expense/'
+      path: '/'
+      fullPath: '/expense/'
+      preLoaderRoute: typeof PrivateExpenseIndexRouteImport
+      parentRoute: typeof PrivateExpenseRoute
+    }
+    '/_private/expense/$expenseId': {
+      id: '/_private/expense/$expenseId'
+      path: '/$expenseId'
+      fullPath: '/expense/$expenseId'
+      preLoaderRoute: typeof PrivateExpenseExpenseIdRouteImport
+      parentRoute: typeof PrivateExpenseRoute
     }
   }
 }
 
+interface PrivateExpenseRouteChildren {
+  PrivateExpenseExpenseIdRoute: typeof PrivateExpenseExpenseIdRoute
+  PrivateExpenseIndexRoute: typeof PrivateExpenseIndexRoute
+}
+
+const PrivateExpenseRouteChildren: PrivateExpenseRouteChildren = {
+  PrivateExpenseExpenseIdRoute: PrivateExpenseExpenseIdRoute,
+  PrivateExpenseIndexRoute: PrivateExpenseIndexRoute,
+}
+
+const PrivateExpenseRouteWithChildren = PrivateExpenseRoute._addFileChildren(
+  PrivateExpenseRouteChildren,
+)
+
+interface PrivateRouteChildren {
+  PrivateExpenseRoute: typeof PrivateExpenseRouteWithChildren
+  PrivateProfileRoute: typeof PrivateProfileRoute
+  PrivateIndexRoute: typeof PrivateIndexRoute
+}
+
+const PrivateRouteChildren: PrivateRouteChildren = {
+  PrivateExpenseRoute: PrivateExpenseRouteWithChildren,
+  PrivateProfileRoute: PrivateProfileRoute,
+  PrivateIndexRoute: PrivateIndexRoute,
+}
+
+const PrivateRouteWithChildren =
+  PrivateRoute._addFileChildren(PrivateRouteChildren)
+
+interface PublicRouteChildren {
+  PublicLoginRoute: typeof PublicLoginRoute
+  PublicRegisterRoute: typeof PublicRegisterRoute
+}
+
+const PublicRouteChildren: PublicRouteChildren = {
+  PublicLoginRoute: PublicLoginRoute,
+  PublicRegisterRoute: PublicRegisterRoute,
+}
+
+const PublicRouteWithChildren =
+  PublicRoute._addFileChildren(PublicRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ExpenseRoute: ExpenseRoute,
+  PrivateRoute: PrivateRouteWithChildren,
+  PublicRoute: PublicRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,0 +1,55 @@
+@use "../colors" as *;
+
+.textarea-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $text;
+  }
+
+  .textarea-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    outline: 2px solid $border;
+    background: $surface;
+    transition: outline-color 0.2s ease;
+
+    &:focus-within {
+      outline-color: $primary;
+    }
+
+    textarea {
+      all: unset;
+      width: 100%;
+      min-height: 100px;
+      text-align: initial;
+      resize: vertical;
+      color: $text;
+      font-size: 0.875rem;
+    }
+
+    button {
+      all: unset;
+      display: flex;
+      align-items: center;
+      color: $text-muted;
+      cursor: pointer;
+    }
+  }
+}
+
+// for tablet devices
+@media only screen and (min-width: 768px) {
+  .input-group {
+    .input-wrapper {
+      font-size: 1rem;
+    }
+  }
+}

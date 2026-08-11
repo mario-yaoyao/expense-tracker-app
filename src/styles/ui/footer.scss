@@ -1,0 +1,11 @@
+@use "../colors" as *;
+
+footer {
+  display: flex;
+  justify-content: end;
+  padding: 14px 32px;
+  background-color: $surface;
+  border-top: 1px solid $border;
+  font-size: 12px;
+  font-weight: 500;
+}
