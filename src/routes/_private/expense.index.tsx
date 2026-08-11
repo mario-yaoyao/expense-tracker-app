@@ -1,0 +1,7 @@
+import { createFileRoute } from "@tanstack/react-router";
+
+import ExpensePage from "../../pages/ExpensePage";
+
+export const Route = createFileRoute("/_private/expense/")({
+  component: ExpensePage,
+});

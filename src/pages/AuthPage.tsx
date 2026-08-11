@@ -1,19 +1,17 @@
-import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 import LoginForm from "../components/Auth/LoginForm";
 import RegisterForm from "../components/Auth/RegisterForm";
 import Button from "../components/ui/Button";
-import "../styles/auth.scss";
+import "../styles/auth/auth.scss";
 
-const AuthPage = () => {
-  const [authForm, setAuthForm] = useState("login"); // TODO: get value by url query params
+const AuthPage = ({ authForm }: { authForm: string }) => {
+  const navigate = useNavigate();
 
   const toggleAuthForms = () => {
-    if (authForm === "login") {
-      setAuthForm("register");
-    } else {
-      setAuthForm("login");
-    }
+    navigate({
+      to: authForm === "login" ? "/register" : "/login",
+    });
   };
 
   return (
@@ -32,9 +30,7 @@ const AuthPage = () => {
                 : "Sign up to start tracking your expenses."}
             </h3>
           </div>
-          {/* <div className="auth-body"> */}
           {authForm === "login" ? <LoginForm /> : <RegisterForm />}
-          {/* </div> */}
           <div className="auth-footer">
             <p>
               {authForm === "login"

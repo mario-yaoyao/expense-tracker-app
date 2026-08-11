@@ -1,0 +1,41 @@
+@use "../colors" as *;
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background-color: $surface;
+  border-bottom: 1px solid $border;
+
+  .header-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    svg {
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 22px;
+    }
+  }
+
+  button {
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+// for tablet devices
+@media only screen and (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
