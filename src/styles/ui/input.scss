@@ -1,0 +1,78 @@
+@use "../colors" as *;
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $text;
+  }
+
+  .input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .input-wrapper {
+      display: flex;
+      padding: 10px 16px;
+      outline: 2px solid $border;
+      border-radius: 6px;
+      background-color: $surface;
+      color: $text;
+      font-size: 14px;
+      transition:
+        outline-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &:focus-within {
+        outline-color: $primary;
+      }
+
+      .icon {
+        color: $text-muted;
+        margin-right: 0.5rem;
+      }
+
+      input {
+        all: unset;
+        width: 100%;
+        text-align: initial;
+        // padding-left: 0.5rem;
+
+        // NOTE: remove weird bg when selecting suggested value
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0 1000px white inset;
+          -webkit-text-fill-color: #000;
+        }
+
+        // NOTE: remove browser default password visibility toggler in MS Edge
+        &::-ms-reveal {
+          display: none;
+        }
+      }
+
+      button {
+        all: unset;
+        display: flex;
+        align-items: center;
+        color: $text-muted;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// for tablet devices
+@media only screen and (min-width: 768px) {
+  .input-group {
+    .input-wrapper {
+      font-size: 1rem;
+    }
+  }
+}

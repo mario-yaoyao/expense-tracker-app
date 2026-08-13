@@ -1,0 +1,53 @@
+@use "../colors" as *;
+
+.sidebar {
+  width: 220px;
+  background: $surface;
+  border-right: 1px solid $border;
+  transition: width 0.2s ease;
+
+  &.collapsed {
+    width: 80px;
+
+    nav {
+      align-items: center;
+
+      a {
+        justify-content: center;
+        padding: 0.8rem;
+      }
+    }
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      color: $text;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+
+      &:hover {
+        background: $primary-outline;
+      }
+
+      &.active {
+        background: $primary;
+        color: white;
+      }
+    }
+  }
+}

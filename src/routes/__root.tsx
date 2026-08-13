@@ -1,18 +1,29 @@
-import { createRootRoute } from "@tanstack/react-router";
-// import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
-import AppLayout from "../layout/AppLayout";
-import AuthLayout from "../layout/AuthLayout";
+import "../styles/layout/appLayout.scss";
 
-const RootLayout = () => {
-  const isAuthenticated = true;
+export const Route = createRootRoute({
+  component: RootLayout,
+});
+
+function RootLayout() {
+  const queryClient = new QueryClient();
 
   return (
     <>
-      {isAuthenticated ? <AppLayout /> : <AuthLayout />}
-      {/* <TanStackRouterDevtools /> */}
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              fontSize: "14px",
+            },
+          }}
+        />
+      </QueryClientProvider>
     </>
   );
-};
-
-export const Route = createRootRoute({ component: RootLayout });
+}

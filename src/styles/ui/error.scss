@@ -1,0 +1,12 @@
+@use "../colors" as *;
+
+.error-msg {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: $redish-shadow;
+  color: $red;
+}
