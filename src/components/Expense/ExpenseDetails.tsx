@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 import { deleteExpenseAsync, getExpenseByIdAsync } from "../../api/expense";
+import { useAuth } from "../../hooks/useAuth";
 import { isSuperAdmin } from "../../utils/auth";
 import { formatDate } from "../../utils/format";
 import type { TExpenseDetails } from "../../types/expense";
@@ -17,6 +18,7 @@ import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   const navigate = useNavigate();
+  const { user } = useAuth.getState();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
@@ -95,7 +97,6 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
           },
         ]
       : []),
-
     {
       label: "Description",
       value: data.description?.trim() || "—",
@@ -135,7 +136,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
             </div>
           ))}
         </div>
-        {!data.isDeleted && (
+        {!data.isDeleted && user?.id === data.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

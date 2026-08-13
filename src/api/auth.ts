@@ -17,3 +17,14 @@ export const registerAsync = async (payload: TRegisterSchema) => {
   );
   return res.data;
 };
+
+export const refreshTokenAsync = async (
+  userId: string | undefined,
+  refreshToken: string | null,
+) => {
+  const res = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/auth/refresh`,
+    { userId, refreshToken },
+  );
+  return res.data;
+};

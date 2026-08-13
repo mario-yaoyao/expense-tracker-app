@@ -1,10 +1,10 @@
 import { formatDate } from "../utils/format";
 
 export const expenseColumns = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: "ID",
+  // },
   {
     accessorKey: "description",
     header: "Description",
