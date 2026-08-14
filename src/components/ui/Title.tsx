@@ -1,8 +1,8 @@
 // TODO: add breadcrumb functionality
 
+import type { ITitle } from "../../types/ui";
 import Button from "./Button";
 import "../../styles/ui/title.scss";
-import type { ITitle } from "../../types/ui";
 
 const Title = ({ text, action, openModalFn }: ITitle) => {
   return (
@@ -13,6 +13,7 @@ const Title = ({ text, action, openModalFn }: ITitle) => {
           <Button
             label={action.label}
             style={action.variant}
+            compactOnMobile={action.compactOnMobile}
             onClickFn={openModalFn}
           />
         )}

@@ -122,9 +122,9 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   ];
 
   return (
-    <section className="expense-details">
+    <section>
       <Title text="Expense Details" />
-      <div className="details-content">
+      <div className="expense-details">
         <div className="details-wrapper">
           {details.map((detail) => (
             <div
@@ -142,12 +142,14 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
               key="warning"
               label="Update Expense"
               style="warning"
+              compactOnMobile={true}
               onClickFn={openUpdateModal}
             />
             <Button
               key="danger"
               label="Delete Expense"
               style="danger"
+              compactOnMobile={true}
               onClickFn={openDeleteConfirmation}
             />
           </div>

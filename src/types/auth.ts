@@ -6,9 +6,12 @@ export type TJwtPayload = {
 };
 
 export type TUser = {
-  id: string;
+  id?: string;
   username: string;
-  role: string;
+  role: string | number;
+  fullName?: string;
+  contactNumber?: string;
+  isActive?: boolean;
 };
 
 export type TTokens = {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { MdLockOutline } from "react-icons/md";
 import { TiUserOutline } from "react-icons/ti";
@@ -18,6 +18,7 @@ import "../../styles/auth/login.scss";
 
 const LoginForm = () => {
   const router = useRouter();
+  const navigate = useNavigate();
   const { setTokens } = useAuth.getState();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -52,11 +53,12 @@ const LoginForm = () => {
 
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       setTokens({
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
       });
+
       toast.success("Login successful");
       router.invalidate();
     },
@@ -71,6 +73,12 @@ const LoginForm = () => {
     },
   });
 
+  const goToForgotPassword = () => {
+    navigate({
+      to: "/forgot-password",
+    });
+  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -78,19 +86,28 @@ const LoginForm = () => {
         mutation.mutate(new FormData(e.currentTarget));
       }}
     >
-      <Input
-        name="username"
-        placeholder="Username"
-        icon={TiUserOutline}
-        errorMessage={usernameError && usernameError.messages[0]}
-      />
-      <Input
-        name="password"
-        type="password"
-        placeholder="Password"
-        icon={MdLockOutline}
-        errorMessage={passwordError && passwordError.messages[0]}
-      />
+      <div className="form-content">
+        <div className="form-fields">
+          <Input
+            name="username"
+            placeholder="Username"
+            icon={TiUserOutline}
+            errorMessage={usernameError && usernameError.messages[0]}
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            icon={MdLockOutline}
+            errorMessage={passwordError && passwordError.messages[0]}
+          />
+        </div>
+        <Button
+          onClickFn={goToForgotPassword}
+          label="Forgot your password?"
+          style="link"
+        />
+      </div>
       <Button type="submit" label="Log in" />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>

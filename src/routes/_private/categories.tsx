@@ -1,9 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { isAuthenticated } from "../../utils/auth";
-import ProfilePage from "../../pages/ProfilePage";
 
-export const Route = createFileRoute("/_private/profile")({
+export const Route = createFileRoute("/_private/categories")({
   beforeLoad: () => {
     if (!isAuthenticated()) {
       throw redirect({ to: "/login" });
@@ -13,5 +12,5 @@ export const Route = createFileRoute("/_private/profile")({
 });
 
 function RouteComponent() {
-  return <ProfilePage />;
+  return <div>Hello "/_private/categories"!</div>;
 }

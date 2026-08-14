@@ -5,7 +5,7 @@ section {
   flex-direction: column;
   gap: 1rem;
 
-  .expense-details {
+  .profile-details {
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -71,6 +71,41 @@ section {
             background-color: $redish-shadow;
             color: $red;
           }
+
+          .role-admin,
+          .role-user {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+
+            .role-dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+            }
+          }
+
+          .role-admin {
+            color: $purple;
+            background: $purple-hover;
+
+            .role-dot {
+              background: $purple;
+            }
+          }
+
+          .role-user {
+            color: $blue;
+            background: $blue-hover;
+
+            .role-dot {
+              background: $blue;
+            }
+          }
         }
       }
     }
@@ -86,7 +121,7 @@ section {
 
 @media only screen and (min-width: 768px) {
   section {
-    .expense-details {
+    .profile-details {
       .details-wrapper {
         grid-template-columns: 1fr 1fr;
       }

@@ -1,0 +1,56 @@
+@use "../colors" as *;
+
+.profile-menu {
+  display: flex;
+  flex-direction: column;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid $border;
+
+    svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0.5rem;
+
+      p {
+        &:first-child {
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        &:nth-child(2) {
+          color: $text-muted;
+          font-size: 0.7rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  .menu-btn {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    color: $text;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+
+    &:hover {
+      background: $primary-outline;
+    }
+  }
+}

@@ -4,4 +4,22 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  .form-content {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    button {
+      width: fit-content;
+      align-self: flex-end;
+    }
+  }
 }

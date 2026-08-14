@@ -39,9 +39,10 @@ export type TTextArea = {
 
 export type TModal = {
   isOpen: boolean;
-  title: string;
-  onClose: () => void;
+  title?: string;
+  onClose?: () => void;
   children: React.ReactNode;
+  variant?: "modal" | "popover";
 };
 
 export interface ITitle {
@@ -51,11 +52,12 @@ export interface ITitle {
 }
 
 export type TVariant =
-  "default" | "outline" | "link" | "success" | "warning" | "danger";
+  "default" | "outline" | "link" | "back" | "success" | "warning" | "danger";
 
 export type TAction = {
   label: string;
   variant: TVariant;
+  compactOnMobile?: boolean;
 };
 
 export type TButton = {
@@ -63,6 +65,7 @@ export type TButton = {
   label: string;
   style?: TVariant;
   showIcon?: boolean;
+  compactOnMobile?: boolean;
   onClickFn?: () => void;
 };
 
@@ -71,4 +74,10 @@ export type TConfirmation = {
   description: string;
   onSubmitFn: () => void;
   onClose: () => void;
+};
+
+export type TPopover = {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
 };

@@ -39,18 +39,15 @@
     &:hover {
       background-color: $shadow;
     }
-
-    span {
-      display: none;
-    }
   }
 
-  &.btn-link {
+  &.btn-link,
+  &.btn-back {
     position: relative;
     display: inline-block;
     background-color: transparent;
     color: $primary;
-    margin-left: 4px;
+    display: flex;
   }
 
   &.btn-success {
@@ -63,10 +60,6 @@
     &:hover {
       background-color: $green-hover;
       box-shadow: 0 4px 12px $greenish-shadow;
-    }
-
-    span {
-      display: none;
     }
   }
 
@@ -81,10 +74,6 @@
       background-color: $yellow-hover;
       box-shadow: 0 4px 12px $yellowish-shadow;
     }
-
-    span {
-      display: none;
-    }
   }
 
   &.btn-danger {
@@ -98,9 +87,17 @@
       background-color: $red-hover;
       box-shadow: 0 4px 12px $redish-shadow;
     }
+  }
 
+  &.btn-compact {
     span {
       display: none;
+    }
+
+    @media (min-width: 768px) {
+      span {
+        display: block;
+      }
     }
   }
 }
@@ -140,13 +137,20 @@
         display: block;
       }
     }
+
+    &.btn-compact {
+      span {
+        display: block;
+      }
+    }
   }
 }
 
 // for laptop devices
 @media only screen and (min-width: 1024px) {
   .btn {
-    &.btn-link {
+    &.btn-link,
+    &.btn-back {
       &::after {
         content: "";
         position: absolute;

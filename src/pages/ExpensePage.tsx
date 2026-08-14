@@ -24,6 +24,7 @@ const ExpensePage = () => {
   const btnAction: TAction = {
     label: "Add Expense",
     variant: "success",
+    compactOnMobile: true,
   };
 
   return (
