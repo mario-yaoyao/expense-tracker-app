@@ -32,8 +32,6 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     : "Enter the expense details below.";
   const submitLabel = isUpdate ? "Update Expense" : "Add Expense";
 
-  console.log("data:", data);
-
   const submitExpense = async (formData: FormData) => {
     setErrors([]);
     setErrorMessage("");

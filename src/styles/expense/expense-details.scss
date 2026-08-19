@@ -89,6 +89,12 @@ section {
     .expense-details {
       .details-wrapper {
         grid-template-columns: 1fr 1fr;
+
+        .detail-group {
+          &:nth-child(5) {
+            grid-column: span 2;
+          }
+        }
       }
     }
   }

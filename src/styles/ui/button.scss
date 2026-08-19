@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
@@ -18,8 +18,10 @@
   &.btn-default {
     background-color: $primary;
     color: $surface;
-    padding: 12px 16px;
-    font-size: 14px;
+    // padding: 12px 16px;
+    padding: 8px 12px;
+    // font-size: 14px;
+    font-size: 13px;
     transition: background-color 0.2s ease;
 
     &:hover {
@@ -32,8 +34,10 @@
     background-color: transparent;
     border: 1px solid $border;
     color: $text-muted;
-    padding: 12px 16px;
-    font-size: 14px;
+    // padding: 12px 16px;
+    padding: 8px 12px;
+    // font-size: 14px;
+    font-size: 13px;
     transition: background-color 0.2s ease;
 
     &:hover {
@@ -53,8 +57,10 @@
   &.btn-success {
     background-color: $green;
     color: $surface;
-    padding: 12px 16px;
-    font-size: 14px;
+    // padding: 12px 16px;
+    padding: 8px 12px;
+    // font-size: 14px;
+    font-size: 13px;
     transition: background-color 0.2s ease;
 
     &:hover {
@@ -66,8 +72,10 @@
   &.btn-warning {
     background-color: $yellow;
     color: $surface;
-    padding: 12px 16px;
-    font-size: 14px;
+    // padding: 12px 16px;
+    padding: 8px 12px;
+    // font-size: 14px;
+    font-size: 13px;
     transition: background-color 0.2s ease;
 
     &:hover {
@@ -79,8 +87,10 @@
   &.btn-danger {
     background-color: $red;
     color: $surface;
-    padding: 12px 16px;
-    font-size: 14px;
+    // padding: 12px 16px;
+    padding: 8px 12px;
+    // font-size: 14px;
+    font-size: 13px;
     transition: background-color 0.2s ease;
 
     &:hover {
@@ -104,40 +114,11 @@
 
 @media only screen and (min-width: 768px) {
   .btn {
-    &.btn-default {
-      font-size: 1rem;
-
-      span {
-        display: block;
-      }
-    }
-
-    &.btn-outline {
-      font-size: 1rem;
-
-      span {
-        display: block;
-      }
-    }
-
-    &.btn-success {
-      span {
-        display: block;
-      }
-    }
-
-    &.btn-warning {
-      span {
-        display: block;
-      }
-    }
-
-    &.btn-danger {
-      span {
-        display: block;
-      }
-    }
-
+    &.btn-default,
+    &.btn-outline,
+    &.btn-success,
+    &.btn-warning,
+    &.btn-danger,
     &.btn-compact {
       span {
         display: block;

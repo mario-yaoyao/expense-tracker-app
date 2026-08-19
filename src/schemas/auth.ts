@@ -22,6 +22,7 @@ export const registerSchema = z
         /^[a-zA-Z0-9_]+$/,
         "Username can only contain letters, numbers, underscore",
       ),
+    Email: z.string().email("Invalid email").max(100),
     ContactNumber: z
       .string()
       .min(10, "Contact number must be atleast 10 digits")

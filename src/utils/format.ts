@@ -1,4 +1,4 @@
-export const formatDate = (date: string | null) =>
+export const formatDate = (date?: string | null) =>
   date
     ? new Date(date).toLocaleDateString("en-PH", { dateStyle: "long" })
     : "—";

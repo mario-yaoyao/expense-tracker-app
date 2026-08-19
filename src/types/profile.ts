@@ -5,3 +5,9 @@ export type TProfileState = {
   setProfile: (profile: TUser | null) => void;
   clearProfile: () => void;
 };
+
+export type TChangePasswordSchema = {
+  CurrentPassword: string;
+  NewPassword: string;
+  ConfirmNewPassword: string;
+};

@@ -98,18 +98,18 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
         ]
       : []),
     {
-      label: "Description",
-      value: data.description?.trim() || "—",
-      className: "description",
-    },
-    {
       label: "Amount",
       value: `₱${data.amount.toLocaleString()}`,
       className: "amount",
     },
     {
-      label: "Category",
-      value: data.category?.trim() || "—",
+      label: "Category Name",
+      value: data.categoryName?.trim() || "—",
+    },
+    {
+      label: "Description",
+      value: data.description?.trim() || "—",
+      className: "description",
     },
     {
       label: "Created At",

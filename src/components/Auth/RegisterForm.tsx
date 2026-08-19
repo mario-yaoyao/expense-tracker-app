@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { MdLockOutline, MdOutlineBadge } from "react-icons/md";
+import { MdLockOutline, MdOutlineBadge, MdOutlineEmail } from "react-icons/md";
 import { TiUserOutline } from "react-icons/ti";
 import { IoCallOutline } from "react-icons/io5";
 import axios from "axios";
@@ -24,6 +24,7 @@ const RegisterForm = () => {
 
   const fullNameError = getFieldError("fullname", errors);
   const usernameError = getFieldError("username", errors);
+  const emailError = getFieldError("email", errors);
   const contactNumberError = getFieldError("contactnumber", errors);
   const passwordError = getFieldError("password", errors);
   const confirmPasswordError = getFieldError("confirmpassword", errors);
@@ -34,6 +35,7 @@ const RegisterForm = () => {
 
     const fullName = formData.get("fullName") as string;
     const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
     const contactNumber = formData.get("contactNumber") as string;
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
@@ -41,6 +43,7 @@ const RegisterForm = () => {
     const payload = {
       FullName: fullName,
       Username: username,
+      Email: email,
       ContactNumber: contactNumber,
       Password: password,
       ConfirmPassword: confirmPassword,
@@ -96,6 +99,12 @@ const RegisterForm = () => {
         placeholder="Username"
         icon={TiUserOutline}
         errorMessage={usernameError && usernameError.messages[0]}
+      />
+      <Input
+        name="email"
+        placeholder="Email"
+        icon={MdOutlineEmail}
+        errorMessage={emailError && emailError.messages[0]}
       />
       <Input
         name="contactNumber"

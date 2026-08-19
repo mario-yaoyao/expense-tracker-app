@@ -79,6 +79,8 @@ const LoginForm = () => {
     });
   };
 
+  console.log(errors);
+
   return (
     <form
       onSubmit={(e) => {

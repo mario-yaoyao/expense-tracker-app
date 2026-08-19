@@ -1,9 +1,21 @@
+import { useState } from "react";
+
 import { useProfile } from "../hooks/useProfile";
+import { formatDate } from "../utils/format";
 import Title from "../components/ui/Title";
+import Button from "../components/ui/Button";
+import Modal from "../components/ui/Modal";
+import ChangePasswordForm from "../components/Profile/ChangePasswordForm";
 import "../styles/profile/profile.scss";
 
 const ProfilePage = () => {
   const { profile } = useProfile();
+
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
+    useState(false);
+
+  const openChangePasswordModal = () => setIsChangePasswordModalOpen(true);
+  const closeChangePasswordModal = () => setIsChangePasswordModalOpen(false);
 
   const getStatusBadge = () => {
     return profile?.isActive ? (
@@ -31,29 +43,41 @@ const ProfilePage = () => {
   };
 
   const details = [
-    {
-      label: "ID",
-      value: profile?.id,
-    },
+    // {
+    //   label: "ID",
+    //   value: profile?.id || "—",
+    // },
     {
       label: "Status",
       value: getStatusBadge() || "—",
-    },
-    {
-      label: "Username",
-      value: profile?.username,
-    },
-    {
-      label: "Full Name",
-      value: profile?.fullName,
     },
     {
       label: "Role",
       value: getRoleBadge() || "—",
     },
     {
+      label: "Username",
+      value: profile?.username || "—",
+    },
+    {
+      label: "Full Name",
+      value: profile?.fullName || "—",
+    },
+    {
+      label: "Email Address",
+      value: profile?.email || "—",
+    },
+    {
       label: "Contact Number",
-      value: profile?.contactNumber,
+      value: profile?.contactNumber || "—",
+    },
+    {
+      label: "Created At",
+      value: formatDate(profile?.createdAt),
+    },
+    {
+      label: "Updated At",
+      value: formatDate(profile?.updatedAt),
     },
   ];
 
@@ -69,7 +93,23 @@ const ProfilePage = () => {
             </div>
           ))}
         </div>
+        <div className="btn-actions">
+          <Button
+            key="warning"
+            label="Change Password"
+            style="warning"
+            compactOnMobile={true}
+            onClickFn={openChangePasswordModal}
+          />
+        </div>
       </div>
+      <Modal
+        isOpen={isChangePasswordModalOpen}
+        title="Add Expense"
+        onClose={closeChangePasswordModal}
+      >
+        <ChangePasswordForm closeModalFn={closeChangePasswordModal} />
+      </Modal>
     </section>
   );
 };

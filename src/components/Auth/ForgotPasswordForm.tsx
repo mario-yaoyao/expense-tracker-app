@@ -7,6 +7,7 @@ import type { TErrors } from "../../types/ui";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import ErrorMessage from "../ui/Error";
+import toast from "react-hot-toast";
 
 const ForgotPasswordForm = () => {
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -36,6 +37,7 @@ const ForgotPasswordForm = () => {
 
     // return await sendOTP(payload);
     console.log("submitted: ", payload);
+    toast.success("Check your email for a password reset link.");
   };
 
   //   TODO: add mutation function when backend api is ready
@@ -58,7 +60,7 @@ const ForgotPasswordForm = () => {
           />
         </div>
       </div>
-      <Button type="submit" label="Send OTP" />
+      <Button type="submit" label="Send Reset Link" />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>
   );

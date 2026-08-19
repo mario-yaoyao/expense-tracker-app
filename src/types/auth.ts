@@ -10,8 +10,11 @@ export type TUser = {
   username: string;
   role: string | number;
   fullName?: string;
+  email: string;
   contactNumber?: string;
   isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type TTokens = {
@@ -38,6 +41,7 @@ export type TLoginSchema = {
 export type TRegisterSchema = {
   FullName: string;
   Username: string;
+  Email: string;
   ContactNumber: string;
   Password: string;
   ConfirmPassword: string;
