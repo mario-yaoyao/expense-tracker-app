@@ -2,7 +2,9 @@ import { RiDashboardLine } from "react-icons/ri";
 import { PiMoneyWavy } from "react-icons/pi";
 import { MdOutlineCategory } from "react-icons/md";
 import { TbMoneybagPlus } from "react-icons/tb";
+import { LuUsersRound } from "react-icons/lu";
 
+import { isSuperAdmin } from "../utils/auth";
 import type { TNavLink } from "../types/navLink";
 
 export const navLinks: TNavLink[] = [
@@ -30,4 +32,14 @@ export const navLinks: TNavLink[] = [
     label: "Income",
     icon: TbMoneybagPlus,
   },
+  ...(isSuperAdmin()
+    ? [
+        {
+          id: 5,
+          to: "/users",
+          label: "Users",
+          icon: LuUsersRound,
+        },
+      ]
+    : []),
 ];

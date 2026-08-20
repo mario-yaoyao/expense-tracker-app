@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
 
+import { forgotPasswordAsync } from "../../api/auth";
 import { forgotPasswordSchema } from "../../schemas/auth";
 import { getFieldError } from "../../utils/auth";
 import type { TErrors } from "../../types/ui";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import ErrorMessage from "../ui/Error";
-import toast from "react-hot-toast";
 
 const ForgotPasswordForm = () => {
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -15,7 +18,7 @@ const ForgotPasswordForm = () => {
 
   const emailError = getFieldError("email", errors);
 
-  const validate = async (formData: FormData) => {
+  const forgotPassword = async (formData: FormData) => {
     setErrors([]);
     setErrorMessage("");
 
@@ -35,19 +38,30 @@ const ForgotPasswordForm = () => {
       throw new Error("Validation failed");
     }
 
-    // return await sendOTP(payload);
-    console.log("submitted: ", payload);
-    toast.success("Check your email for a password reset link.");
+    return await forgotPasswordAsync(payload);
   };
 
-  //   TODO: add mutation function when backend api is ready
+  const mutation = useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: async () => {
+      toast.success("Check your email for a password reset link.");
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data.errors) {
+          setErrors(error.response.data.errors);
+        } else {
+          setErrorMessage(error.response?.data.errorMessage);
+        }
+      }
+    },
+  });
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        // mutation.mutate(new FormData(e.currentTarget));
-        validate(new FormData(e.currentTarget));
+        mutation.mutate(new FormData(e.currentTarget));
       }}
     >
       <div className="form-content">

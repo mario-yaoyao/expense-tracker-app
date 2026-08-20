@@ -43,10 +43,6 @@ const ProfilePage = () => {
   };
 
   const details = [
-    // {
-    //   label: "ID",
-    //   value: profile?.id || "—",
-    // },
     {
       label: "Status",
       value: getStatusBadge() || "—",
@@ -82,7 +78,7 @@ const ProfilePage = () => {
   ];
 
   return (
-    <section>
+    <section className="profile-section">
       <Title text="Profile" />
       <div className="profile-details">
         <div className="details-wrapper">

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { RxAvatar } from "react-icons/rx";
-import { GoPerson } from "react-icons/go";
+import { LuUserRound } from "react-icons/lu";
 import { VscSignOut } from "react-icons/vsc";
 
 import { useAuth } from "../../hooks/useAuth";
@@ -15,14 +15,14 @@ const ProfileMenu = ({
   closeProfileMenu,
   openLogoutConfirmation,
 }: TProfileMenu) => {
-  const { user } = useAuth.getState();
+  const { user } = useAuth();
 
   const profileMenu = [
     {
       id: 1,
       label: "Profile",
       to: "/profile",
-      icon: GoPerson,
+      icon: LuUserRound,
     },
     {
       id: 2,

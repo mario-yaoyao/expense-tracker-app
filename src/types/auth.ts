@@ -10,7 +10,7 @@ export type TUser = {
   username: string;
   role: string | number;
   fullName?: string;
-  email: string;
+  email?: string;
   contactNumber?: string;
   isActive?: boolean;
   createdAt?: string;
@@ -45,4 +45,14 @@ export type TRegisterSchema = {
   ContactNumber: string;
   Password: string;
   ConfirmPassword: string;
+};
+
+export type TForgotPasswordSchema = {
+  Email: string;
+};
+
+export type TResetPasswordSchema = {
+  Token: string;
+  NewPassword: string;
+  ConfirmNewPassword: string;
 };

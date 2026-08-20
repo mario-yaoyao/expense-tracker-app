@@ -28,7 +28,7 @@ const ExpensePage = () => {
   };
 
   return (
-    <section>
+    <section className="expense-section">
       <Title text="Expenses" action={btnAction} openModalFn={openModal} />
       <Table columns={expenseColumns} rows={data?.data ?? []} />
       <Modal isOpen={isOpen} title="Add Expense" onClose={closeModal}>

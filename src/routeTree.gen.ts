@@ -16,9 +16,11 @@ import { Route as PrivateCategoriesRouteImport } from './routes/_private/categor
 import { Route as PrivateExpenseRouteImport } from './routes/_private/expense'
 import { Route as PrivateIncomeRouteImport } from './routes/_private/income'
 import { Route as PrivateProfileRouteImport } from './routes/_private/profile'
+import { Route as PrivateUsersRouteImport } from './routes/_private/users'
 import { Route as PublicForgotPasswordRouteImport } from './routes/_public/forgot-password'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
+import { Route as PublicResetPasswordRouteImport } from './routes/_public/reset-password'
 import { Route as PrivateExpenseIndexRouteImport } from './routes/_private/expense.index'
 import { Route as PrivateExpenseExpenseIdRouteImport } from './routes/_private/expense.$expenseId'
 
@@ -55,6 +57,11 @@ const PrivateProfileRoute = PrivateProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => PrivateRoute,
 } as any)
+const PrivateUsersRoute = PrivateUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => PrivateRoute,
+} as any)
 const PublicForgotPasswordRoute = PublicForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
@@ -68,6 +75,11 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
 const PublicRegisterRoute = PublicRegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicResetPasswordRoute = PublicResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => PublicRoute,
 } as any)
 const PrivateExpenseIndexRoute = PrivateExpenseIndexRouteImport.update({
@@ -87,9 +99,11 @@ export interface FileRoutesByFullPath {
   '/expense': typeof PrivateExpenseRouteWithChildren
   '/income': typeof PrivateIncomeRoute
   '/profile': typeof PrivateProfileRoute
+  '/users': typeof PrivateUsersRoute
   '/forgot-password': typeof PublicForgotPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/reset-password': typeof PublicResetPasswordRoute
   '/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
   '/expense/': typeof PrivateExpenseIndexRoute
 }
@@ -98,9 +112,11 @@ export interface FileRoutesByTo {
   '/categories': typeof PrivateCategoriesRoute
   '/income': typeof PrivateIncomeRoute
   '/profile': typeof PrivateProfileRoute
+  '/users': typeof PrivateUsersRoute
   '/forgot-password': typeof PublicForgotPasswordRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
+  '/reset-password': typeof PublicResetPasswordRoute
   '/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
   '/expense': typeof PrivateExpenseIndexRoute
 }
@@ -112,9 +128,11 @@ export interface FileRoutesById {
   '/_private/expense': typeof PrivateExpenseRouteWithChildren
   '/_private/income': typeof PrivateIncomeRoute
   '/_private/profile': typeof PrivateProfileRoute
+  '/_private/users': typeof PrivateUsersRoute
   '/_public/forgot-password': typeof PublicForgotPasswordRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
+  '/_public/reset-password': typeof PublicResetPasswordRoute
   '/_private/': typeof PrivateIndexRoute
   '/_private/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
   '/_private/expense/': typeof PrivateExpenseIndexRoute
@@ -127,9 +145,11 @@ export interface FileRouteTypes {
     | '/expense'
     | '/income'
     | '/profile'
+    | '/users'
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/expense/$expenseId'
     | '/expense/'
   fileRoutesByTo: FileRoutesByTo
@@ -138,9 +158,11 @@ export interface FileRouteTypes {
     | '/categories'
     | '/income'
     | '/profile'
+    | '/users'
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/expense/$expenseId'
     | '/expense'
   id:
@@ -151,9 +173,11 @@ export interface FileRouteTypes {
     | '/_private/expense'
     | '/_private/income'
     | '/_private/profile'
+    | '/_private/users'
     | '/_public/forgot-password'
     | '/_public/login'
     | '/_public/register'
+    | '/_public/reset-password'
     | '/_private/'
     | '/_private/expense/$expenseId'
     | '/_private/expense/'
@@ -215,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateProfileRouteImport
       parentRoute: typeof PrivateRoute
     }
+    '/_private/users': {
+      id: '/_private/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof PrivateUsersRouteImport
+      parentRoute: typeof PrivateRoute
+    }
     '/_public/forgot-password': {
       id: '/_public/forgot-password'
       path: '/forgot-password'
@@ -234,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof PublicRegisterRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/reset-password': {
+      id: '/_public/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof PublicResetPasswordRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_private/expense/': {
@@ -272,6 +310,7 @@ interface PrivateRouteChildren {
   PrivateExpenseRoute: typeof PrivateExpenseRouteWithChildren
   PrivateIncomeRoute: typeof PrivateIncomeRoute
   PrivateProfileRoute: typeof PrivateProfileRoute
+  PrivateUsersRoute: typeof PrivateUsersRoute
   PrivateIndexRoute: typeof PrivateIndexRoute
 }
 
@@ -280,6 +319,7 @@ const PrivateRouteChildren: PrivateRouteChildren = {
   PrivateExpenseRoute: PrivateExpenseRouteWithChildren,
   PrivateIncomeRoute: PrivateIncomeRoute,
   PrivateProfileRoute: PrivateProfileRoute,
+  PrivateUsersRoute: PrivateUsersRoute,
   PrivateIndexRoute: PrivateIndexRoute,
 }
 
@@ -290,12 +330,14 @@ interface PublicRouteChildren {
   PublicForgotPasswordRoute: typeof PublicForgotPasswordRoute
   PublicLoginRoute: typeof PublicLoginRoute
   PublicRegisterRoute: typeof PublicRegisterRoute
+  PublicResetPasswordRoute: typeof PublicResetPasswordRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicForgotPasswordRoute: PublicForgotPasswordRoute,
   PublicLoginRoute: PublicLoginRoute,
   PublicRegisterRoute: PublicRegisterRoute,
+  PublicResetPasswordRoute: PublicResetPasswordRoute,
 }
 
 const PublicRouteWithChildren =

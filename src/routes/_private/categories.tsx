@@ -1,6 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { isAuthenticated } from "../../utils/auth";
+import CategoryPage from "../../pages/CategoryPage";
 
 export const Route = createFileRoute("/_private/categories")({
   beforeLoad: () => {
@@ -12,5 +13,5 @@ export const Route = createFileRoute("/_private/categories")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/_private/categories"!</div>;
+  return <CategoryPage />;
 }

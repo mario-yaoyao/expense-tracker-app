@@ -17,8 +17,8 @@ import Confirmation from "../ui/Confirmation";
 import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const { user } = useAuth.getState();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
@@ -77,16 +77,16 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   }
 
   const details = [
-    {
-      label: "ID",
-      value: data.id || "—",
-    },
-    {
-      label: "Status",
-      value: getStatusBadge() || "—",
-    },
     ...(isSuperAdmin()
       ? [
+          {
+            label: "Status",
+            value: getStatusBadge() || "—",
+          },
+          {
+            label: "ID",
+            value: data.id || "—",
+          },
           {
             label: "Username",
             value: data.username || "—",
@@ -98,14 +98,15 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
         ]
       : []),
     {
+      label: "Category Name",
+      value: data.categoryName?.trim() || "—",
+    },
+    {
       label: "Amount",
       value: `₱${data.amount.toLocaleString()}`,
       className: "amount",
     },
-    {
-      label: "Category Name",
-      value: data.categoryName?.trim() || "—",
-    },
+
     {
       label: "Description",
       value: data.description?.trim() || "—",
@@ -122,7 +123,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   ];
 
   return (
-    <section>
+    <section className="expense-details-section">
       <Title text="Expense Details" />
       <div className="expense-details">
         <div className="details-wrapper">
@@ -136,7 +137,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
             </div>
           ))}
         </div>
-        {!data.isDeleted && user?.id === data.userId && (
+        {!data.isDeleted && Number(user?.id) === data.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

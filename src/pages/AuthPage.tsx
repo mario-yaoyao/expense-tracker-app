@@ -4,6 +4,7 @@ import LoginForm from "../components/Auth/LoginForm";
 import RegisterForm from "../components/Auth/RegisterForm";
 import Button from "../components/ui/Button";
 import ForgotPasswordForm from "../components/Auth/ForgotPasswordForm";
+import ResetPasswordForm from "../components/Auth/ResetPasswordForm";
 import "../styles/auth/auth.scss";
 
 const AuthPage = ({ authForm }: { authForm: string }) => {
@@ -24,6 +25,11 @@ const AuthPage = ({ authForm }: { authForm: string }) => {
       title: "Forgot Password",
       subtitle: "Enter your email to receive a password reset link.",
       form: <ForgotPasswordForm />,
+    },
+    resetPassword: {
+      title: "Reset Password",
+      subtitle: "Enter your new password for your BudgetWise account.",
+      form: <ResetPasswordForm />,
     },
   };
 
@@ -59,7 +65,7 @@ const AuthPage = ({ authForm }: { authForm: string }) => {
                 />
               </>
             )}
-            {authForm === "forgotPassword" && (
+            {["forgotPassword", "resetPassword"].includes(authForm) && (
               <Button
                 label="Back to Login"
                 style="back"
