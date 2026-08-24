@@ -11,9 +11,9 @@ export const addUpdateExpenseSchema = z.object({
       error: "Amount is required",
     })
     .positive("Amount must be greater than 0"),
-  Category: z
-    .string()
-    .trim()
-    .min(1, "Category is required")
-    .max(100, "Category must not exceed 100 characters"),
+  CategoryId: z
+    .number({
+      error: "Category is required",
+    })
+    .positive("Category is required"),
 });

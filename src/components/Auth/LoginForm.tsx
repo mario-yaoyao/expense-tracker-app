@@ -19,7 +19,7 @@ import "../../styles/auth/login.scss";
 const LoginForm = () => {
   const router = useRouter();
   const navigate = useNavigate();
-  const { setTokens } = useAuth.getState();
+  const { setTokens } = useAuth();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
   const [errorMessage, setErrorMessage] = useState("");

@@ -1,0 +1,93 @@
+@use "../colors" as *;
+
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $text;
+  }
+
+  .dropdown-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .dropdown-wrapper {
+      position: relative;
+      outline: 2px solid $border;
+      border-radius: 6px;
+      background-color: $surface;
+      color: $text;
+      font-size: 14px;
+      transition:
+        outline-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &:focus-within {
+        outline-color: $primary;
+      }
+
+      .dropdown-trigger {
+        all: unset;
+        padding: 10px 16px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        p {
+          span {
+            color: $text-muted;
+          }
+        }
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        background: $surface;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px $shadow;
+        z-index: 1000;
+        overflow: hidden;
+        max-height: 300px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+
+        .dropdown-item {
+          all: unset;
+          padding: 10px 16px;
+          cursor: pointer;
+
+          &:hover {
+            background: $border;
+          }
+
+          &.active {
+            background: $primary;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+// for tablet devices
+@media only screen and (min-width: 768px) {
+  .input-group {
+    .input-wrapper {
+      font-size: 1rem;
+    }
+  }
+}

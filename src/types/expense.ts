@@ -12,7 +12,7 @@ export type TExpense = {
 export type TExpenseDetails = {
   expenseId: string;
   id?: string;
-  category?: string;
+  categoryId?: number;
   amount?: number;
   description?: string;
 };
@@ -23,14 +23,8 @@ export type TExpenseForm = {
   closeModalFn: () => void;
 };
 
-export type TAddExpenseSchema = {
+export type TExpenseFormSchema = {
   Description: string;
   Amount: number;
-  Category: string;
-};
-
-export type TUpdateExpenseSchema = {
-  Description: string;
-  Amount: number;
-  Category: string;
+  CategoryId: number;
 };

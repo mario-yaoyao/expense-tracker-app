@@ -1,0 +1,126 @@
+@use "../colors" as *;
+
+.category-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .category-details {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border: 1px solid rgba($text, 0.08);
+    border-radius: 12px;
+    background-color: $surface;
+    box-shadow: 0 4px 12px $shadow;
+    gap: 3rem;
+
+    .details-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+
+      .detail-group {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 1rem 0;
+        border-radius: 6px;
+        background: transparent;
+        border-bottom: 1px solid rgba($text, 0.08);
+
+        &.badge-group {
+          padding: 0.5rem 0;
+        }
+
+        label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: $text-muted;
+        }
+
+        .detail-value {
+          margin-top: 0.5rem;
+          font-size: 1rem;
+          font-weight: 500;
+          color: $text;
+
+          .status-active,
+          .status-inactive {
+            width: fit-content;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+
+            .status-dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background: currentColor;
+            }
+          }
+
+          .status-active {
+            background-color: $greenish-shadow;
+            color: $green;
+          }
+
+          .status-inactive {
+            background-color: $redish-shadow;
+            color: $red;
+          }
+
+          p {
+            width: fit-content;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+
+            &.income {
+              background-color: $greenish-shadow;
+              color: $green;
+            }
+
+            &.expense {
+              background-color: $redish-shadow;
+              color: $red;
+            }
+          }
+        }
+      }
+    }
+
+    .btn-actions {
+      grid-column: span 2;
+      display: flex;
+      justify-content: end;
+      gap: 1rem;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .category-details-section {
+    .category-details {
+      .details-wrapper {
+        grid-template-columns: 1fr 1fr;
+
+        .detail-group {
+          &.description {
+            grid-column: span 2;
+          }
+        }
+      }
+    }
+  }
+}

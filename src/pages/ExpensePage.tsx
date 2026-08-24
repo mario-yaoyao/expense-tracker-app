@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { getExpensesAsync } from "../api/expense";
@@ -11,6 +12,8 @@ import Modal from "../components/ui/Modal";
 import "../styles/expense/expense.scss";
 
 const ExpensePage = () => {
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
@@ -28,9 +31,20 @@ const ExpensePage = () => {
   };
 
   return (
-    <section className="expense-section">
+    <section className="expenses-section">
       <Title text="Expenses" action={btnAction} openModalFn={openModal} />
-      <Table columns={expenseColumns} rows={data?.data ?? []} />
+      <Table
+        columns={expenseColumns}
+        rows={data?.data ?? []}
+        onRowClick={(expense) =>
+          router.navigate({
+            to: "/expense/$expenseId",
+            params: {
+              expenseId: expense.id.toString(),
+            },
+          })
+        }
+      />
       <Modal isOpen={isOpen} title="Add Expense" onClose={closeModal}>
         <ExpenseForm action="add" closeModalFn={closeModal} />
       </Modal>

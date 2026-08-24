@@ -1,17 +1,20 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 import { addExpenseAsync, updateExpenseAsync } from "../../api/expense";
+import { getCategoriesAsync } from "../../api/category";
 import { addUpdateExpenseSchema } from "../../schemas/expense";
 import { getFieldError } from "../../utils/auth";
 import { capitalizeWord } from "../../utils/format";
 import type { TExpenseForm } from "../../types/expense";
+import type { TCategoryDetails } from "../../types/category";
 import type { TErrors } from "../../types/ui";
 import Input from "../ui/Input";
 import TextArea from "../ui/TextArea";
 import Button from "../ui/Button";
+import Dropdown from "../ui/Dropdown";
 import ErrorMessage from "../ui/Error";
 import "../../styles/expense/expense-form.scss";
 
@@ -32,6 +35,11 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     : "Enter the expense details below.";
   const submitLabel = isUpdate ? "Update Expense" : "Add Expense";
 
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategoriesAsync(0),
+  });
+
   const submitExpense = async (formData: FormData) => {
     setErrors([]);
     setErrorMessage("");
@@ -39,7 +47,7 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     const payload = {
       Description: formData.get("description") as string,
       Amount: Number(formData.get("amount")),
-      Category: formData.get("category") as string,
+      CategoryId: Number(formData.get("categoryId")),
     };
 
     const validation = addUpdateExpenseSchema.safeParse(payload);
@@ -102,12 +110,17 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
         <h2>{title}</h2>
         <p>{description}</p>
       </div>
-      <Input
+      <Dropdown
+        name="categoryId"
         label="Category"
-        name="category"
-        placeholder="Enter category"
-        defaultValue={data?.category}
-        errorMessage={categoryError && categoryError.messages[0]}
+        options={
+          categories?.data.map((c: TCategoryDetails) => ({
+            label: c.name,
+            value: c.id,
+          })) ?? []
+        }
+        defaultValue={data?.categoryId}
+        errorMessage={categoryError?.messages[0]}
       />
       <Input
         type="number"

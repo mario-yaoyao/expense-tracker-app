@@ -35,6 +35,7 @@ const Input = ({
             type={passwordType}
             placeholder={placeholder}
             defaultValue={defaultValue}
+            step="0.01"
           />
           {type === "password" && (
             <button onClick={togglePasswordVisibility} type="button">

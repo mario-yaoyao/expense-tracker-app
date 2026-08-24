@@ -44,6 +44,31 @@
         padding: 1rem;
         color: $text-muted;
         font-size: 0.875rem;
+
+        &.badge-cell {
+          padding: 0.5rem;
+        }
+
+        p {
+          width: fit-content;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.4rem 0.85rem;
+          border-radius: 999px;
+          font-size: 0.85rem;
+          font-weight: 600;
+
+          &.income {
+            background-color: $greenish-shadow;
+            color: $green;
+          }
+
+          &.expense {
+            background-color: $redish-shadow;
+            color: $red;
+          }
+        }
       }
     }
   }

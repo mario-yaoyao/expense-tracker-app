@@ -8,13 +8,20 @@ export type TErrors = {
   messages: string[];
 };
 
+type TRow = {
+  id: number | string;
+  [key: string]: unknown;
+};
+
 export type TTable = {
   columns: {
     accessorKey: string;
     header: string;
     cell?: (value: unknown) => ReactNode;
+    isBadge?: boolean;
   }[];
   rows: TExpense[];
+  onRowClick?: (row: TRow) => void;
 };
 
 export type TInput = {
@@ -80,4 +87,20 @@ export type TPopover = {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+};
+
+type TDropdownOptions = {
+  id: number;
+  value: number;
+  label: string;
+};
+
+export type TDropdown = {
+  name?: string;
+  label?: string;
+  options: TDropdownOptions[];
+  value?: string;
+  defaultValue?: number;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  errorMessage?: string;
 };

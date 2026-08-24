@@ -12,7 +12,7 @@ import "../../styles/ui/header.scss";
 
 const Header = ({ toggleSidebarFn }: { toggleSidebarFn: () => void }) => {
   const router = useRouter();
-  const { clearTokens } = useAuth.getState();
+  const { clearTokens } = useAuth();
 
   const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] =
     useState(false);
@@ -52,7 +52,7 @@ const Header = ({ toggleSidebarFn }: { toggleSidebarFn: () => void }) => {
     <header>
       <div className="header-wrapper">
         <FiMenu size={24} onClick={toggleSidebarFn} />
-        <h1>Expense Tracker</h1>
+        <h1>BudgetWise</h1>
       </div>
       <Confirmation
         isOpen={isLogoutConfirmationOpen}

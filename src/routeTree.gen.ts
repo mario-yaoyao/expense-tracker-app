@@ -21,6 +21,8 @@ import { Route as PublicForgotPasswordRouteImport } from './routes/_public/forgo
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicResetPasswordRouteImport } from './routes/_public/reset-password'
+import { Route as PrivateCategoriesIndexRouteImport } from './routes/_private/categories.index'
+import { Route as PrivateCategoriesCategoryIdRouteImport } from './routes/_private/categories.$categoryId'
 import { Route as PrivateExpenseIndexRouteImport } from './routes/_private/expense.index'
 import { Route as PrivateExpenseExpenseIdRouteImport } from './routes/_private/expense.$expenseId'
 
@@ -82,6 +84,17 @@ const PublicResetPasswordRoute = PublicResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => PublicRoute,
 } as any)
+const PrivateCategoriesIndexRoute = PrivateCategoriesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PrivateCategoriesRoute,
+} as any)
+const PrivateCategoriesCategoryIdRoute =
+  PrivateCategoriesCategoryIdRouteImport.update({
+    id: '/$categoryId',
+    path: '/$categoryId',
+    getParentRoute: () => PrivateCategoriesRoute,
+  } as any)
 const PrivateExpenseIndexRoute = PrivateExpenseIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -95,7 +108,7 @@ const PrivateExpenseExpenseIdRoute = PrivateExpenseExpenseIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof PrivateIndexRoute
-  '/categories': typeof PrivateCategoriesRoute
+  '/categories': typeof PrivateCategoriesRouteWithChildren
   '/expense': typeof PrivateExpenseRouteWithChildren
   '/income': typeof PrivateIncomeRoute
   '/profile': typeof PrivateProfileRoute
@@ -104,12 +117,13 @@ export interface FileRoutesByFullPath {
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/reset-password': typeof PublicResetPasswordRoute
+  '/categories/$categoryId': typeof PrivateCategoriesCategoryIdRoute
   '/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
+  '/categories/': typeof PrivateCategoriesIndexRoute
   '/expense/': typeof PrivateExpenseIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PrivateIndexRoute
-  '/categories': typeof PrivateCategoriesRoute
   '/income': typeof PrivateIncomeRoute
   '/profile': typeof PrivateProfileRoute
   '/users': typeof PrivateUsersRoute
@@ -117,14 +131,16 @@ export interface FileRoutesByTo {
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
   '/reset-password': typeof PublicResetPasswordRoute
+  '/categories/$categoryId': typeof PrivateCategoriesCategoryIdRoute
   '/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
+  '/categories': typeof PrivateCategoriesIndexRoute
   '/expense': typeof PrivateExpenseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_private': typeof PrivateRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
-  '/_private/categories': typeof PrivateCategoriesRoute
+  '/_private/categories': typeof PrivateCategoriesRouteWithChildren
   '/_private/expense': typeof PrivateExpenseRouteWithChildren
   '/_private/income': typeof PrivateIncomeRoute
   '/_private/profile': typeof PrivateProfileRoute
@@ -134,7 +150,9 @@ export interface FileRoutesById {
   '/_public/register': typeof PublicRegisterRoute
   '/_public/reset-password': typeof PublicResetPasswordRoute
   '/_private/': typeof PrivateIndexRoute
+  '/_private/categories/$categoryId': typeof PrivateCategoriesCategoryIdRoute
   '/_private/expense/$expenseId': typeof PrivateExpenseExpenseIdRoute
+  '/_private/categories/': typeof PrivateCategoriesIndexRoute
   '/_private/expense/': typeof PrivateExpenseIndexRoute
 }
 export interface FileRouteTypes {
@@ -150,12 +168,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/categories/$categoryId'
     | '/expense/$expenseId'
+    | '/categories/'
     | '/expense/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/categories'
     | '/income'
     | '/profile'
     | '/users'
@@ -163,7 +182,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/categories/$categoryId'
     | '/expense/$expenseId'
+    | '/categories'
     | '/expense'
   id:
     | '__root__'
@@ -179,7 +200,9 @@ export interface FileRouteTypes {
     | '/_public/register'
     | '/_public/reset-password'
     | '/_private/'
+    | '/_private/categories/$categoryId'
     | '/_private/expense/$expenseId'
+    | '/_private/categories/'
     | '/_private/expense/'
   fileRoutesById: FileRoutesById
 }
@@ -274,6 +297,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicResetPasswordRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_private/categories/': {
+      id: '/_private/categories/'
+      path: '/'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof PrivateCategoriesIndexRouteImport
+      parentRoute: typeof PrivateCategoriesRoute
+    }
+    '/_private/categories/$categoryId': {
+      id: '/_private/categories/$categoryId'
+      path: '/$categoryId'
+      fullPath: '/categories/$categoryId'
+      preLoaderRoute: typeof PrivateCategoriesCategoryIdRouteImport
+      parentRoute: typeof PrivateCategoriesRoute
+    }
     '/_private/expense/': {
       id: '/_private/expense/'
       path: '/'
@@ -291,6 +328,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PrivateCategoriesRouteChildren {
+  PrivateCategoriesCategoryIdRoute: typeof PrivateCategoriesCategoryIdRoute
+  PrivateCategoriesIndexRoute: typeof PrivateCategoriesIndexRoute
+}
+
+const PrivateCategoriesRouteChildren: PrivateCategoriesRouteChildren = {
+  PrivateCategoriesCategoryIdRoute: PrivateCategoriesCategoryIdRoute,
+  PrivateCategoriesIndexRoute: PrivateCategoriesIndexRoute,
+}
+
+const PrivateCategoriesRouteWithChildren =
+  PrivateCategoriesRoute._addFileChildren(PrivateCategoriesRouteChildren)
+
 interface PrivateExpenseRouteChildren {
   PrivateExpenseExpenseIdRoute: typeof PrivateExpenseExpenseIdRoute
   PrivateExpenseIndexRoute: typeof PrivateExpenseIndexRoute
@@ -306,7 +356,7 @@ const PrivateExpenseRouteWithChildren = PrivateExpenseRoute._addFileChildren(
 )
 
 interface PrivateRouteChildren {
-  PrivateCategoriesRoute: typeof PrivateCategoriesRoute
+  PrivateCategoriesRoute: typeof PrivateCategoriesRouteWithChildren
   PrivateExpenseRoute: typeof PrivateExpenseRouteWithChildren
   PrivateIncomeRoute: typeof PrivateIncomeRoute
   PrivateProfileRoute: typeof PrivateProfileRoute
@@ -315,7 +365,7 @@ interface PrivateRouteChildren {
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
-  PrivateCategoriesRoute: PrivateCategoriesRoute,
+  PrivateCategoriesRoute: PrivateCategoriesRouteWithChildren,
   PrivateExpenseRoute: PrivateExpenseRouteWithChildren,
   PrivateIncomeRoute: PrivateIncomeRoute,
   PrivateProfileRoute: PrivateProfileRoute,
