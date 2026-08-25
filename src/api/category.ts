@@ -1,12 +1,35 @@
 import type { TCategoryFormSchema } from "../types/category";
 import api from "../utils/axios";
 
-export const getCategoriesAsync = async (type?: number) => {
-  const res = await api.get("/api/categories", {
-    params: type !== undefined ? { type } : {},
+// export const getCategoriesAsync = async (type?: number) => {
+//   const res = await api.get("/api/categories", {
+//     params: type !== undefined ? { type } : {},
+//   });
+
+//   return res.data;
+// };
+
+export const getCategoriesAsync = async ({
+  type,
+  page = 1,
+  limit = 4,
+  search,
+}: {
+  type?: number;
+  page?: number;
+  limit?: number;
+  search?: string;
+}) => {
+  const response = await api.get("/api/categories", {
+    params: {
+      type,
+      page,
+      limit,
+      search,
+    },
   });
 
-  return res.data;
+  return response.data;
 };
 
 export const getCategoryByIdAsync = async (categoryId: number) => {

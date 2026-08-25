@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  // useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -35,10 +40,41 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     : "Enter the expense details below.";
   const submitLabel = isUpdate ? "Update Expense" : "Add Expense";
 
-  const { data: categories } = useQuery({
+  // const { data: categories } = useQuery({
+  //   queryKey: ["categories"],
+  //   queryFn: () => getCategoriesAsync(0),
+  // });
+
+  const {
+    data: categoriesData,
+    // isLoading,
+    // isError,
+    // isFetching,
+    // hasNextPage,
+    // fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategoriesAsync(0),
+    // queryFn: ({ pageParam }) => getCategoriesAsync(0),
+    queryFn: async ({ pageParam }) => {
+      const response = await getCategoriesAsync({
+        type: 0,
+        page: pageParam,
+        limit: 12,
+      });
+
+      console.log("response", response);
+
+      return response;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
+    },
   });
+
+  // console.log("categoriesData: ", categoriesData);
+
+  const categories = categoriesData?.pages.flatMap((page) => page.data) ?? [];
 
   const submitExpense = async (formData: FormData) => {
     setErrors([]);
@@ -114,7 +150,7 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
         name="categoryId"
         label="Category"
         options={
-          categories?.data.map((c: TCategoryDetails) => ({
+          categories.map((c: TCategoryDetails) => ({
             label: c.name,
             value: c.id,
           })) ?? []
