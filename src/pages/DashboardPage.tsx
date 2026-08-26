@@ -3,7 +3,7 @@ import "../styles/dashboard/dashboard.scss";
 
 const DashboardPage = () => {
   return (
-    <section>
+    <section className="dashboard-section">
       <Title text="Dashboard" />
     </section>
   );

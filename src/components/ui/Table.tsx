@@ -1,8 +1,33 @@
+import { useEffect, useRef } from "react";
+
 import type { TExpense } from "../../types/expense";
 import type { TTable } from "../../types/ui";
 import "../../styles/ui/table.scss";
 
-const Table = ({ columns, rows, onRowClick }: TTable) => {
+const Table = ({
+  columns,
+  rows,
+  onRowClick,
+  hasNextPage,
+  fetchNextPage,
+  isFetchingNextPage,
+}: TTable) => {
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage?.();
+      }
+    });
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   return (
     <div className="table-container">
       <table>
@@ -30,6 +55,24 @@ const Table = ({ columns, rows, onRowClick }: TTable) => {
               })}
             </tr>
           ))}
+          {hasNextPage && (
+            <tr>
+              <td colSpan={columns.length}>
+                <div ref={sentinelRef} style={{ height: 1 }} />
+                {isFetchingNextPage && (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "12px",
+                      color: "gray",
+                    }}
+                  >
+                    Loading more data...
+                  </div>
+                )}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

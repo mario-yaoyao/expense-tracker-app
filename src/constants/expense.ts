@@ -9,7 +9,7 @@ export const expenseColumns = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: (value: unknown) => `₱${(value as number).toLocaleString()}`,
+    cell: (value: unknown) => value != null ? `₱${Number(value).toLocaleString()}` : "—",
   },
   {
     accessorKey: "categoryName",

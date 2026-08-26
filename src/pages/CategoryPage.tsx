@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getCategoriesAsync } from "../api/category";
 import { formatDate } from "../utils/format";
@@ -9,20 +9,52 @@ import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
 import Modal from "../components/ui/Modal";
 import CategoryForm from "../components/Category/CategoryForm";
+import SearchBar from "../components/ui/SearchBar";
 import "../styles/category/category.scss";
 
 const CategoryPage = () => {
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  const { data } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => getCategoriesAsync(),
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const {
+    data,
+    // isLoading,
+    // isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["categories", debouncedSearch],
+    queryFn: async ({ pageParam }) => {
+      const response = await getCategoriesAsync({
+        page: pageParam,
+        limit: 20,
+        search: debouncedSearch,
+      });
+
+      return response;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
+    },
   });
+
+  const categories = data?.pages.flatMap((page) => page.data) ?? [];
 
   const getTypeBadge = (value: number) => {
     return value ? (
@@ -65,11 +97,15 @@ const CategoryPage = () => {
   return (
     <section className="categories-section">
       <Title text="Categories" action={btnAction} openModalFn={openModal} />
+      <SearchBar
+        value={search}
+        onChangeFn={setSearch}
+        placeholder="Search for a category record..."
+      />
       <Table
         columns={categoryColumns}
-        rows={data?.data ?? []}
+        rows={categories ?? []}
         onRowClick={(category) => {
-          console.log("clicked");
           router.navigate({
             to: "/categories/$categoryId",
             params: {
@@ -77,9 +113,18 @@ const CategoryPage = () => {
             },
           });
         }}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
       <Modal isOpen={isOpen} title="Add Expense" onClose={closeModal}>
-        <CategoryForm action="add" closeModalFn={closeModal} />
+        <CategoryForm
+          action="add"
+          closeModalFn={closeModal}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </Modal>
     </section>
   );

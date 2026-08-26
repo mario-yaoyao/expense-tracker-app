@@ -22,6 +22,9 @@ export type TTable = {
   }[];
   rows: TExpense[];
   onRowClick?: (row: TRow) => void;
+  hasNextPage?: boolean,
+  fetchNextPage?: () => void,
+  isFetchingNextPage?: boolean
 };
 
 export type TInput = {
@@ -100,7 +103,26 @@ export type TDropdown = {
   label?: string;
   options: TDropdownOptions[];
   value?: string;
-  defaultValue?: number;
+  defaultOption?: {
+    value: number;
+    label: string
+  };
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   errorMessage?: string;
+  hasNextPage?: boolean,
+  fetchNextPage?: () => void,
+  isFetchingNextPage?: boolean
+};
+
+export type TSearchBar = {
+  value: string;
+  onChangeFn: (value: string) => void;
+  placeholder: string;
+};
+
+export type TMetricCard = {
+  id: number;
+  title: string;
+  value: number | string;
+  className: string
 };

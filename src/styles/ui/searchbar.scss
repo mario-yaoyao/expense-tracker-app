@@ -1,0 +1,65 @@
+@use "../colors" as *;
+
+.search-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .search-wrapper {
+      display: flex;
+      padding: 6px 12px;
+      outline: 1px solid $border;
+      border-radius: 6px;
+      background-color: $surface;
+      color: $text;
+      font-size: 14px;
+      transition:
+        outline-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+      &:focus-within {
+        outline-color: $primary;
+      }
+
+      .icon {
+        color: $text-muted;
+        margin-right: 0.5rem;
+      }
+
+      input {
+        all: unset;
+        width: 100%;
+        text-align: initial;
+
+        // NOTE: remove weird bg when selecting suggested value
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0 1000px white inset;
+          -webkit-text-fill-color: #000;
+        }
+
+        // NOTE: remove browser default password visibility toggler in MS Edge
+        &::-ms-reveal {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// for tablet devices
+@media only screen and (min-width: 768px) {
+  .search-group {
+    .search-field {
+      .search-wrapper {
+        width: 40%;
+      }
+    }
+  }
+}

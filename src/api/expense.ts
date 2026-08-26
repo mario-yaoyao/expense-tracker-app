@@ -1,8 +1,27 @@
 import type { TExpenseFormSchema } from "../types/expense";
 import api from "../utils/axios";
 
-export const getExpensesAsync = async () => {
-  const res = await api.get(`/api/expenses`);
+
+export const getExpensesAsync = async ({
+  type,
+  page = 1,
+  limit,
+  search,
+}: {
+  type?: number;
+  page?: number;
+  limit?: number;
+  search?: string;
+}) => {
+  const res = await api.get("/api/expenses", {
+    params: {
+      type,
+      page,
+      limit,
+      search,
+    },
+  });
+
   return res.data;
 };
 
@@ -17,7 +36,7 @@ export const addExpenseAsync = async (payload: TExpenseFormSchema) => {
 };
 
 export const updateExpenseAsync = async (
-  expenseId: string,
+  expenseId: number,
   payload: TExpenseFormSchema,
 ) => {
   const res = await api.put(`/api/expenses/${expenseId}`, payload);

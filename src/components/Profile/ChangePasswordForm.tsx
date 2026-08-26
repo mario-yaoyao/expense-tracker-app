@@ -63,9 +63,6 @@ const ChangePasswordForm = ({ closeModalFn }: TChangePasswordForm) => {
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        console.log("API RESPONSE:");
-        console.log(error.response?.data);
-
         if (error.response?.data.errors) {
           setErrors(error.response.data.errors);
         } else {
@@ -74,8 +71,6 @@ const ChangePasswordForm = ({ closeModalFn }: TChangePasswordForm) => {
       }
     },
   });
-
-  console.log(errors);
 
   return (
     <form

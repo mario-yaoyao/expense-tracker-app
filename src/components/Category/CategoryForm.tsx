@@ -16,7 +16,14 @@ import Dropdown from "../ui/Dropdown";
 import ErrorMessage from "../ui/Error";
 import "../../styles/expense/expense-form.scss";
 
-const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
+const CategoryForm = ({
+  data,
+  action,
+  closeModalFn,
+  hasNextPage,
+  fetchNextPage,
+  isFetchingNextPage,
+}: TCategoryForm) => {
   const queryClient = useQueryClient();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -114,8 +121,18 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
         name="type"
         label="Type"
         options={typeOptions}
-        defaultValue={data?.type}
+        defaultOption={
+          data?.type !== undefined
+            ? {
+                value: data.type,
+                label: data.type === 0 ? "Expense" : "Income",
+              }
+            : undefined
+        }
         errorMessage={typeError && typeError.messages[0]}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
       <Button
         type="submit"

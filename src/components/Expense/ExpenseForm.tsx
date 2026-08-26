@@ -40,29 +40,21 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     : "Enter the expense details below.";
   const submitLabel = isUpdate ? "Update Expense" : "Add Expense";
 
-  // const { data: categories } = useQuery({
-  //   queryKey: ["categories"],
-  //   queryFn: () => getCategoriesAsync(0),
-  // });
-
   const {
     data: categoriesData,
     // isLoading,
     // isError,
-    // isFetching,
-    // hasNextPage,
-    // fetchNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["categories"],
-    // queryFn: ({ pageParam }) => getCategoriesAsync(0),
     queryFn: async ({ pageParam }) => {
       const response = await getCategoriesAsync({
         type: 0,
         page: pageParam,
-        limit: 12,
+        limit: 20,
       });
-
-      console.log("response", response);
 
       return response;
     },
@@ -71,8 +63,6 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
       return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
     },
   });
-
-  // console.log("categoriesData: ", categoriesData);
 
   const categories = categoriesData?.pages.flatMap((page) => page.data) ?? [];
 
@@ -151,12 +141,23 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
         label="Category"
         options={
           categories.map((c: TCategoryDetails) => ({
-            label: c.name,
-            value: c.id,
+            id: c.id!,
+            label: c.name!,
+            value: c.id!,
           })) ?? []
         }
-        defaultValue={data?.categoryId}
+        defaultOption={
+          data?.categoryId && data?.categoryName
+            ? {
+                value: data.categoryId,
+                label: data.categoryName,
+              }
+            : undefined
+        }
         errorMessage={categoryError?.messages[0]}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
       />
       <Input
         type="number"

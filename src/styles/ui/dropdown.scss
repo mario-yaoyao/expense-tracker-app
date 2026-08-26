@@ -59,8 +59,8 @@
         border-radius: 6px;
         box-shadow: 0 4px 12px $shadow;
         z-index: 1000;
+        max-height: 250px;
         overflow: hidden;
-        max-height: 300px;
         overflow-y: auto;
         scrollbar-width: thin;
 
