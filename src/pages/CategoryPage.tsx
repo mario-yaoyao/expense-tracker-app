@@ -118,13 +118,7 @@ const CategoryPage = () => {
         isFetchingNextPage={isFetchingNextPage}
       />
       <Modal isOpen={isOpen} title="Add Expense" onClose={closeModal}>
-        <CategoryForm
-          action="add"
-          closeModalFn={closeModal}
-          hasNextPage={hasNextPage}
-          fetchNextPage={fetchNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-        />
+        <CategoryForm action="add" closeModalFn={closeModal} />
       </Modal>
     </section>
   );

@@ -109,9 +109,6 @@ export type TDropdown = {
   };
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   errorMessage?: string;
-  hasNextPage?: boolean,
-  fetchNextPage?: () => void,
-  isFetchingNextPage?: boolean
 };
 
 export type TSearchBar = {

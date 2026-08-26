@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, children }: TModal) => {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <button onClick={onClose}>
-            <RxCross2 color="red" size={22} />
+            <RxCross2 size={22} />
           </button>
         </div>
         <div className="modal-body">{children}</div>

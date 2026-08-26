@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { IoChevronDown } from "react-icons/io5";
 
 import type { TDropdown } from "../../types/ui";
@@ -11,12 +11,7 @@ const Dropdown = ({
   options,
   errorMessage,
   defaultOption,
-  hasNextPage,
-  fetchNextPage,
-  isFetchingNextPage,
 }: TDropdown) => {
-  const sentinelRef = useRef<HTMLDivElement>(null);
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultOption ?? null);
 
@@ -27,22 +22,6 @@ const Dropdown = ({
     setSelectedOption(option);
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage?.();
-      }
-    });
-
-    if (sentinelRef.current) {
-      observer.observe(sentinelRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [isOpen, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <div className="dropdown-group">
@@ -72,13 +51,6 @@ const Dropdown = ({
                   {option.label}
                 </button>
               ))}
-
-              {hasNextPage && (
-                <>
-                  <div ref={sentinelRef} style={{ height: 1 }} />
-                  {isFetchingNextPage && <div>Loading...</div>}
-                </>
-              )}
             </div>
           )}
           <input

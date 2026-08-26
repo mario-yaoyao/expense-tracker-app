@@ -1,9 +1,4 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  // useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -44,27 +39,18 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     data: categoriesData,
     // isLoading,
     // isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
+  } = useQuery({
     queryKey: ["categories"],
-    queryFn: async ({ pageParam }) => {
-      const response = await getCategoriesAsync({
+    queryFn: async () => {
+      return await getCategoriesAsync({
         type: 0,
-        page: pageParam,
-        limit: 20,
+        page: 1,
+        limit: 999,
       });
-
-      return response;
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
     },
   });
 
-  const categories = categoriesData?.pages.flatMap((page) => page.data) ?? [];
+  const categories = categoriesData?.data ?? [];
 
   const submitExpense = async (formData: FormData) => {
     setErrors([]);
@@ -155,9 +141,6 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
             : undefined
         }
         errorMessage={categoryError?.messages[0]}
-        fetchNextPage={fetchNextPage}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
       />
       <Input
         type="number"

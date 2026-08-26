@@ -13,9 +13,6 @@ export type TCategoryForm = {
   data?: TCategoryDetails;
   action: "add" | "update";
   closeModalFn: () => void;
-  hasNextPage?: boolean,
-  fetchNextPage?: () => Promise<unknown>;
-  isFetchingNextPage?: boolean
 };
 
 export type TCategoryFormSchema = {
