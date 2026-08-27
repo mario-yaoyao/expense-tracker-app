@@ -12,6 +12,7 @@ import Modal from "../components/ui/Modal";
 import SearchBar from "../components/ui/SearchBar";
 import MetricCard from "../components/ui/MetricCard";
 import "../styles/expense/expense.scss";
+import { isSuperAdmin } from "../utils/auth";
 
 const ExpensePage = () => {
   const router = useRouter();
@@ -66,24 +67,28 @@ const ExpensePage = () => {
   const summary = data?.pages[0];
 
   const metricsData = [
-    {
-      id: 1,
-      title: "Total Expense Cost",
-      value:
-        summary?.totalExpense != null
-          ? `₱${summary.totalExpense.toLocaleString()}`
-          : "—",
-      className: "danger",
-    },
-    {
-      id: 2,
-      title: "Highest Expense",
-      value:
-        summary?.highestExpense != null
-          ? `₱${summary.highestExpense.amount.toLocaleString()} (${summary.highestExpense.name})`
-          : "—",
-      className: "warning",
-    },
+    ...(!isSuperAdmin()
+      ? [
+          {
+            id: 1,
+            title: "Total Expense Cost",
+            value:
+              summary?.totalExpense != null
+                ? `₱${summary.totalExpense.toLocaleString()}`
+                : "—",
+            className: "danger",
+          },
+          {
+            id: 2,
+            title: "Highest Expense",
+            value:
+              summary?.highestExpense != null
+                ? `₱${summary.highestExpense.amount.toLocaleString()} (${summary.highestExpense.name})`
+                : "—",
+            className: "warning",
+          },
+        ]
+      : []),
     {
       id: 3,
       title: "Total Expense Records",
@@ -91,7 +96,53 @@ const ExpensePage = () => {
         summary?.totalCount != null ? summary.totalCount.toLocaleString() : "—",
       className: "info",
     },
+    // ...(isSuperAdmin()
+    //   ? [
+    //       {
+    //         id: 5,
+    //         to: "/users",
+    //         label: "Users",
+    //         icon: LuUsersRound,
+    //       },
+    //     ]
+    //   : []),
   ];
+
+  // const metricsData = [
+  //   // {
+  //   //   id: 1,
+  //   //   title: "Total Expense Cost",
+  //   //   value:
+  //   //     summary?.totalExpense != null
+  //   //       ? `₱${summary.totalExpense.toLocaleString()}`
+  //   //       : "—",
+  //   //   className: "danger",
+  //   // },
+  //   // {
+  //   //   id: 2,
+  //   //   title: "Highest Expense",
+  //   //   value:
+  //   //     summary?.highestExpense != null
+  //   //       ? `₱${summary.highestExpense.amount.toLocaleString()} (${summary.highestExpense.name})`
+  //   //       : "—",
+  //   //   className: "warning",
+  //   // },
+  //   {
+  //     id: 3,
+  //     title: "Total Expense Records",
+  //     value:
+  //       summary?.totalCount != null ? summary.totalCount.toLocaleString() : "—",
+  //     className: "info",
+  //   },
+  // ];
+
+  // ...(role !== "SuperAdmin"
+
+  // const visibleMetrics = metricsData.filter((metric) =>
+  //   // role !== "SuperAdmin" ||
+  //   // !isSuperAdmin || !["totalExpense", "highestExpense"].includes(metric.key),
+  //   console.log(metric),
+  // );
 
   return (
     <section className="expenses-section">
@@ -106,6 +157,9 @@ const ExpensePage = () => {
             />
           );
         })}
+        {/* {visibleMetrics.map((metric) => (
+          <MetricCard key={metric.id} {...metric} />
+        ))} */}
       </div>
       <Title text="Expenses" action={btnAction} openModalFn={openModal} />
       <SearchBar
