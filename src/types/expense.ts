@@ -22,13 +22,20 @@ export type TExpenseForm = {
   data?: TExpenseDetails;
   action: "add" | "update";
   closeModalFn: () => void;
-  hasNextPage?: boolean,
+  hasNextPage?: boolean;
   fetchNextPage?: () => Promise<unknown>;
-  isFetchingNextPage?: boolean
+  isFetchingNextPage?: boolean;
 };
 
 export type TExpenseFormSchema = {
   Description: string;
   Amount: number;
   CategoryId: number;
+};
+
+export type TExpenses = {
+  type?: number;
+  page?: number;
+  limit?: number;
+  search?: string;
 };

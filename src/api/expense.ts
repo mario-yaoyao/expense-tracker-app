@@ -1,18 +1,12 @@
-import type { TExpenseFormSchema } from "../types/expense";
+import type { TExpenseFormSchema, TExpenses } from "../types/expense";
 import api from "../utils/axios";
-
 
 export const getExpensesAsync = async ({
   type,
   page = 1,
   limit,
   search,
-}: {
-  type?: number;
-  page?: number;
-  limit?: number;
-  search?: string;
-}) => {
+}: TExpenses) => {
   const res = await api.get("/api/expenses", {
     params: {
       type,

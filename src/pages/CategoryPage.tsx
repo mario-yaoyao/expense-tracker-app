@@ -50,11 +50,12 @@ const CategoryPage = () => {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
+      const pagination = lastPage.data.pagination;
+      return pagination.hasNextPage ? pagination.page + 1 : undefined;
     },
   });
 
-  const categories = data?.pages.flatMap((page) => page.data) ?? [];
+  const categories = data?.pages.flatMap((page) => page.data.items) ?? [];
 
   const getTypeBadge = (value: number) => {
     return value ? (

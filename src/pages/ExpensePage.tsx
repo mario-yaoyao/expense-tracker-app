@@ -52,19 +52,20 @@ const ExpensePage = () => {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
+      const pagination = lastPage.data.pagination;
+      return pagination.hasNextPage ? pagination.page + 1 : undefined;
     },
   });
 
-  const expenses = data?.pages.flatMap((page) => page.data) ?? [];
+  const expenses = data?.pages.flatMap((page) => page.data.items) ?? [];
+  const summary = data?.pages[0].data;
+  const metrics = summary?.metrics;
 
   const btnAction: TAction = {
     label: "Add Expense",
     variant: "success",
     compactOnMobile: true,
   };
-
-  const summary = data?.pages[0];
 
   const metricsData = [
     ...(!isSuperAdmin()
@@ -73,8 +74,8 @@ const ExpensePage = () => {
             id: 1,
             title: "Total Expense Cost",
             value:
-              summary?.totalExpense != null
-                ? `₱${summary.totalExpense.toLocaleString()}`
+              metrics?.totalAmount != null
+                ? `₱${metrics.totalAmount.toLocaleString()}`
                 : "—",
             className: "danger",
           },
@@ -82,8 +83,8 @@ const ExpensePage = () => {
             id: 2,
             title: "Highest Expense",
             value:
-              summary?.highestExpense != null
-                ? `₱${summary.highestExpense.amount.toLocaleString()} (${summary.highestExpense.name})`
+              metrics?.highestAmount != null
+                ? `₱${metrics.highestAmount.amount.toLocaleString()} (${metrics.highestAmount.name})`
                 : "—",
             className: "warning",
           },
@@ -93,7 +94,7 @@ const ExpensePage = () => {
       id: 3,
       title: "Total Expense Records",
       value:
-        summary?.totalCount != null ? summary.totalCount.toLocaleString() : "—",
+        metrics?.totalCount != null ? metrics.totalCount.toLocaleString() : "—",
       className: "info",
     },
   ];

@@ -45,12 +45,12 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
       return await getCategoriesAsync({
         type: 0,
         page: 1,
-        limit: 999,
+        limit: 100,
       });
     },
   });
 
-  const categories = categoriesData?.data ?? [];
+  const categories = categoriesData?.data.items ?? [];
 
   const submitExpense = async (formData: FormData) => {
     setErrors([]);
