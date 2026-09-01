@@ -1,7 +1,47 @@
 @use "../colors" as *;
 
-.income-section {
+.incomes-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-height: 0;
+  max-height: 100%;
+
+  .metrics {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+
+    .date-picker-wrapper {
+      position: relative;
+      width: 100%;
+
+      .btn {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .incomes-section {
+    .metrics {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .toolbar {
+      flex-direction: row;
+
+      .date-picker-wrapper {
+        width: auto;
+      }
+    }
+  }
 }

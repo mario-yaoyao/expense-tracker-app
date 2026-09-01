@@ -22,9 +22,9 @@ export type TTable = {
   }[];
   rows: TExpense[];
   onRowClick?: (row: TRow) => void;
-  hasNextPage?: boolean,
-  fetchNextPage?: () => void,
-  isFetchingNextPage?: boolean
+  hasNextPage?: boolean;
+  fetchNextPage?: () => void;
+  isFetchingNextPage?: boolean;
 };
 
 export type TInput = {
@@ -62,7 +62,14 @@ export interface ITitle {
 }
 
 export type TVariant =
-  "default" | "outline" | "link" | "back" | "success" | "warning" | "danger";
+  | "default"
+  | "outline"
+  | "link"
+  | "back"
+  | "success"
+  | "warning"
+  | "danger"
+  | "filter";
 
 export type TAction = {
   label: string;
@@ -106,7 +113,7 @@ export type TDropdown = {
   value?: string;
   defaultOption?: {
     value: number;
-    label: string
+    label: string;
   };
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   errorMessage?: string;
@@ -122,9 +129,8 @@ export type TMetricCard = {
   id: number;
   title: string;
   value: number | string;
-  className: string
+  className: string;
 };
-
 
 export type TDatePicker = {
   startDate: Date | null;
@@ -132,4 +138,14 @@ export type TDatePicker = {
   onStartDateChange: (date: Date | null) => void;
   onEndDateChange: (date: Date | null) => void;
   onRangeSelected?: () => void;
+};
+
+export type TStatusBadge = {
+  isActive: boolean;
+  activeLabel?: string;
+  inactiveLabel?: string;
+};
+
+export type TRoleBadge = {
+  isSuperAdmin: boolean;
 };

@@ -89,6 +89,19 @@
     }
   }
 
+  &.btn-filter {
+    background-color: $primary;
+    color: $surface;
+    padding: 8px 12px;
+    font-size: 13px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: $primary-hover;
+      box-shadow: 0 4px 12px $bluish-shadow;
+    }
+  }
+
   &.btn-compact {
     span {
       display: none;

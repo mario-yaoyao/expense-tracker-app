@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { deleteExpenseAsync, getExpenseByIdAsync } from "../../api/expense";
 import { useAuth } from "../../hooks/useAuth";
 import { isSuperAdmin } from "../../utils/auth";
+import { StatusBadge } from "../../utils/helper";
 import { formatDate } from "../../utils/format";
 import type { TExpenseDetails } from "../../types/expense";
 import Title from "../ui/Title";
@@ -54,20 +55,6 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
     },
   });
 
-  const getStatusBadge = () => {
-    return data.isDeleted ? (
-      <p className="status-inactive">
-        <span className="status-dot "></span>
-        Inactive
-      </p>
-    ) : (
-      <p className="status-active">
-        <span className="status-dot"></span>
-        Active
-      </p>
-    );
-  };
-
   if (isLoading) {
     return <p>Loading expense details...</p>;
   }
@@ -81,7 +68,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
       ? [
           {
             label: "Status",
-            value: getStatusBadge() || "—",
+            value: <StatusBadge isActive={!data.isDeleted} />,
           },
           {
             label: "ID",
@@ -158,7 +145,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
       </div>
       <Modal
         isOpen={isUpdateModalOpen}
-        title="Add Expense"
+        title="Update Expense"
         onClose={closeUpdateModal}
       >
         <ExpenseForm

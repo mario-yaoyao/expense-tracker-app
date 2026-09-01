@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useProfile } from "../hooks/useProfile";
+import RoleBadge, { StatusBadge } from "../utils/helper";
 import { formatDate } from "../utils/format";
 import Title from "../components/ui/Title";
 import Button from "../components/ui/Button";
@@ -17,39 +18,14 @@ const ProfilePage = () => {
   const openChangePasswordModal = () => setIsChangePasswordModalOpen(true);
   const closeChangePasswordModal = () => setIsChangePasswordModalOpen(false);
 
-  const getStatusBadge = () => {
-    return profile?.isActive ? (
-      <p className="status-active">
-        <span className="status-dot"></span>
-        Active
-      </p>
-    ) : (
-      <p className="status-inactive">
-        <span className="status-dot "></span>
-        Inactive
-      </p>
-    );
-  };
-
-  const getRoleBadge = () => {
-    const isSuperAdmin = profile?.role === 0;
-
-    return (
-      <p className={isSuperAdmin ? "role-admin" : "role-user"}>
-        <span className="role-dot"></span>
-        {isSuperAdmin ? "Super Admin" : "User"}
-      </p>
-    );
-  };
-
-  const details = [
+  const profileDetails = [
     {
       label: "Status",
-      value: getStatusBadge() || "—",
+      value: <StatusBadge isActive={profile?.isActive ?? false} />,
     },
     {
       label: "Role",
-      value: getRoleBadge() || "—",
+      value: <RoleBadge isSuperAdmin={profile?.role === 0} />,
     },
     {
       label: "Username",
@@ -82,7 +58,7 @@ const ProfilePage = () => {
       <Title text="Profile" />
       <div className="profile-details">
         <div className="details-wrapper">
-          {details.map((detail) => (
+          {profileDetails.map((detail) => (
             <div key={detail.label} className="detail-group">
               <label>{detail.label}</label>
               <div className="detail-value">{detail.value}</div>
@@ -101,7 +77,7 @@ const ProfilePage = () => {
       </div>
       <Modal
         isOpen={isChangePasswordModalOpen}
-        title="Add Expense"
+        title="Change Password"
         onClose={closeChangePasswordModal}
       >
         <ChangePasswordForm closeModalFn={closeChangePasswordModal} />

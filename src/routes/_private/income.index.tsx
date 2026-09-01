@@ -1,0 +1,7 @@
+import { createFileRoute } from "@tanstack/react-router";
+
+import IncomePage from "../../pages/IncomePage";
+
+export const Route = createFileRoute("/_private/income/")({
+  component: IncomePage,
+});

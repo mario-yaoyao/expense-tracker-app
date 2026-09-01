@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { DayPicker, type DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
@@ -11,6 +12,8 @@ const DatePicker = ({
   onEndDateChange,
   onRangeSelected,
 }: TDatePicker) => {
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
+
   const selected: DateRange | undefined =
     startDate || endDate
       ? {
@@ -20,6 +23,7 @@ const DatePicker = ({
       : undefined;
 
   const handleToday = () => {
+    setSelectedPreset("today");
     const today = new Date();
 
     onStartDateChange(today);
@@ -27,6 +31,7 @@ const DatePicker = ({
   };
 
   const handleYesterday = () => {
+    setSelectedPreset("yesterday");
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -35,6 +40,7 @@ const DatePicker = ({
   };
 
   const handleLast7Days = () => {
+    setSelectedPreset("last-7-days");
     const end = new Date();
 
     const start = new Date();
@@ -45,6 +51,7 @@ const DatePicker = ({
   };
 
   const handleThisMonth = () => {
+    setSelectedPreset("this-month");
     const now = new Date();
 
     onStartDateChange(new Date(now.getFullYear(), now.getMonth(), 1));
@@ -52,6 +59,7 @@ const DatePicker = ({
   };
 
   const handleLastMonth = () => {
+    setSelectedPreset("last-month");
     const now = new Date();
 
     onStartDateChange(new Date(now.getFullYear(), now.getMonth() - 1, 1));
@@ -66,11 +74,36 @@ const DatePicker = ({
   return (
     <div className="date-picker">
       <div className="presets">
-        <button onClick={handleToday}>Today</button>
-        <button onClick={handleYesterday}>Yesterday</button>
-        <button onClick={handleLast7Days}>Last 7 Days</button>
-        <button onClick={handleThisMonth}>This Month</button>
-        <button onClick={handleLastMonth}>Last Month</button>
+        <button
+          className={selectedPreset === "today" ? "active" : ""}
+          onClick={handleToday}
+        >
+          Today
+        </button>
+        <button
+          className={selectedPreset === "yesterday" ? "active" : ""}
+          onClick={handleYesterday}
+        >
+          Yesterday
+        </button>
+        <button
+          className={selectedPreset === "last-7-days" ? "active" : ""}
+          onClick={handleLast7Days}
+        >
+          Last 7 Days
+        </button>
+        <button
+          className={selectedPreset === "this-month" ? "active" : ""}
+          onClick={handleThisMonth}
+        >
+          This Month
+        </button>
+        <button
+          className={selectedPreset === "last-month" ? "active" : ""}
+          onClick={handleLastMonth}
+        >
+          Last Month
+        </button>
         <button className="reset-btn" onClick={handleReset}>
           Reset
         </button>

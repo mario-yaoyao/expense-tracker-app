@@ -1,7 +1,6 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { isAuthenticated } from "../../utils/auth";
-import IncomePage from "../../pages/IncomePage";
 
 export const Route = createFileRoute("/_private/income")({
   beforeLoad: () => {
@@ -9,9 +8,5 @@ export const Route = createFileRoute("/_private/income")({
       throw redirect({ to: "/login" });
     }
   },
-  component: RouteComponent,
+  component: () => <Outlet />,
 });
-
-function RouteComponent() {
-  return <IncomePage />;
-}

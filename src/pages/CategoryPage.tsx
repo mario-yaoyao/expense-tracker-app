@@ -4,17 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 
 import { getCategoriesAsync } from "../api/category";
-import { formatDate } from "../utils/format";
-import type { TAction } from "../types/ui";
+import { getDateFilterLabel } from "../utils/helper";
+import { categoryBtnActions, categoryColumns } from "../constants/category";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
 import Modal from "../components/ui/Modal";
 import CategoryForm from "../components/Category/CategoryForm";
 import SearchBar from "../components/ui/SearchBar";
-import "../styles/category/category.scss";
 import Button from "../components/ui/Button";
 import Popover from "../components/ui/Popover";
 import DatePicker from "../components/ui/DatePicker";
+import "../styles/category/category.scss";
 
 const CategoryPage = () => {
   const router = useRouter();
@@ -29,14 +29,6 @@ const CategoryPage = () => {
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [search]);
 
   const {
     data,
@@ -72,51 +64,13 @@ const CategoryPage = () => {
 
   const categories = data?.pages.flatMap((page) => page.data.items) ?? [];
 
-  const getTypeBadge = (value: number) => {
-    return value ? (
-      <p className="income">Income</p>
-    ) : (
-      <p className="expense">Expense</p>
-    );
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
 
-  const categoryColumns = [
-    {
-      accessorKey: "name",
-      header: "Name",
-      cell: (value: unknown) => String(value ?? "").trim() || "—",
-    },
-    {
-      accessorKey: "type",
-      header: "Type",
-      cell: (value: unknown) => getTypeBadge(value as number),
-      isBadge: true,
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Date Created",
-      cell: (value: unknown) => formatDate(value as string | null),
-    },
-    {
-      accessorKey: "updatedAt",
-      header: "Date Updated",
-      cell: (value: unknown) => formatDate(value as string | null),
-    },
-  ];
-
-  const btnAction: TAction = {
-    label: "Add Category",
-    variant: "success",
-    compactOnMobile: true,
-  };
-
-  const getDateFilterLabel = () => {
-    if (!startDate || !endDate) {
-      return "Filter Date";
-    }
-
-    return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
-  };
+    return () => clearTimeout(timer);
+  }, [search]);
 
   useEffect(() => {
     if (!isDateFilterOpen) return;
@@ -139,7 +93,11 @@ const CategoryPage = () => {
 
   return (
     <section className="categories-section">
-      <Title text="Categories" action={btnAction} openModalFn={openModal} />
+      <Title
+        text="Categories"
+        action={categoryBtnActions[0]}
+        openModalFn={openModal}
+      />
       <div className="toolbar">
         <SearchBar
           value={search}
@@ -148,7 +106,8 @@ const CategoryPage = () => {
         />
         <div className="date-picker-wrapper" ref={wrapperRef}>
           <Button
-            label={getDateFilterLabel()}
+            label={getDateFilterLabel(startDate, endDate)}
+            style={categoryBtnActions[1].variant}
             onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
           />
           <Popover

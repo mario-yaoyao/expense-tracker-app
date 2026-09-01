@@ -1,5 +1,3 @@
-// TODO: add breadcrumb functionality
-
 import type { ITitle } from "../../types/ui";
 import Button from "./Button";
 import "../../styles/ui/title.scss";

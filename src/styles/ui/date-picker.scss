@@ -2,23 +2,29 @@
 
 .date-picker {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   padding: 0.75rem;
   background: $background;
   border-radius: 12px;
   box-shadow: 0 8px 24px shadow;
-  // width: fit-content;
+  // border: 1px solid red;
 
   .presets {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.25rem;
-    width: 140px;
-    padding-right: 0.75rem;
-    border-right: 1px solid $border;
+    // border: 1px solid blue;
+    // display: flex;
+    // flex-direction: column;
+    // gap: 0.25rem;
+    // width: 140px;
+    // padding-right: 0.75rem;
+    // border-right: 1px solid $border;
 
     button {
-      padding: 0.5rem 0.75rem;
+      // padding: 0.5rem 0.75rem;
+      padding: 0.75rem;
       border: none;
       background: transparent;
       border-radius: 6px;
@@ -29,10 +35,8 @@
       cursor: pointer;
       transition: all 0.2s ease;
 
-      &:hover {
-        background: $background;
-        color: $primary;
-      }
+      color: $text;
+      font-size: 0.8rem;
 
       &.active {
         background: $background;
@@ -42,7 +46,7 @@
     }
 
     .reset-btn {
-      margin-top: 0.5rem;
+      // margin-top: 0.5rem;
       color: $primary;
       font-weight: 600;
 
@@ -92,7 +96,8 @@
 }
 
 .rdp-day {
-  font-size: 0.875rem;
+  // font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 500;
 
   &.rdp-today {
@@ -148,4 +153,30 @@
 
 // for tablet devices
 @media only screen and (min-width: 768px) {
+  .date-picker {
+    flex-direction: row;
+
+    .presets {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      width: 140px;
+      padding-right: 0.75rem;
+      border-right: 1px solid $border;
+
+      button {
+        background-color: $background;
+
+        &.active {
+          background: $background;
+          color: $primary;
+          font-weight: 600;
+        }
+      }
+
+      .reset-btn {
+        margin-top: 0.5rem;
+      }
+    }
+  }
 }

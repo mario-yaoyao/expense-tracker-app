@@ -37,7 +37,7 @@ export const updateExpenseAsync = async (
   expenseId: number,
   payload: TExpenseFormSchema,
 ) => {
-  const res = await api.put(`/api/expenses/${expenseId}`, payload);
+  const res = await api.patch(`/api/expenses/${expenseId}`, payload);
   return res.data;
 };
 

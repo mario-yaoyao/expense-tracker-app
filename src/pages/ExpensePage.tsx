@@ -5,8 +5,8 @@ import { format } from "date-fns";
 
 import { getExpensesAsync } from "../api/expense";
 import { isSuperAdmin } from "../utils/auth";
-import { expenseColumns } from "../constants/expense";
-import type { TAction } from "../types/ui";
+import { getDateFilterLabel } from "../utils/helper";
+import { expenseBtnActions, expenseColumns } from "../constants/expense";
 import ExpenseForm from "../components/Expense/ExpenseForm";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
@@ -31,14 +31,6 @@ const ExpensePage = () => {
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [search]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -68,12 +60,6 @@ const ExpensePage = () => {
   const expenses = data?.pages.flatMap((page) => page.data.items) ?? [];
   const summary = data?.pages[0].data;
   const metrics = summary?.metrics;
-
-  const btnAction: TAction = {
-    label: "Add Expense",
-    variant: "success",
-    compactOnMobile: true,
-  };
 
   const metricsData = [
     ...(!isSuperAdmin()
@@ -107,13 +93,13 @@ const ExpensePage = () => {
     },
   ];
 
-  const getDateFilterLabel = () => {
-    if (!startDate || !endDate) {
-      return "Filter Date";
-    }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
 
-    return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
-  };
+    return () => clearTimeout(timer);
+  }, [search]);
 
   useEffect(() => {
     if (!isDateFilterOpen) return;
@@ -148,7 +134,11 @@ const ExpensePage = () => {
           );
         })}
       </div>
-      <Title text="Expenses" action={btnAction} openModalFn={openModal} />
+      <Title
+        text="Expenses"
+        action={expenseBtnActions[0]}
+        openModalFn={openModal}
+      />
       <div className="toolbar">
         <SearchBar
           value={search}
@@ -157,7 +147,8 @@ const ExpensePage = () => {
         />
         <div className="date-picker-wrapper" ref={wrapperRef}>
           <Button
-            label={getDateFilterLabel()}
+            label={getDateFilterLabel(startDate, endDate)}
+            style={expenseBtnActions[1].variant}
             onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
           />
           <Popover

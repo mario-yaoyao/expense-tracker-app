@@ -1,23 +1,23 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import axios from "axios";
+import toast from "react-hot-toast";
 
-import { deleteCategoryAsync, getCategoryByIdAsync } from "../../api/category";
+import { deleteIncomeAsync, getIncomeByIdAsync } from "../../api/income";
 import { useAuth } from "../../hooks/useAuth";
 import { isSuperAdmin } from "../../utils/auth";
-import { getTypeBadge, StatusBadge } from "../../utils/helper";
+import { StatusBadge } from "../../utils/helper";
 import { formatDate } from "../../utils/format";
-import type { TCategoryDetails } from "../../types/category";
+import type { TIncomeDetails } from "../../types/income";
 import Title from "../ui/Title";
 import Button from "../ui/Button";
-import Confirmation from "../ui/Confirmation";
-import CategoryForm from "./CategoryForm";
 import Modal from "../ui/Modal";
-import "../../styles/category/category-details.scss";
+import IncomeForm from "./IncomeForm";
+import Confirmation from "../ui/Confirmation";
+import "../../styles/income/income-details.scss";
 
-const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
+const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -25,25 +25,24 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
     useState(false);
 
-  const categoryIdNum = Number(categoryId);
   const openUpdateModal = () => setIsUpdateModalOpen(true);
   const closeUpdateModal = () => setIsUpdateModalOpen(false);
   const openDeleteConfirmation = () => setIsDeleteConfirmationOpen(true);
   const closeDeleteConfirmation = () => setIsDeleteConfirmationOpen(false);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["category", categoryIdNum],
+    queryKey: ["income", incomeId],
     queryFn: async () => {
-      const response = await getCategoryByIdAsync(categoryIdNum);
+      const response = await getIncomeByIdAsync(incomeId);
       return response.data;
     },
   });
 
   const mutation = useMutation({
-    mutationFn: () => deleteCategoryAsync(categoryId),
+    mutationFn: () => deleteIncomeAsync(incomeId),
     onSuccess: () => {
-      toast.success("Expense deleted successfully");
-      navigate({ to: "/expense" });
+      toast.success("Income deleted successfully");
+      navigate({ to: "/income" });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -57,11 +56,11 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   });
 
   if (isLoading) {
-    return <p>Loading category details...</p>;
+    return <p>Loading income details...</p>;
   }
 
   if (isError || !data) {
-    return <p>Failed to load category details.</p>;
+    return <p>Failed to load income details.</p>;
   }
 
   const details = [
@@ -75,16 +74,30 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
             label: "ID",
             value: data.id || "—",
           },
+          {
+            label: "Username",
+            value: data.username || "—",
+          },
+          {
+            label: "Full Name",
+            value: data.fullName || "—",
+          },
         ]
       : []),
     {
-      label: "Name",
-      value: data.name?.trim() || "—",
+      label: "Category Name",
+      value: data.categoryName?.trim() || "—",
     },
     {
-      label: "Type",
-      value: getTypeBadge(data.type) || "—",
-      isBadge: true,
+      label: "Amount",
+      value: `₱${data.amount.toLocaleString()}`,
+      className: "amount",
+    },
+
+    {
+      label: "Description",
+      value: data.description?.trim() || "—",
+      className: "description",
     },
     {
       label: "Created At",
@@ -97,14 +110,14 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   ];
 
   return (
-    <section className="category-details-section">
-      <Title text="Category Details" />
-      <div className="category-details">
+    <section className="income-details-section">
+      <Title text="Income Details" />
+      <div className="income-details">
         <div className="details-wrapper">
           {details.map((detail) => (
             <div
               key={detail.label}
-              className={`detail-group ${detail.isBadge ? "badge-group" : ""} `}
+              className={`detail-group ${detail.className ?? ""}`}
             >
               <label>{detail.label}</label>
               <div className="detail-value">{detail.value}</div>
@@ -115,14 +128,14 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
           <div className="btn-actions">
             <Button
               key="warning"
-              label="Update Category"
+              label="Update Income"
               style="warning"
               compactOnMobile={true}
               onClickFn={openUpdateModal}
             />
             <Button
               key="danger"
-              label="Delete Category"
+              label="Delete Income"
               style="danger"
               compactOnMobile={true}
               onClickFn={openDeleteConfirmation}
@@ -132,10 +145,10 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
       </div>
       <Modal
         isOpen={isUpdateModalOpen}
-        title="Add Expense"
+        title="Update Income"
         onClose={closeUpdateModal}
       >
-        <CategoryForm
+        <IncomeForm
           data={data}
           action="update"
           closeModalFn={closeUpdateModal}
@@ -143,7 +156,7 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
       </Modal>
       <Confirmation
         isOpen={isDeleteConfirmationOpen}
-        description="Are you sure you want to delete this expense record?"
+        description="Are you sure you want to delete this income record?"
         onSubmitFn={() => mutation.mutate()}
         onClose={closeDeleteConfirmation}
       />
@@ -151,4 +164,4 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   );
 };
 
-export default CategoryDetails;
+export default IncomeDetails;

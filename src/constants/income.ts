@@ -1,7 +1,7 @@
 import type { TAction } from "../types/ui";
 import { formatDate } from "../utils/format";
 
-export const expenseColumns = [
+export const incomeColumns = [
   {
     accessorKey: "description",
     header: "Description",
@@ -10,8 +10,7 @@ export const expenseColumns = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: (value: unknown) =>
-      value != null ? `₱${Number(value).toLocaleString()}` : "—",
+    cell: (value: unknown) => value != null ? `₱${Number(value).toLocaleString()}` : "—",
   },
   {
     accessorKey: "categoryName",
@@ -30,15 +29,16 @@ export const expenseColumns = [
   },
 ];
 
-export const expenseBtnActions: TAction[] = [
-  {
-    label: "Add Expense",
-    variant: "success",
-    compactOnMobile: true,
-  },
-  {
-    label: "Filter Date",
-    variant: "filter",
-    compactOnMobile: true,
-  },
-];
+
+export const incomeBtnActions: TAction[] = [
+    {
+      label: "Add Income",
+      variant: "success",
+      compactOnMobile: true,
+    },
+    {
+      label: "Filter Date",
+      variant: "filter",
+      compactOnMobile: true,
+    },
+  ];

@@ -6,6 +6,7 @@
   right: 0;
   border: 1px solid $border;
   min-width: 260px;
+  max-width: 314px;
   background: $surface;
   border-radius: 8px;
   box-shadow: 0 5px 15px $shadow;
@@ -21,5 +22,11 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .popover-content {
+    max-width: none;
   }
 }
