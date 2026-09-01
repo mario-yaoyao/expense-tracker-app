@@ -1,4 +1,4 @@
-import type { TCategoryFormSchema } from "../types/category";
+import type { TCategories, TCategoryFormSchema } from "../types/category";
 import api from "../utils/axios";
 
 export const getCategoriesAsync = async ({
@@ -6,18 +6,17 @@ export const getCategoriesAsync = async ({
   page = 1,
   limit,
   search,
-}: {
-  type?: number;
-  page?: number;
-  limit?: number;
-  search?: string;
-}) => {
+  startDate,
+  endDate,
+}: TCategories) => {
   const res = await api.get("/api/categories", {
     params: {
       type,
       page,
       limit,
       search,
+      startDate,
+      endDate,
     },
   });
 

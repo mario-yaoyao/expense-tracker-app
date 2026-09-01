@@ -19,3 +19,12 @@ export type TCategoryFormSchema = {
   Name: string;
   Type: number;
 };
+
+export type TCategories = {
+  type?: number;
+  page?: number;
+  limit?: number;
+  search?: string;
+  startDate?: string;
+  endDate?: string;
+};

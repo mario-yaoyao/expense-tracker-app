@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { format } from "date-fns";
 
 import { getExpensesAsync } from "../api/expense";
 import { isSuperAdmin } from "../utils/auth";
@@ -12,6 +13,9 @@ import Title from "../components/ui/Title";
 import Modal from "../components/ui/Modal";
 import SearchBar from "../components/ui/SearchBar";
 import MetricCard from "../components/ui/MetricCard";
+import DatePicker from "../components/ui/DatePicker";
+import Popover from "../components/ui/Popover";
+import Button from "../components/ui/Button";
 import "../styles/expense/expense.scss";
 
 const ExpensePage = () => {
@@ -20,6 +24,10 @@ const ExpensePage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isDateFilterOpen, setIsDateFilterOpen] = useState(false);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -32,30 +40,30 @@ const ExpensePage = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
-  const {
-    data,
-    // isLoading,
-    // isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["expenses", debouncedSearch],
-    queryFn: async ({ pageParam }) => {
-      const response = await getExpensesAsync({
-        page: pageParam,
-        limit: 20,
-        search: debouncedSearch,
-      });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: [
+        "expenses",
+        debouncedSearch,
+        startDate?.toISOString(),
+        endDate?.toISOString(),
+      ],
+      queryFn: async ({ pageParam }) => {
+        return await getExpensesAsync({
+          page: pageParam,
+          limit: 20,
+          search: debouncedSearch,
+          startDate: startDate ? format(startDate, "yyyy-MM-dd") : undefined,
+          endDate: endDate ? format(endDate, "yyyy-MM-dd") : undefined,
+        });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        const pagination = lastPage.data.pagination;
 
-      return response;
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const pagination = lastPage.data.pagination;
-      return pagination.hasNextPage ? pagination.page + 1 : undefined;
-    },
-  });
+        return pagination.hasNextPage ? pagination.page + 1 : undefined;
+      },
+    });
 
   const expenses = data?.pages.flatMap((page) => page.data.items) ?? [];
   const summary = data?.pages[0].data;
@@ -99,6 +107,33 @@ const ExpensePage = () => {
     },
   ];
 
+  const getDateFilterLabel = () => {
+    if (!startDate || !endDate) {
+      return "Filter Date";
+    }
+
+    return `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
+  };
+
+  useEffect(() => {
+    if (!isDateFilterOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setIsDateFilterOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDateFilterOpen]);
+
   return (
     <section className="expenses-section">
       <div className="metrics">
@@ -114,11 +149,32 @@ const ExpensePage = () => {
         })}
       </div>
       <Title text="Expenses" action={btnAction} openModalFn={openModal} />
-      <SearchBar
-        value={search}
-        onChangeFn={setSearch}
-        placeholder="Search for an expense record..."
-      />
+      <div className="toolbar">
+        <SearchBar
+          value={search}
+          onChangeFn={setSearch}
+          placeholder="Search expenses..."
+        />
+        <div className="date-picker-wrapper" ref={wrapperRef}>
+          <Button
+            label={getDateFilterLabel()}
+            onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
+          />
+          <Popover
+            isOpen={isDateFilterOpen}
+            onClose={() => setIsDateFilterOpen(false)}
+          >
+            <div>
+              <DatePicker
+                startDate={startDate}
+                endDate={endDate}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+              />
+            </div>
+          </Popover>
+        </div>
+      </div>
       <Table
         columns={expenseColumns}
         rows={expenses ?? []}

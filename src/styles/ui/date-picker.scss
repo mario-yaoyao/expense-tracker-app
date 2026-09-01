@@ -1,0 +1,151 @@
+@use "../colors" as *;
+
+.date-picker {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: $background;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px shadow;
+  // width: fit-content;
+
+  .presets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 140px;
+    padding-right: 0.75rem;
+    border-right: 1px solid $border;
+
+    button {
+      padding: 0.5rem 0.75rem;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: $text-muted;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: $background;
+        color: $primary;
+      }
+
+      &.active {
+        background: $background;
+        color: $primary;
+        font-weight: 600;
+      }
+    }
+
+    .reset-btn {
+      margin-top: 0.5rem;
+      color: $primary;
+      font-weight: 600;
+
+      &:hover {
+        background: $background;
+        color: $primary-hover;
+      }
+    }
+  }
+
+  .calendar {
+    padding-left: 0.25rem;
+  }
+}
+
+.rdp {
+  margin: 0;
+  --rdp-cell-size: 34px;
+
+  // Match Filter Date button
+  --rdp-accent-color: $primary;
+  --rdp-accent-background-color: $primary-hover;
+}
+
+.rdp-caption {
+  margin-bottom: 0.5rem;
+}
+
+.rdp-caption_label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $text;
+}
+
+.rdp-nav_button {
+  color: $primary;
+
+  &:hover {
+    background: $background;
+  }
+}
+
+.rdp-head_cell {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.rdp-day {
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.rdp-today {
+    color: $primary-hover;
+    font-weight: 700;
+  }
+}
+
+.rdp-day_selected,
+.rdp-day_range_start,
+.rdp-day_range_end {
+  background: $primary !important;
+  color: #fff !important;
+
+  border-radius: 999px;
+}
+
+.rdp-day_range_middle {
+  background: $background !important;
+  color: $primary !important;
+}
+
+.rdp-button:hover:not([disabled]) {
+  background: $background;
+  color: $primary;
+}
+
+.rdp-day_today {
+  color: $primary;
+  font-weight: 700;
+}
+
+.rdp-day_disabled {
+  color: $text-muted;
+}
+
+.rdp-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button {
+  background: $primary;
+  color: $surface;
+  border-color: transparent;
+  border-radius: 999px;
+}
+
+.rdp-chevron {
+  fill: $primary;
+}
+
+// for tablet devices
+@media only screen and (min-width: 768px) {
+}

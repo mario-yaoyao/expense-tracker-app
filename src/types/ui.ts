@@ -77,6 +77,7 @@ export type TButton = {
   showIcon?: boolean;
   compactOnMobile?: boolean;
   onClickFn?: () => void;
+  fullWidthOnMobile?: boolean;
 };
 
 export type TConfirmation = {
@@ -88,8 +89,8 @@ export type TConfirmation = {
 
 export type TPopover = {
   isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode;
+  onClose: () => void;
 };
 
 type TDropdownOptions = {
@@ -122,4 +123,13 @@ export type TMetricCard = {
   title: string;
   value: number | string;
   className: string
+};
+
+
+export type TDatePicker = {
+  startDate: Date | null;
+  endDate: Date | null;
+  onStartDateChange: (date: Date | null) => void;
+  onEndDateChange: (date: Date | null) => void;
+  onRangeSelected?: () => void;
 };

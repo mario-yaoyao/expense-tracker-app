@@ -6,6 +6,8 @@ export const getExpensesAsync = async ({
   page = 1,
   limit,
   search,
+  startDate,
+  endDate,
 }: TExpenses) => {
   const res = await api.get("/api/expenses", {
     params: {
@@ -13,6 +15,8 @@ export const getExpensesAsync = async ({
       page,
       limit,
       search,
+      startDate,
+      endDate,
     },
   });
 

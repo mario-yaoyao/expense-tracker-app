@@ -38,4 +38,6 @@ export type TExpenses = {
   page?: number;
   limit?: number;
   search?: string;
+  startDate?: string;
+  endDate?: string;
 };
