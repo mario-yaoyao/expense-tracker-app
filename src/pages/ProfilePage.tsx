@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useProfile } from "../hooks/useProfile";
-import RoleBadge, { StatusBadge } from "../utils/helper";
+import { StatusBadge, RoleBadge } from "../utils/helper";
 import { formatDate } from "../utils/format";
 import Title from "../components/ui/Title";
 import Button from "../components/ui/Button";

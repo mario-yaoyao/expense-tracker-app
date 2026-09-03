@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 
 import { getIncomesAsync } from "../api/income";
-import { isSuperAdmin } from "../utils/auth";
+import { useAuth } from "../hooks/useAuth";
 import { getDateFilterLabel } from "../utils/helper";
+import { formatCurrency } from "../utils/format";
 import { incomeBtnActions, incomeColumns } from "../constants/income";
 import IncomeForm from "../components/Income/IncomeForm";
 import Table from "../components/ui/Table";
@@ -19,6 +20,7 @@ import Button from "../components/ui/Button";
 import "../styles/income/income.scss";
 
 const IncomePage = () => {
+  const { isSuperAdmin } = useAuth();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +34,7 @@ const IncomePage = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: [
         "incomes",
@@ -62,24 +64,20 @@ const IncomePage = () => {
   const metrics = summary?.metrics;
 
   const metricsData = [
-    ...(!isSuperAdmin()
+    ...(!isSuperAdmin
       ? [
           {
             id: 1,
             title: "Total Income Cost",
-            value:
-              metrics?.totalAmount != null
-                ? `₱${metrics.totalAmount.toLocaleString()}`
-                : "—",
+            value: formatCurrency(metrics?.totalAmount),
             className: "danger",
           },
           {
             id: 2,
             title: "Highest Income",
-            value:
-              metrics?.highestAmount != null
-                ? `₱${metrics.highestAmount.amount.toLocaleString()} (${metrics.highestAmount.name})`
-                : "—",
+            value: metrics?.highestAmount
+              ? `${formatCurrency(metrics.highestAmount.amount)} (${metrics.highestAmount.name})`
+              : "—",
             className: "warning",
           },
         ]
@@ -126,10 +124,12 @@ const IncomePage = () => {
         {metricsData.map((metric) => {
           return (
             <MetricCard
+              key={metric.id}
               id={metric.id}
               title={metric.title}
               value={metric.value}
               className={metric.className}
+              isLoading={isLoading}
             />
           );
         })}

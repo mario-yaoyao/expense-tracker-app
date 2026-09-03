@@ -72,8 +72,8 @@
             color: $red;
           }
 
-          .role-admin,
-          .role-user {
+          .super-admin,
+          .-user {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -89,7 +89,7 @@
             }
           }
 
-          .role-admin {
+          .super-admin {
             color: $purple;
             background: $purple-hover;
 
@@ -98,7 +98,7 @@
             }
           }
 
-          .role-user {
+          .user {
             color: $blue;
             background: $blue-hover;
 

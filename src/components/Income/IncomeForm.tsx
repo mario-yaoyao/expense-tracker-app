@@ -7,7 +7,7 @@ import { addIncomeAsync, updateIncomeAsync } from "../../api/income";
 import { getCategoriesAsync } from "../../api/category";
 import { addUpdateIncomeSchema } from "../../schemas/income";
 import { getFieldError } from "../../utils/auth";
-import { capitalizeWord } from "../../utils/format";
+import { formatWord } from "../../utils/format";
 import type { TIncomeForm } from "../../types/income";
 import type { TCategoryDetails } from "../../types/category";
 import type { TErrors } from "../../types/ui";
@@ -29,7 +29,7 @@ const IncomeForm = ({ data, action, closeModalFn }: TIncomeForm) => {
   const categoryError = getFieldError("category", errors);
 
   const isUpdate = action === "update";
-  const title = `${capitalizeWord(action)} Income`;
+  const title = `${formatWord(action)} Income`;
   const description = isUpdate
     ? "Update the income details below."
     : "Enter the income details below.";

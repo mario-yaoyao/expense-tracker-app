@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 
 import { deleteIncomeAsync, getIncomeByIdAsync } from "../../api/income";
 import { useAuth } from "../../hooks/useAuth";
-import { isSuperAdmin } from "../../utils/auth";
 import { StatusBadge } from "../../utils/helper";
 import { formatDate } from "../../utils/format";
 import type { TIncomeDetails } from "../../types/income";
@@ -18,7 +17,7 @@ import Confirmation from "../ui/Confirmation";
 import "../../styles/income/income-details.scss";
 
 const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
-  const { user } = useAuth();
+  const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -64,7 +63,7 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
   }
 
   const details = [
-    ...(isSuperAdmin()
+    ...(isSuperAdmin
       ? [
           {
             label: "Status",

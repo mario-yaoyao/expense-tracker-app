@@ -34,11 +34,9 @@ export const StatusBadge = ({
 
 export const RoleBadge = ({ isSuperAdmin }: TRoleBadge) => {
   return (
-    <p className={isSuperAdmin ? "role-super-admin" : "role-user"}>
+    <p className={isSuperAdmin ? "super-admin" : "user"}>
       <span className="role-dot"></span>
       {isSuperAdmin ? "Super Admin" : "User"}
     </p>
   );
 };
-
-export default RoleBadge;

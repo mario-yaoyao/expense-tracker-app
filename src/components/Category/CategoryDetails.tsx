@@ -6,7 +6,6 @@ import axios from "axios";
 
 import { deleteCategoryAsync, getCategoryByIdAsync } from "../../api/category";
 import { useAuth } from "../../hooks/useAuth";
-import { isSuperAdmin } from "../../utils/auth";
 import { getTypeBadge, StatusBadge } from "../../utils/helper";
 import { formatDate } from "../../utils/format";
 import type { TCategoryDetails } from "../../types/category";
@@ -18,7 +17,7 @@ import Modal from "../ui/Modal";
 import "../../styles/category/category-details.scss";
 
 const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
-  const { user } = useAuth();
+  const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -65,7 +64,7 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   }
 
   const details = [
-    ...(isSuperAdmin()
+    ...(isSuperAdmin
       ? [
           {
             label: "Status",

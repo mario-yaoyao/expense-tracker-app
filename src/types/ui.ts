@@ -130,6 +130,7 @@ export type TMetricCard = {
   title: string;
   value: number | string;
   className: string;
+  isLoading: boolean;
 };
 
 export type TDatePicker = {
@@ -148,4 +149,29 @@ export type TStatusBadge = {
 
 export type TRoleBadge = {
   isSuperAdmin: boolean;
+};
+
+export type TChartData = Record<string, string | number>;
+
+export type TBaseLineChart = {
+  data: TChartData[];
+  xKey: string;
+  yKey: string;
+  isLoading: boolean;
+};
+
+
+export type TBaseBarChart = {
+  data: Record<string, string | number>[];
+  xKey: string;
+  bars: {
+    dataKey: string;
+    label: string;
+    color: string;
+  }[];
+};
+
+export type TSkeleton = {
+  width?: string;
+  height?: string;
 };

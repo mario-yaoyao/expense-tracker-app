@@ -1,0 +1,29 @@
+@use "../colors" as *;
+
+.skeleton {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: lighten($border, 5%);
+  border-radius: 8px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+    animation: skeleton-loading 1.2s infinite;
+  }
+}
+
+@keyframes skeleton-loading {
+  100% {
+    transform: translateX(100%);
+  }
+}

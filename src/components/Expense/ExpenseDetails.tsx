@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 
 import { deleteExpenseAsync, getExpenseByIdAsync } from "../../api/expense";
 import { useAuth } from "../../hooks/useAuth";
-import { isSuperAdmin } from "../../utils/auth";
 import { StatusBadge } from "../../utils/helper";
 import { formatDate } from "../../utils/format";
 import type { TExpenseDetails } from "../../types/expense";
@@ -18,7 +17,7 @@ import Confirmation from "../ui/Confirmation";
 import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
-  const { user } = useAuth();
+  const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -64,7 +63,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   }
 
   const details = [
-    ...(isSuperAdmin()
+    ...(isSuperAdmin
       ? [
           {
             label: "Status",

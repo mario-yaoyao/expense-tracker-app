@@ -1,11 +1,22 @@
 import type { TMetricCard } from "../../types/ui";
-import "../../styles/ui/metriccard.scss";
+import Skeleton from "./Sekeleton";
+import "../../styles/ui/metric-card.scss";
 
-const MetricCard = ({ id, title, value, className }: TMetricCard) => {
+const MetricCard = ({
+  id,
+  title,
+  value,
+  className,
+  isLoading,
+}: TMetricCard) => {
   return (
     <div key={id} className="metric-card">
       <label>{title}</label>
-      <span className={className}>{value}</span>
+      {isLoading ? (
+        <Skeleton width="40%" />
+      ) : (
+        <span className={className}>{value}</span>
+      )}
     </div>
   );
 };

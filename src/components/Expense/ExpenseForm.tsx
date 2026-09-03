@@ -7,7 +7,7 @@ import { addExpenseAsync, updateExpenseAsync } from "../../api/expense";
 import { getCategoriesAsync } from "../../api/category";
 import { addUpdateExpenseSchema } from "../../schemas/expense";
 import { getFieldError } from "../../utils/auth";
-import { capitalizeWord } from "../../utils/format";
+import { formatWord } from "../../utils/format";
 import type { TExpenseForm } from "../../types/expense";
 import type { TCategoryDetails } from "../../types/category";
 import type { TErrors } from "../../types/ui";
@@ -29,7 +29,7 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
   const categoryError = getFieldError("category", errors);
 
   const isUpdate = action === "update";
-  const title = `${capitalizeWord(action)} Expense`;
+  const title = `${formatWord(action)} Expense`;
   const description = isUpdate
     ? "Update the expense details below."
     : "Enter the expense details below.";

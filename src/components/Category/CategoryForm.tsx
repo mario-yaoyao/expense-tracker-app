@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { addCategoryAsync, updateCategoryAsync } from "../../api/category";
 import { addUpdateCategorySchema } from "../../schemas/category";
 import { getFieldError } from "../../utils/auth";
-import { capitalizeWord } from "../../utils/format";
+import { formatWord } from "../../utils/format";
 import { typeOptions } from "../../constants/category";
 import type { TCategoryForm } from "../../types/category";
 import type { TErrors } from "../../types/ui";
@@ -26,7 +26,7 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
   const typeError = getFieldError("type", errors);
 
   const isUpdate = action === "update";
-  const title = `${capitalizeWord(action)} Category`;
+  const title = `${formatWord(action)} Category`;
   const description = isUpdate
     ? "Update the category details below."
     : "Enter the category details below.";
