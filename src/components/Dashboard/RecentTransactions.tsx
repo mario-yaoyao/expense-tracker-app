@@ -1,7 +1,10 @@
 import { formatDate } from "../../utils/format";
+import type { TRecentTransactions } from "../../types/dashboard";
+import Skeleton from "../ui/Sekeleton";
+import ErrorState from "../ui/ErrorState";
 import "../../styles/dashboard/recent-transactions.scss";
 
-const RecentTransactions = () => {
+const RecentTransactions = ({ isLoading, isError }: TRecentTransactions) => {
   const mockData = [
     {
       id: 1,
@@ -65,19 +68,33 @@ const RecentTransactions = () => {
     },
   ];
 
+  if (isError) {
+    return (
+      <div className="recent-transactions">
+        <ErrorState />
+      </div>
+    );
+  }
+
   return (
     <div className="recent-transactions">
       <label>Recent Transactions</label>
       <div className="list">
-        {mockData.map((data) => (
-          <div key={data.id} className="row">
-            <div className={`indicator ${data.type}`} />
-            <div className="content">
-              <p className="action">{data.action}</p>
-              <p className="date">{formatDate(data.date)}</p>
-            </div>
-          </div>
-        ))}
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <div key={index}>
+                <Skeleton width="100%" height="3.125rem" />
+              </div>
+            ))
+          : mockData.map((data) => (
+              <div key={data.id} className="row">
+                <div className={`indicator ${data.type}`} />
+                <div className="content">
+                  <p className="action">{data.action}</p>
+                  <p className="date">{formatDate(data.date)}</p>
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );

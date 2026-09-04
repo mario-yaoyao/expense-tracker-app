@@ -13,7 +13,7 @@ import type { TErrors } from "../../types/ui";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import Dropdown from "../ui/Dropdown";
-import ErrorMessage from "../ui/Error";
+import ErrorMessage from "../ui/ErrorMessage";
 import "../../styles/expense/expense-form.scss";
 
 const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {

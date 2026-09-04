@@ -5,6 +5,14 @@
   flex-direction: column;
   gap: 1rem;
 
+  &.error {
+    height: 100%;
+
+    .income-details {
+      height: 100%;
+    }
+  }
+
   .income-details {
     display: flex;
     flex-direction: column;

@@ -14,6 +14,7 @@ import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import ExpenseForm from "./ExpenseForm";
 import Confirmation from "../ui/Confirmation";
+import Skeleton from "../ui/Sekeleton";
 import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
@@ -53,10 +54,6 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
       }
     },
   });
-
-  if (isLoading) {
-    return <p>Loading expense details...</p>;
-  }
 
   if (isError || !data) {
     return <p>Failed to load expense details.</p>;
@@ -119,7 +116,13 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
               className={`detail-group ${detail.className ?? ""}`}
             >
               <label>{detail.label}</label>
-              <div className="detail-value">{detail.value}</div>
+              {isLoading ? (
+                <Skeleton
+                  width={detail.label === "Description" ? "90%" : "30%"}
+                />
+              ) : (
+                <div className="detail-value">{detail.value}</div>
+              )}
             </div>
           ))}
         </div>

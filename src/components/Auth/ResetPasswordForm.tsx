@@ -11,7 +11,7 @@ import { getFieldError } from "../../utils/auth";
 import type { TErrors } from "../../types/ui";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
-import ErrorMessage from "../ui/Error";
+import ErrorMessage from "../ui/ErrorMessage";
 import "../../styles/auth/login.scss";
 
 const ResetPasswordForm = () => {

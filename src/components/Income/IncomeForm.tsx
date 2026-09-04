@@ -15,7 +15,7 @@ import Input from "../ui/Input";
 import TextArea from "../ui/TextArea";
 import Button from "../ui/Button";
 import Dropdown from "../ui/Dropdown";
-import ErrorMessage from "../ui/Error";
+import ErrorMessage from "../ui/ErrorMessage";
 import "../../styles/income/income-form.scss";
 
 const IncomeForm = ({ data, action, closeModalFn }: TIncomeForm) => {

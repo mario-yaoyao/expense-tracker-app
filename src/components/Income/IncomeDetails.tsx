@@ -14,6 +14,8 @@ import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import IncomeForm from "./IncomeForm";
 import Confirmation from "../ui/Confirmation";
+import Skeleton from "../ui/Sekeleton";
+import ErrorState from "../ui/ErrorState";
 import "../../styles/income/income-details.scss";
 
 const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
@@ -54,14 +56,6 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
     },
   });
 
-  if (isLoading) {
-    return <p>Loading income details...</p>;
-  }
-
-  if (isError || !data) {
-    return <p>Failed to load income details.</p>;
-  }
-
   const details = [
     ...(isSuperAdmin
       ? [
@@ -85,28 +79,39 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
       : []),
     {
       label: "Category Name",
-      value: data.categoryName?.trim() || "—",
+      value: data?.categoryName?.trim() || "—",
     },
     {
       label: "Amount",
-      value: `₱${data.amount.toLocaleString()}`,
+      value: `₱${data?.amount.toLocaleString()}`,
       className: "amount",
     },
 
     {
       label: "Description",
-      value: data.description?.trim() || "—",
+      value: data?.description?.trim() || "—",
       className: "description",
     },
     {
       label: "Created At",
-      value: formatDate(data.createdAt),
+      value: formatDate(data?.createdAt),
     },
     {
       label: "Updated At",
-      value: formatDate(data.updatedAt),
+      value: formatDate(data?.updatedAt),
     },
   ];
+
+  if (isError) {
+    return (
+      <div className="income-details-section error">
+        <Title text="Income Details" />
+        <div className="income-details">
+          <ErrorState />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="income-details-section">
@@ -119,11 +124,17 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
               className={`detail-group ${detail.className ?? ""}`}
             >
               <label>{detail.label}</label>
-              <div className="detail-value">{detail.value}</div>
+              {isLoading ? (
+                <Skeleton
+                  width={detail.label === "Description" ? "90%" : "30%"}
+                />
+              ) : (
+                <div className="detail-value">{detail.value}</div>
+              )}
             </div>
           ))}
         </div>
-        {!data.isDeleted && Number(user?.id) === data.userId && (
+        {!data?.isDeleted && Number(user?.id) === data?.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

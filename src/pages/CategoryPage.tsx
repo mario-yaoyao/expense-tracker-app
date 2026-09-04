@@ -32,8 +32,8 @@ const CategoryPage = () => {
 
   const {
     data,
-    // isLoading,
-    // isError,
+    isLoading,
+    isError,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -139,6 +139,8 @@ const CategoryPage = () => {
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+        isError={isError}
       />
       <Modal isOpen={isOpen} title="Add Expense" onClose={closeModal}>
         <CategoryForm action="add" closeModalFn={closeModal} />

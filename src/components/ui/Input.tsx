@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 import type { TInput } from "../../types/ui";
-import ErrorMessage from "./Error";
+import ErrorMessage from "./ErrorMessage";
 import "../../styles/ui/input.scss";
 
 const Input = ({

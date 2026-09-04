@@ -3,7 +3,6 @@
 .dashboard-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 
   .dashboard-wrapper {
     display: flex;
@@ -36,19 +35,42 @@
 }
 
 // for laptop devices
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 768px) {
   .dashboard-section {
-    height: 100%;
-
     .dashboard-wrapper {
-      flex: 1;
-
       .metrics {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
       }
 
       .charts-wrapper {
+        flex-direction: row;
+      }
+    }
+  }
+}
+
+// for laptop devices
+@media only screen and (min-width: 1024px) {
+  .dashboard-section {
+    height: 100%;
+    min-height: 0;
+
+    .dashboard-wrapper {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 3fr 2fr;
+
+      .metrics {
+        grid-row: span 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-height: fit-content;
+      }
+
+      .charts-wrapper {
+        grid-row: span 3;
         flex-direction: row;
 
         .line-chart-wrapper {
@@ -66,8 +88,8 @@
         }
       }
 
-      .recent-transactions-wrapper {
-        max-height: 26vh;
+      .recent-data-wrapper {
+        grid-row: span 2;
       }
     }
   }

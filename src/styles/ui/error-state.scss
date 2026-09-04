@@ -1,0 +1,40 @@
+@use "../colors" as *;
+
+.single-message {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: $red;
+}
+
+.error-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+
+  .icon {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $red;
+  }
+
+  .title {
+    color: $text;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .message {
+    max-width: 24rem;
+    color: $text-muted;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}

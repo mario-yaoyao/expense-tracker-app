@@ -19,11 +19,7 @@ const DashboardPage = () => {
     queryFn: () => getDashboardAsync(isSuperAdmin),
   });
 
-  const metrics = data?.pages?.[0]?.data?.metrics;
-
-  if (isError) {
-    return <div>Error loading dashboard</div>;
-  }
+  const metrics = data?.metrics;
 
   const balanceClassName =
     metrics?.balance == null
@@ -95,6 +91,7 @@ const DashboardPage = () => {
                 value={metric.value}
                 className={metric.className}
                 isLoading={isLoading}
+                isError={isError}
               />
             );
           })}
@@ -108,6 +105,7 @@ const DashboardPage = () => {
               xKey="month"
               yKey={isSuperAdmin ? "newUsers" : "savings"}
               isLoading={isLoading}
+              isError={isError}
             />
           </div>
           {isUser ? (
@@ -127,18 +125,20 @@ const DashboardPage = () => {
                     color: "#e11d48",
                   },
                 ]}
+                isLoading={isLoading}
+                isError={isError}
               />
             </div>
           ) : null}
         </div>
-        <div className="recent-transactions-wrapper">
+        <div className="recent-data-wrapper">
           {isSuperAdmin ? (
             <RecentRegisteredUsers
               data={data?.recentUsers ?? []}
               isLoading={isLoading}
             />
           ) : (
-            <RecentTransactions />
+            <RecentTransactions isLoading={isLoading} isError={isError} />
           )}
         </div>
       </div>

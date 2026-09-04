@@ -25,6 +25,8 @@ export type TTable = {
   hasNextPage?: boolean;
   fetchNextPage?: () => void;
   isFetchingNextPage?: boolean;
+  isLoading: boolean;
+  isError: boolean;
 };
 
 export type TInput = {
@@ -131,6 +133,7 @@ export type TMetricCard = {
   value: number | string;
   className: string;
   isLoading: boolean;
+  isError: boolean;
 };
 
 export type TDatePicker = {
@@ -158,6 +161,7 @@ export type TBaseLineChart = {
   xKey: string;
   yKey: string;
   isLoading: boolean;
+  isError: boolean;
 };
 
 
@@ -169,9 +173,15 @@ export type TBaseBarChart = {
     label: string;
     color: string;
   }[];
+  isLoading: boolean;
+  isError: boolean;
 };
 
 export type TSkeleton = {
   width?: string;
   height?: string;
+};
+
+export type TEmptyState = {
+  message?: string;
 };

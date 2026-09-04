@@ -1,5 +1,5 @@
 import type { TTextArea } from "../../types/ui";
-import ErrorMessage from "./Error";
+import ErrorMessage from "./ErrorMessage";
 import "../../styles/ui/textrea.scss";
 
 const TextArea = ({

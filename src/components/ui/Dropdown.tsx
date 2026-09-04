@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronDown } from "react-icons/io5";
 
 import type { TDropdown } from "../../types/ui";
-import ErrorMessage from "./Error";
+import ErrorMessage from "./ErrorMessage";
 import "../../styles/ui/dropdown.scss";
 
 const Dropdown = ({

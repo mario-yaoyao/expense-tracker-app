@@ -9,8 +9,9 @@ import {
 } from "recharts";
 
 import { formatWord } from "../../utils/format";
-import type { TBaseLineChart, TChartData } from "../../types/ui";
 import Skeleton from "./Sekeleton";
+import ErrorState from "./ErrorState";
+import type { TBaseLineChart, TChartData } from "../../types/ui";
 
 const Typed = createHorizontalChart<TChartData, string, number>()({
   XAxis,
@@ -19,14 +20,22 @@ const Typed = createHorizontalChart<TChartData, string, number>()({
   Line,
 });
 
-const BaseLineChart = ({ data, xKey, yKey, isLoading }: TBaseLineChart) => {
+const BaseLineChart = ({
+  data,
+  xKey,
+  yKey,
+  isLoading,
+  isError,
+}: TBaseLineChart) => {
+  if (isError) return <ErrorState />;
+
   return isLoading ? (
-    <Skeleton width="100%" height="350px" />
+    <Skeleton width="100%" height="100%" />
   ) : (
     <Typed.LineChart
       style={{
         width: "100%",
-        height: "380px",
+        height: "100%",
       }}
       responsive
       data={data}
@@ -75,7 +84,6 @@ const BaseLineChart = ({ data, xKey, yKey, isLoading }: TBaseLineChart) => {
           fontSize: "14px",
         }}
       />
-
       <Typed.Line
         type="monotone"
         dataKey={yKey}

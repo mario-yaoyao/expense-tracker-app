@@ -8,15 +8,27 @@ import {
   Legend,
 } from "recharts";
 
+import Skeleton from "./Sekeleton";
+import ErrorState from "./ErrorState";
 import type { TBaseBarChart } from "../../types/ui";
 
-const BaseBarChart = ({ data, xKey, bars }: TBaseBarChart) => {
-  return (
+const BaseBarChart = ({
+  data,
+  xKey,
+  bars,
+  isLoading,
+  isError,
+}: TBaseBarChart) => {
+  if (isError) return <ErrorState />;
+
+  return isLoading ? (
+    <Skeleton width="100%" height="100%" />
+  ) : (
     <BarChart
       style={{
         width: "100%",
         maxWidth: "700px",
-        maxHeight: 350,
+        height: "100%",
         aspectRatio: 1.618,
       }}
       responsive

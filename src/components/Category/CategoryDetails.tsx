@@ -14,6 +14,7 @@ import Button from "../ui/Button";
 import Confirmation from "../ui/Confirmation";
 import CategoryForm from "./CategoryForm";
 import Modal from "../ui/Modal";
+import Skeleton from "../ui/Sekeleton";
 import "../../styles/category/category-details.scss";
 
 const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
@@ -54,10 +55,6 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
       }
     },
   });
-
-  if (isLoading) {
-    return <p>Loading category details...</p>;
-  }
 
   if (isError || !data) {
     return <p>Failed to load category details.</p>;
@@ -106,7 +103,13 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
               className={`detail-group ${detail.isBadge ? "badge-group" : ""} `}
             >
               <label>{detail.label}</label>
-              <div className="detail-value">{detail.value}</div>
+              {isLoading ? (
+                <Skeleton
+                  width={detail.label === "Description" ? "90%" : "30%"}
+                />
+              ) : (
+                <div className="detail-value">{detail.value}</div>
+              )}
             </div>
           ))}
         </div>

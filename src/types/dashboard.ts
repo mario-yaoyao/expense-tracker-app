@@ -9,3 +9,8 @@ export type TRecentRegisteredUsersProps = {
   data: TRecentRegisteredUser[];
   isLoading: boolean
 };
+
+export type TRecentTransactions = {
+  isLoading: boolean;
+  isError: boolean;
+};

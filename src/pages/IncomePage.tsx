@@ -34,30 +34,36 @@ const IncomePage = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: [
-        "incomes",
-        debouncedSearch,
-        startDate?.toISOString(),
-        endDate?.toISOString(),
-      ],
-      queryFn: async ({ pageParam }) => {
-        return await getIncomesAsync({
-          page: pageParam,
-          limit: 20,
-          search: debouncedSearch,
-          startDate: startDate ? format(startDate, "yyyy-MM-dd") : undefined,
-          endDate: endDate ? format(endDate, "yyyy-MM-dd") : undefined,
-        });
-      },
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        const pagination = lastPage.data.pagination;
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      "incomes",
+      debouncedSearch,
+      startDate?.toISOString(),
+      endDate?.toISOString(),
+    ],
+    queryFn: async ({ pageParam }) => {
+      return await getIncomesAsync({
+        page: pageParam,
+        limit: 20,
+        search: debouncedSearch,
+        startDate: startDate ? format(startDate, "yyyy-MM-dd") : undefined,
+        endDate: endDate ? format(endDate, "yyyy-MM-dd") : undefined,
+      });
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const pagination = lastPage.data.pagination;
 
-        return pagination.hasNextPage ? pagination.page + 1 : undefined;
-      },
-    });
+      return pagination.hasNextPage ? pagination.page + 1 : undefined;
+    },
+  });
 
   const incomes = data?.pages.flatMap((page) => page.data.items) ?? [];
   const summary = data?.pages[0].data;
@@ -130,6 +136,7 @@ const IncomePage = () => {
               value={metric.value}
               className={metric.className}
               isLoading={isLoading}
+              isError={isError}
             />
           );
         })}
@@ -177,6 +184,8 @@ const IncomePage = () => {
             },
           })
         }
+        isLoading={isLoading}
+        isError={isError}
       />
       <Modal isOpen={isOpen} title="Add Income" onClose={closeModal}>
         <IncomeForm
