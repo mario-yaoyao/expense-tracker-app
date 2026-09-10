@@ -8,19 +8,11 @@
   background: $background;
   border-radius: 12px;
   box-shadow: 0 8px 24px shadow;
-  // border: 1px solid red;
 
   .presets {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.25rem;
-    // border: 1px solid blue;
-    // display: flex;
-    // flex-direction: column;
-    // gap: 0.25rem;
-    // width: 140px;
-    // padding-right: 0.75rem;
-    // border-right: 1px solid $border;
 
     button {
       // padding: 0.5rem 0.75rem;

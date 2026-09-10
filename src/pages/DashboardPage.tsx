@@ -97,9 +97,7 @@ const DashboardPage = () => {
           })}
         </div>
         <div className="charts-wrapper">
-          <div
-            className={`line-chart-wrapper ${isSuperAdmin ? "superAdmin" : "user"}`}
-          >
+          <div className="line-chart-wrapper">
             <BaseLineChart
               data={isSuperAdmin ? data?.usersGrowthTrend : data?.savingsTrend}
               xKey="month"
@@ -129,17 +127,20 @@ const DashboardPage = () => {
                 isError={isError}
               />
             </div>
-          ) : null}
-        </div>
-        <div className="recent-data-wrapper">
-          {isSuperAdmin ? (
+          ) : (
             <RecentRegisteredUsers
               data={data?.recentUsers ?? []}
               isLoading={isLoading}
+              isError={isError}
             />
-          ) : (
-            <RecentTransactions isLoading={isLoading} isError={isError} />
           )}
+        </div>
+        <div className="recent-data-wrapper">
+          <RecentTransactions
+            data={data?.recentTransactions}
+            isLoading={isLoading}
+            isError={isError}
+          />
         </div>
       </div>
     </section>

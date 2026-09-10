@@ -72,6 +72,10 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
         queryKey: ["categories"],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
       toast.success(
         isUpdate
           ? "Category record successfully updated"
@@ -126,9 +130,10 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
       />
       <Button
         type="submit"
-        label={submitLabel}
+        label={mutation.isPending ? "Saving..." : submitLabel}
         style={isUpdate ? "warning" : "success"}
         showIcon={false}
+        isDisabled={mutation.isPending}
       />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>

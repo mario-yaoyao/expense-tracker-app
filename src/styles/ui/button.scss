@@ -15,6 +15,12 @@
     color 0.2s ease,
     box-shadow 0.2s ease;
 
+  &:disabled {
+    filter: grayscale(20%);
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
   &.btn-default {
     background-color: $primary;
     color: $surface;
@@ -22,7 +28,7 @@
     font-size: 13px;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: $primary-hover;
       box-shadow: 0 4px 12px $bluish-shadow;
     }
@@ -36,7 +42,7 @@
     font-size: 13px;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: $shadow;
     }
   }
@@ -50,14 +56,15 @@
     display: flex;
   }
 
-  &.btn-success {
+  &.btn-success,
+  &.btn-activate {
     background-color: $green;
     color: $surface;
     padding: 8px 12px;
     font-size: 13px;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: $green-hover;
       box-shadow: 0 4px 12px $greenish-shadow;
     }
@@ -70,20 +77,21 @@
     font-size: 13px;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: $yellow-hover;
       box-shadow: 0 4px 12px $yellowish-shadow;
     }
   }
 
-  &.btn-danger {
+  &.btn-danger,
+  &.btn-deactivate {
     background-color: $red;
     color: $surface;
     padding: 8px 12px;
     font-size: 13px;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: $red-hover;
       box-shadow: 0 4px 12px $redish-shadow;
     }
@@ -96,7 +104,7 @@
     font-size: 13px;
     transition: background-color 0.2s ease;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: $primary-hover;
       box-shadow: 0 4px 12px $bluish-shadow;
     }

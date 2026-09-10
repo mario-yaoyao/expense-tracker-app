@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -13,6 +13,8 @@ import Input from "../ui/Input";
 import ErrorMessage from "../ui/ErrorMessage";
 
 const ForgotPasswordForm = () => {
+  const queryClient = useQueryClient();
+
   const [errors, setErrors] = useState<TErrors[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -44,6 +46,10 @@ const ForgotPasswordForm = () => {
   const mutation = useMutation({
     mutationFn: forgotPassword,
     onSuccess: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
       toast.success("Check your email for a password reset link.");
     },
     onError: (error) => {
@@ -74,7 +80,11 @@ const ForgotPasswordForm = () => {
           />
         </div>
       </div>
-      <Button type="submit" label="Send Reset Link" />
+      <Button
+        type="submit"
+        label={mutation.isPending ? "Sending reset link..." : "Send Reset Link"}
+        isDisabled={mutation.isPending}
+      />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>
   );

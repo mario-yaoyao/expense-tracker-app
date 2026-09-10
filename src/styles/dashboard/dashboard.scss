@@ -74,16 +74,11 @@
         flex-direction: row;
 
         .line-chart-wrapper {
-          &.superAdmin {
-            width: 100%;
-          }
-
-          &.user {
-            width: 60%;
-          }
+          width: 60%;
         }
 
-        .bar-chart-wrapper {
+        .bar-chart-wrapper,
+        .recent-users {
           width: 40%;
         }
       }

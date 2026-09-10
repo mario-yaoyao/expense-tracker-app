@@ -37,7 +37,7 @@ export const updateCategoryAsync = async (
   categoryId: number,
   payload: TCategoryFormSchema,
 ) => {
-  const res = await api.put(`/api/categories/${categoryId}`, payload);
+  const res = await api.patch(`/api/categories/${categoryId}`, payload);
   return res.data;
 };
 

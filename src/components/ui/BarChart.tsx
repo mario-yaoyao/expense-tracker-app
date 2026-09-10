@@ -62,6 +62,7 @@ const BaseBarChart = ({
           padding: "1rem",
           border: "none",
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+          minWidth: "140px",
         }}
         itemStyle={{
           fontSize: "12px",

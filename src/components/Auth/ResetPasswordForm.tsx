@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { MdLockOutline } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -15,6 +15,7 @@ import ErrorMessage from "../ui/ErrorMessage";
 import "../../styles/auth/login.scss";
 
 const ResetPasswordForm = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const { token } = useSearch({
@@ -55,6 +56,10 @@ const ResetPasswordForm = () => {
   const mutation = useMutation({
     mutationFn: resetPassword,
     onSuccess: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
       toast.success(
         "Your password has been reset successfully. You can now log in.",
       );
@@ -98,7 +103,11 @@ const ResetPasswordForm = () => {
           />
         </div>
       </div>
-      <Button type="submit" label="Reset" />
+      <Button
+        type="submit"
+        label={mutation.isPending ? "Reseting password..." : "Reset"}
+        isDisabled={mutation.isPending}
+      />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>
   );

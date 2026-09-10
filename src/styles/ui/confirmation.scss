@@ -40,6 +40,18 @@
         background: $red;
       }
 
+      &.success {
+        &::after {
+          background: $green;
+        }
+      }
+
+      &.warning {
+        &::after {
+          background: $yellow;
+        }
+      }
+
       p {
         font-size: 1rem;
         font-weight: 600;

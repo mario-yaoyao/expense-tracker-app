@@ -4,10 +4,9 @@ import { MdOutlineCategory } from "react-icons/md";
 import { TbMoneybagPlus } from "react-icons/tb";
 import { LuUsersRound } from "react-icons/lu";
 
-import { isSuperAdmin } from "../utils/auth";
 import type { TNavLink } from "../types/navLink";
 
-export const navLinks: TNavLink[] = [
+export const getNavLinks = (isSuperAdmin: boolean): TNavLink[] => [
   {
     id: 1,
     to: "/",
@@ -32,7 +31,7 @@ export const navLinks: TNavLink[] = [
     label: "Income",
     icon: TbMoneybagPlus,
   },
-  ...(isSuperAdmin()
+  ...(isSuperAdmin
     ? [
         {
           id: 5,

@@ -51,12 +51,12 @@
             gap: 0.4rem;
             padding: 0.4rem 0.85rem;
             border-radius: 999px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
 
             .status-dot {
-              width: 8px;
-              height: 8px;
+              width: 6px;
+              height: 6px;
               border-radius: 50%;
               background: currentColor;
             }
@@ -79,12 +79,12 @@
             gap: 0.5rem;
             padding: 0.35rem 0.75rem;
             border-radius: 999px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 600;
 
             .role-dot {
-              width: 8px;
-              height: 8px;
+              width: 6px;
+              height: 6px;
               border-radius: 50%;
             }
           }

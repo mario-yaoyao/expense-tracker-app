@@ -91,6 +91,10 @@ const IncomeForm = ({ data, action, closeModalFn }: TIncomeForm) => {
         queryKey: ["incomes"],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
       toast.success(
         isUpdate
           ? "Income record successfully updated"
@@ -159,9 +163,10 @@ const IncomeForm = ({ data, action, closeModalFn }: TIncomeForm) => {
       />
       <Button
         type="submit"
-        label={submitLabel}
+        label={mutation.isPending ? "Saving..." : submitLabel}
         style={isUpdate ? "warning" : "success"}
         showIcon={false}
+        isDisabled={mutation.isPending}
       />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>

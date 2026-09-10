@@ -71,7 +71,9 @@ export type TVariant =
   | "success"
   | "warning"
   | "danger"
-  | "filter";
+  | "filter"
+  | "activate"
+  | "deactivate";
 
 export type TAction = {
   label: string;
@@ -87,13 +89,16 @@ export type TButton = {
   compactOnMobile?: boolean;
   onClickFn?: () => void;
   fullWidthOnMobile?: boolean;
+  isDisabled?: boolean;
 };
 
 export type TConfirmation = {
   isOpen: boolean;
+  action?: string;
   description: string;
   onSubmitFn: () => void;
   onClose: () => void;
+  isDisabled?: boolean;
 };
 
 export type TPopover = {
@@ -163,7 +168,6 @@ export type TBaseLineChart = {
   isLoading: boolean;
   isError: boolean;
 };
-
 
 export type TBaseBarChart = {
   data: Record<string, string | number>[];

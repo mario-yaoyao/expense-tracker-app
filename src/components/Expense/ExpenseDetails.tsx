@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import axios from "axios";
@@ -18,6 +18,7 @@ import Skeleton from "../ui/Sekeleton";
 import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
+  const queryClient = useQueryClient();
   const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
@@ -41,6 +42,14 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   const mutation = useMutation({
     mutationFn: () => deleteExpenseAsync(expenseId),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["expense"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
       toast.success("Expense deleted successfully");
       navigate({ to: "/expense" });
     },
@@ -161,6 +170,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
         description="Are you sure you want to delete this expense record?"
         onSubmitFn={() => mutation.mutate()}
         onClose={closeDeleteConfirmation}
+        isDisabled={mutation.isPending}
       />
     </section>
   );

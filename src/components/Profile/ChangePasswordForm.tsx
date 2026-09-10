@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -18,6 +18,7 @@ export type TChangePasswordForm = {
 };
 
 const ChangePasswordForm = ({ closeModalFn }: TChangePasswordForm) => {
+  const queryClient = useQueryClient();
   const { setProfile } = useProfile();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -57,6 +58,10 @@ const ChangePasswordForm = ({ closeModalFn }: TChangePasswordForm) => {
     onSuccess: async () => {
       const profile = await getProfileAsync();
       setProfile(profile.data);
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
 
       toast.success("Password successfully changed");
       closeModalFn();
@@ -109,9 +114,10 @@ const ChangePasswordForm = ({ closeModalFn }: TChangePasswordForm) => {
       />
       <Button
         type="submit"
-        label="Change Password"
+        label={mutation.isPending ? "Changing password..." : "Change Password"}
         style="warning"
         showIcon={false}
+        isDisabled={mutation.isPending}
       />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>

@@ -35,11 +35,7 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
     : "Enter the expense details below.";
   const submitLabel = isUpdate ? "Update Expense" : "Add Expense";
 
-  const {
-    data: categoriesData,
-    // isLoading,
-    // isError,
-  } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
       return await getCategoriesAsync({
@@ -89,6 +85,10 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
 
       queryClient.invalidateQueries({
         queryKey: ["expenses"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
       });
 
       toast.success(
@@ -159,9 +159,10 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
       />
       <Button
         type="submit"
-        label={submitLabel}
+        label={mutation.isPending ? "Saving..." : submitLabel}
         style={isUpdate ? "warning" : "success"}
         showIcon={false}
+        isDisabled={mutation.isPending}
       />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>

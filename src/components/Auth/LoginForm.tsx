@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { MdLockOutline } from "react-icons/md";
@@ -17,6 +17,7 @@ import ErrorMessage from "../ui/ErrorMessage";
 import "../../styles/auth/login.scss";
 
 const LoginForm = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const navigate = useNavigate();
   const { setTokens } = useAuth();
@@ -57,6 +58,10 @@ const LoginForm = () => {
       setTokens({
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
       });
 
       toast.success("Login successful");
@@ -108,7 +113,11 @@ const LoginForm = () => {
           style="link"
         />
       </div>
-      <Button type="submit" label="Log in" />
+      <Button
+        type="submit"
+        label={mutation.isPending ? "Logging in..." : "Log in"}
+        isDisabled={mutation.isPending}
+      />
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
     </form>
   );

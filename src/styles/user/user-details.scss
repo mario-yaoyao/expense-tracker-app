@@ -1,11 +1,19 @@
 @use "../colors" as *;
 
-.expense-details-section {
+.user-details-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  .expense-details {
+  &.error {
+    height: 100%;
+
+    .user-details {
+      height: 100%;
+    }
+  }
+
+  .user-details {
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -51,12 +59,12 @@
             gap: 0.4rem;
             padding: 0.4rem 0.85rem;
             border-radius: 999px;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 600;
 
             .status-dot {
-              width: 6px;
-              height: 6px;
+              width: 8px;
+              height: 8px;
               border-radius: 50%;
               background: currentColor;
             }
@@ -85,8 +93,8 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .expense-details-section {
-    .expense-details {
+  .user-details-section {
+    .user-details {
       .details-wrapper {
         grid-template-columns: 1fr 1fr;
 

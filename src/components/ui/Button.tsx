@@ -14,6 +14,7 @@ const Button = ({
   compactOnMobile,
   onClickFn,
   fullWidthOnMobile,
+  isDisabled,
 }: TButton) => {
   const icons = {
     success: IoAddOutline,
@@ -34,6 +35,7 @@ const Button = ({
         ${compactOnMobile ? "btn-compact" : ""}
         ${fullWidthOnMobile ? "btn-full-mobile" : ""}
       `}
+      disabled={isDisabled}
     >
       {showIcon && Icon && <Icon size={20} />}
       <span>{label}</span>

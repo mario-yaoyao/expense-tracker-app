@@ -45,15 +45,15 @@
         border-radius: 50%;
         box-shadow: 0 0 0 4px $primary-outline;
 
-        &.income {
+        &.create {
           background: $green;
         }
 
-        &.expense {
+        &.delete {
           background: $red;
         }
 
-        &.category {
+        &.update {
           background: $yellow;
         }
 
@@ -92,7 +92,7 @@
 
 @media only screen and (min-width: 1024px) {
   .recent-transactions {
-    max-height: 26vh;
+    height: 26vh;
 
     .list {
       .row {

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -18,6 +18,7 @@ import Skeleton from "../ui/Sekeleton";
 import "../../styles/category/category-details.scss";
 
 const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
+  const queryClient = useQueryClient();
   const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
@@ -42,6 +43,10 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   const mutation = useMutation({
     mutationFn: () => deleteCategoryAsync(categoryId),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+
       toast.success("Expense deleted successfully");
       navigate({ to: "/expense" });
     },
@@ -145,9 +150,10 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
       </Modal>
       <Confirmation
         isOpen={isDeleteConfirmationOpen}
-        description="Are you sure you want to delete this expense record?"
+        description="Are you sure you want to delete this category record?"
         onSubmitFn={() => mutation.mutate()}
         onClose={closeDeleteConfirmation}
+        isDisabled={mutation.isPending}
       />
     </section>
   );
