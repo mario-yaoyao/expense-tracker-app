@@ -47,7 +47,7 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
         queryKey: ["dashboard"],
       });
 
-      toast.success("Income deleted successfully");
+      toast.success("Income record deleted successfully");
       navigate({ to: "/income" });
     },
     onError: (error) => {

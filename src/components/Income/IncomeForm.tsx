@@ -84,15 +84,13 @@ const IncomeForm = ({ data, action, closeModalFn }: TIncomeForm) => {
   const mutation = useMutation({
     mutationFn: submitIncome,
 
-    onSuccess: (response) => {
-      queryClient.setQueryData(["income", response.data.id], response.data);
-
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["incomes"],
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
+        queryKey: ["income"],
       });
 
       toast.success(

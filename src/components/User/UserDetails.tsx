@@ -41,7 +41,9 @@ const UserDetails = ({ userId }: TUserDetails) => {
         queryKey: ["dashboard"],
       });
 
-      toast.success("Income deleted successfully");
+      toast.success(
+        `User account ${data?.isActive ? "deactivated" : "activated"} successfully`,
+      );
       navigate({ to: "/users" });
     },
     onError: (error) => {
@@ -54,8 +56,6 @@ const UserDetails = ({ userId }: TUserDetails) => {
       }
     },
   });
-
-  console.log("data", data);
 
   const details = [
     {

@@ -32,7 +32,7 @@ const RecentTransactions = ({
                 <Skeleton width="100%" height="3.125rem" />
               </div>
             ))
-          : data.map((data) => (
+          : data?.map((data) => (
               <div key={data.id} className="row">
                 <div
                   className={`indicator ${data.action.toLocaleLowerCase()}`}

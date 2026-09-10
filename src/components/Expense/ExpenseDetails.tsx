@@ -15,6 +15,8 @@ import Modal from "../ui/Modal";
 import ExpenseForm from "./ExpenseForm";
 import Confirmation from "../ui/Confirmation";
 import Skeleton from "../ui/Sekeleton";
+import ErrorState from "../ui/ErrorState";
+import EmptyState from "../ui/EmptyState";
 import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
@@ -64,8 +66,26 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
     },
   });
 
-  if (isError || !data) {
-    return <p>Failed to load expense details.</p>;
+  if (!data) {
+    return (
+      <div className="expense-details-section error">
+        <Title text="Expense Details" />
+        <div className="expense-details">
+          <EmptyState />
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="expense-details-section error">
+        <Title text="Expense Details" />
+        <div className="expense-details">
+          <ErrorState />
+        </div>
+      </div>
+    );
   }
 
   const details = [

@@ -78,8 +78,8 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
 
       toast.success(
         isUpdate
-          ? "Category record successfully updated"
-          : "Category record successfully added",
+          ? "Category record updated successfully"
+          : "Category record added successfully",
       );
 
       closeModalFn();

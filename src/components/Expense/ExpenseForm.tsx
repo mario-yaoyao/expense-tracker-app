@@ -80,15 +80,13 @@ const ExpenseForm = ({ data, action, closeModalFn }: TExpenseForm) => {
   const mutation = useMutation({
     mutationFn: submitExpense,
 
-    onSuccess: (response) => {
-      queryClient.setQueryData(["expense", response.data.id], response.data);
-
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["expenses"],
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
+        queryKey: ["expense"],
       });
 
       toast.success(

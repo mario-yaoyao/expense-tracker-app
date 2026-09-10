@@ -45,6 +45,12 @@
 
       .charts-wrapper {
         flex-direction: row;
+        width: 100%;
+
+        .line-chart-wrapper,
+        .bar-chart-wrapper {
+          width: 100%;
+        }
       }
     }
   }

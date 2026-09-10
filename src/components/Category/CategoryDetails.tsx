@@ -47,8 +47,8 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
         queryKey: ["dashboard"],
       });
 
-      toast.success("Expense deleted successfully");
-      navigate({ to: "/expense" });
+      toast.success("Category record deleted successfully");
+      navigate({ to: "/categories" });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
