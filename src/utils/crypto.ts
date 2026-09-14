@@ -1,13 +1,6 @@
-export const encryptPayload = async (
-  payload: object,
-  pem: string,
-): Promise<string> => {
-  const publicKey = await importPublicKey(pem);
-  const encryptedBuffer = await encrypt(payload, publicKey);
-  return arrayBufferToBase64(encryptedBuffer);
-};
+import { PUBLIC_KEY } from "../constants/publicKey";
 
- const pemToArrayBuffer = (pem: string) => {
+const pemToArrayBuffer = (pem: string) => {
   const base64 = pem
     .replace("-----BEGIN PUBLIC KEY-----", "")
     .replace("-----END PUBLIC KEY-----", "")
@@ -20,7 +13,7 @@ export const encryptPayload = async (
   return bytes.buffer;
 };
 
- const importPublicKey = async (pem: string) => {
+const importPublicKey = async (pem: string) => {
   return await crypto.subtle.importKey(
     "spki",
     pemToArrayBuffer(pem),
@@ -33,10 +26,12 @@ export const encryptPayload = async (
   );
 };
 
- const encrypt = async (data: object, publicKey: CryptoKey) => {
+const publicKeyPromise = importPublicKey(PUBLIC_KEY);
+
+const encrypt = async (data: object, publicKey: CryptoKey) => {
   const encoder = new TextEncoder();
 
-  const encryptedText = await crypto.subtle.encrypt(
+  const encryptedBuffer = await crypto.subtle.encrypt(
     {
       name: "RSA-OAEP",
     },
@@ -44,10 +39,10 @@ export const encryptPayload = async (
     encoder.encode(JSON.stringify(data)),
   );
 
-  return encryptedText;
+  return encryptedBuffer;
 };
 
- const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
+const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
   const bytes = new Uint8Array(buffer);
 
   let binary = "";
@@ -57,4 +52,10 @@ export const encryptPayload = async (
   });
 
   return btoa(binary);
+};
+
+export const encryptPayload = async (payload: object): Promise<string> => {
+  const publicKey = await publicKeyPromise;
+  const encryptedBuffer = await encrypt(payload, publicKey);
+  return arrayBufferToBase64(encryptedBuffer);
 };

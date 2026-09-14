@@ -7,16 +7,12 @@ import type {
   TResetPasswordSchema,
 } from "../types/auth";
 import { encryptPayload } from "../utils/crypto";
-import { PUBLIC_KEY } from "../constants/publicKey";
 
 export const loginAsync = async (payload: TLoginSchema) => {
-  const encryptedData = await encryptPayload(
-    {
-      Username: payload.Username,
-      Password: payload.Password,
-    },
-    PUBLIC_KEY,
-  );
+  const encryptedData = await encryptPayload({
+    Username: payload.Username,
+    Password: payload.Password,
+  });
 
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/auth/login`,
@@ -26,17 +22,14 @@ export const loginAsync = async (payload: TLoginSchema) => {
 };
 
 export const registerAsync = async (payload: TRegisterSchema) => {
-  const encryptedData = await encryptPayload(
-    {
-      FullName: payload.FullName,
-      Username: payload.Username,
-      Email: payload.Email,
-      ContactNumber: payload.ContactNumber,
-      Password: payload.Password,
-      ConfirmPassword: payload.ConfirmPassword,
-    },
-    PUBLIC_KEY,
-  );
+  const encryptedData = await encryptPayload({
+    FullName: payload.FullName,
+    Username: payload.Username,
+    Email: payload.Email,
+    ContactNumber: payload.ContactNumber,
+    Password: payload.Password,
+    ConfirmPassword: payload.ConfirmPassword,
+  });
 
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/auth/register`,
@@ -49,13 +42,10 @@ export const refreshTokenAsync = async (
   userId: number | undefined,
   refreshToken: string | null,
 ) => {
-  const encryptedData = await encryptPayload(
-    {
-      UserId: userId,
-      RefreshToken: refreshToken,
-    },
-    PUBLIC_KEY,
-  );
+  const encryptedData = await encryptPayload({
+    UserId: userId,
+    RefreshToken: refreshToken,
+  });
 
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/auth/refresh`,
@@ -68,12 +58,9 @@ export const refreshTokenAsync = async (
 };
 
 export const forgotPasswordAsync = async (payload: TForgotPasswordSchema) => {
-  const encryptedData = await encryptPayload(
-    {
-      Email: payload.Email,
-    },
-    PUBLIC_KEY,
-  );
+  const encryptedData = await encryptPayload({
+    Email: payload.Email,
+  });
 
   const res = await axios.patch(
     `${import.meta.env.VITE_API_URL}/api/auth/forgot-password`,
@@ -83,14 +70,11 @@ export const forgotPasswordAsync = async (payload: TForgotPasswordSchema) => {
 };
 
 export const resetPasswordAsync = async (payload: TResetPasswordSchema) => {
-  const encryptedData = await encryptPayload(
-    {
-      Token: payload.Token,
-      NewPassword: payload.NewPassword,
-      ConfirmNewPassword: payload.ConfirmNewPassword,
-    },
-    PUBLIC_KEY,
-  );
+  const encryptedData = await encryptPayload({
+    Token: payload.Token,
+    NewPassword: payload.NewPassword,
+    ConfirmNewPassword: payload.ConfirmNewPassword,
+  });
 
   const res = await axios.patch(
     `${import.meta.env.VITE_API_URL}/api/auth/reset-password`,
