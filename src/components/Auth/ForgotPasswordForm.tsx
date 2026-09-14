@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -14,6 +15,7 @@ import ErrorMessage from "../ui/ErrorMessage";
 
 const ForgotPasswordForm = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,6 +53,7 @@ const ForgotPasswordForm = () => {
       });
 
       toast.success("Check your email for a password reset link.");
+      navigate({ to: "/login" });
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {

@@ -29,7 +29,7 @@ api.interceptors.response.use(
       const refreshToken = useAuth.getState().refreshToken;
       const userId = useAuth.getState().user?.id;
 
-      const refreshResponse = await refreshTokenAsync(userId, refreshToken);
+      const refreshResponse = await refreshTokenAsync(Number(userId), refreshToken);
 
       const newAccessToken = refreshResponse.data.accessToken;
       const newRefreshToken = refreshResponse.data.refreshToken;
