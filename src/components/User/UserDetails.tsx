@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -16,7 +15,6 @@ import "../../styles/user/user-details.scss";
 
 const UserDetails = ({ userId }: TUserDetails) => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const [isUserStatusConfirmationOpen, setIsUserStatusConfirmationOpen] =
     useState(false);
@@ -27,7 +25,7 @@ const UserDetails = ({ userId }: TUserDetails) => {
     setIsUserStatusConfirmationOpen(false);
 
   const { data, isError } = useQuery({
-    queryKey: ["users", userId],
+    queryKey: ["user", userId],
     queryFn: async () => {
       const response = await getUserByIdAsync(userId);
       return response.data;
@@ -38,13 +36,14 @@ const UserDetails = ({ userId }: TUserDetails) => {
     mutationFn: () => toggleUserStatusAsync(Number(userId)),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
+        queryKey: ["user"],
       });
 
       toast.success(
         `User account ${data?.isActive ? "deactivated" : "activated"} successfully`,
       );
-      navigate({ to: "/users" });
+
+      closeUserStatusConfirmation();
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {

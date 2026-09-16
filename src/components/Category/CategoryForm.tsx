@@ -65,15 +65,13 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
   const mutation = useMutation({
     mutationFn: submitCategory,
 
-    onSuccess: (response) => {
-      queryClient.setQueryData(["category", response.data.id], response.data);
-
+    onSuccess: async () => {
       queryClient.invalidateQueries({
         queryKey: ["categories"],
       });
 
       queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
+        queryKey: ["category"],
       });
 
       toast.success(

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import axios from "axios";
@@ -19,7 +19,6 @@ import ErrorState from "../ui/ErrorState";
 import "../../styles/income/income-details.scss";
 
 const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
-  const queryClient = useQueryClient();
   const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
@@ -43,10 +42,6 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
   const mutation = useMutation({
     mutationFn: () => deleteIncomeAsync(incomeId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
-      });
-
       toast.success("Income record deleted successfully");
       navigate({ to: "/income" });
     },

@@ -1,5 +1,3 @@
-import { PUBLIC_KEY } from "../constants/publicKey";
-
 const pemToArrayBuffer = (pem: string) => {
   const base64 = pem
     .replace("-----BEGIN PUBLIC KEY-----", "")
@@ -26,7 +24,8 @@ const importPublicKey = async (pem: string) => {
   );
 };
 
-const publicKeyPromise = importPublicKey(PUBLIC_KEY);
+const publicKeyPem = atob(import.meta.env.VITE_PUBLIC_KEY);
+const publicKeyPromise = importPublicKey(publicKeyPem);
 
 const encrypt = async (data: object, publicKey: CryptoKey) => {
   const encoder = new TextEncoder();

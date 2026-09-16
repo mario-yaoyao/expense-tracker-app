@@ -45,10 +45,6 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
     mutationFn: () => deleteExpenseAsync(expenseId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["expense"],
-      });
-
-      queryClient.invalidateQueries({
         queryKey: ["dashboard"],
       });
 

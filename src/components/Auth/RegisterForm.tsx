@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { MdLockOutline, MdOutlineBadge, MdOutlineEmail } from "react-icons/md";
@@ -17,7 +17,6 @@ import ErrorMessage from "../ui/ErrorMessage";
 import "../../styles/auth/register.scss";
 
 const RegisterForm = () => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -68,10 +67,6 @@ const RegisterForm = () => {
   const mutation = useMutation({
     mutationFn: register,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
-      });
-
       toast.success("Account registered successfully");
       navigate({ to: "/login" });
     },

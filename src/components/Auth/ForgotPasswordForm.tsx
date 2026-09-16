@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -14,7 +14,6 @@ import Input from "../ui/Input";
 import ErrorMessage from "../ui/ErrorMessage";
 
 const ForgotPasswordForm = () => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState<TErrors[]>([]);
@@ -48,10 +47,6 @@ const ForgotPasswordForm = () => {
   const mutation = useMutation({
     mutationFn: forgotPassword,
     onSuccess: async () => {
-      queryClient.invalidateQueries({
-        queryKey: ["dashboard"],
-      });
-
       toast.success("Check your email for a password reset link.");
       navigate({ to: "/login" });
     },
