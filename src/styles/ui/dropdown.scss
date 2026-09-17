@@ -69,13 +69,18 @@
           padding: 10px 16px;
           cursor: pointer;
 
-          &:hover {
+          &:not(:disabled):hover {
             background: $border;
           }
 
           &.active {
             background: $primary;
             color: white;
+          }
+
+          &:disabled {
+            cursor: not-allowed;
+            color: $text-muted;
           }
         }
       }

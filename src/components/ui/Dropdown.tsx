@@ -38,19 +38,27 @@ const Dropdown = ({
           </button>
           {isOpen && (
             <div className="dropdown-menu">
-              {options.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  className={`dropdown-item ${
-                    selectedOption?.value === option.value ? "active" : ""
-                  }`}
-
-                  onClick={() => handleSelect(option)}
-                >
-                  {option.label}
+              {options.length === 0 ? (
+                <button className="dropdown-item" disabled>
+                  {name === "categoryId"
+                    ? "No category available"
+                    : "No options available"}
                 </button>
-              ))}
+              ) : (
+                options.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    className={`dropdown-item ${
+                      selectedOption?.value === option.value ? "active" : ""
+                    }`}
+
+                    onClick={() => handleSelect(option)}
+                  >
+                    {option.label}
+                  </button>
+                ))
+              )}
             </div>
           )}
           <input
