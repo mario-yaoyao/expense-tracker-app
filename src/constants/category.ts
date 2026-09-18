@@ -49,15 +49,20 @@ export const categoryColumns = [
   },
 ];
 
-export const categoryBtnActions: TAction[] = [
-  {
-    label: "Add Category",
-    variant: "success",
-    compactOnMobile: true,
-  },
+
+export const getCategoryBtnActions = (isUser: boolean): TAction[] => [
+  ...(isUser
+    ? [
+        {
+          label: "Add Category",
+          variant: "success",
+          compactOnMobile: true,
+        } as TAction,
+      ]
+    : []),
   {
     label: "Filter Date",
     variant: "calendar",
     compactOnMobile: true,
-  },
+  } as TAction,
 ];

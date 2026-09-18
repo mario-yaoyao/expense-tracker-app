@@ -40,15 +40,19 @@ export const incomeColumns = [
   },
 ];
 
-export const incomeBtnActions: TAction[] = [
-  {
-    label: "Add Income",
-    variant: "success",
-    compactOnMobile: true,
-  },
+export const getIncomeBtnActions = (isUser: boolean): TAction[] => [
+  ...(isUser
+    ? [
+        {
+          label: "Add Income",
+          variant: "success",
+          compactOnMobile: true,
+        } as TAction,
+      ]
+    : []),
   {
     label: "Filter Date",
     variant: "calendar",
     compactOnMobile: true,
-  },
+  } as TAction,
 ];

@@ -21,7 +21,7 @@ import "../../styles/category/category-details.scss";
 
 const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
   const queryClient = useQueryClient();
-  const { user, isSuperAdmin } = useAuth();
+  const { user, isUser, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -138,7 +138,7 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
             </div>
           ))}
         </div>
-        {!data.isDeleted && Number(user?.id) === data.userId && (
+        {isUser && !data.isDeleted && Number(user?.id) === data.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

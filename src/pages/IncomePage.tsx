@@ -7,7 +7,7 @@ import { getIncomesAsync } from "../api/income";
 import { useAuth } from "../hooks/useAuth";
 import { getDateFilterLabel } from "../utils/helper";
 import { formatCurrency } from "../utils/format";
-import { incomeBtnActions, incomeColumns } from "../constants/income";
+import { getIncomeBtnActions, incomeColumns } from "../constants/income";
 import IncomeForm from "../components/Income/IncomeForm";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
@@ -20,7 +20,7 @@ import Button from "../components/ui/Button";
 import "../styles/income/income.scss";
 
 const IncomePage = () => {
-  const { isSuperAdmin } = useAuth();
+  const { isUser, isSuperAdmin } = useAuth();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -68,6 +68,13 @@ const IncomePage = () => {
   const incomes = data?.pages.flatMap((page) => page.data.items) ?? [];
   const summary = data?.pages[0].data;
   const metrics = summary?.metrics;
+  const actions = getIncomeBtnActions(isUser);
+  const addIncomeAction = actions.find(
+    (action) => action.label === "Add Income",
+  );
+  const filterDateAction = actions.find(
+    (action) => action.label === "Filter Date",
+  );
 
   const metricsData = [
     ...(!isSuperAdmin
@@ -141,11 +148,7 @@ const IncomePage = () => {
           );
         })}
       </div>
-      <Title
-        text="Incomes"
-        action={incomeBtnActions[0]}
-        openModalFn={openModal}
-      />
+      <Title text="Incomes" action={addIncomeAction} openModalFn={openModal} />
       <div className="toolbar">
         <SearchBar
           value={search}
@@ -155,7 +158,7 @@ const IncomePage = () => {
         <div className="date-picker-wrapper" ref={wrapperRef}>
           <Button
             label={getDateFilterLabel(startDate, endDate)}
-            style={incomeBtnActions[1].variant}
+            style={filterDateAction?.variant}
             onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
           />
           <Popover

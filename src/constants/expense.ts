@@ -40,15 +40,19 @@ export const expenseColumns = [
   },
 ];
 
-export const expenseBtnActions: TAction[] = [
-  {
-    label: "Add Expense",
-    variant: "success",
-    compactOnMobile: true,
-  },
+export const getExpenseBtnActions = (isUser: boolean): TAction[] => [
+  ...(isUser
+    ? [
+        {
+          label: "Add Expense",
+          variant: "success",
+          compactOnMobile: true,
+        } as TAction,
+      ]
+    : []),
   {
     label: "Filter Date",
     variant: "calendar",
     compactOnMobile: true,
-  },
+  } as TAction,
 ];

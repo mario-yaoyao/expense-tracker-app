@@ -21,7 +21,7 @@ import "../../styles/expense/expense-details.scss";
 
 const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
   const queryClient = useQueryClient();
-  const { user, isSuperAdmin } = useAuth();
+  const { user, isUser, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -151,7 +151,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
             </div>
           ))}
         </div>
-        {!data?.isDeleted && Number(user?.id) === data?.userId && (
+        {isUser && !data?.isDeleted && Number(user?.id) === data?.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

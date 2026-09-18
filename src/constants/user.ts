@@ -1,3 +1,4 @@
+import type { TAction } from "../types/ui";
 import { formatDate } from "../utils/format";
 
 export const userColumns = [
@@ -30,5 +31,13 @@ export const userColumns = [
     accessorKey: "updatedAt",
     header: "Date Updated",
     cell: (value: unknown) => formatDate(value as string | null),
+  },
+];
+
+export const userBtnActions: TAction[] = [
+  {
+    label: "Filter Date",
+    variant: "filter",
+    compactOnMobile: true,
   },
 ];

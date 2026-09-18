@@ -5,8 +5,7 @@ import { format } from "date-fns";
 
 import { getUsersAsync } from "../api/user";
 import { getDateFilterLabel } from "../utils/helper";
-import { expenseBtnActions } from "../constants/expense";
-import { userColumns } from "../constants/user";
+import { userBtnActions, userColumns } from "../constants/user";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
 import SearchBar from "../components/ui/SearchBar";
@@ -90,7 +89,7 @@ const UserPage = () => {
         <div className="date-picker-wrapper" ref={wrapperRef}>
           <Button
             label={getDateFilterLabel(startDate, endDate)}
-            style={expenseBtnActions[1].variant}
+            style={userBtnActions[0].variant}
             onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
           />
           <Popover

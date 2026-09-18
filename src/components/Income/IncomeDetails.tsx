@@ -20,7 +20,7 @@ import EmptyState from "../ui/EmptyState";
 import "../../styles/income/income-details.scss";
 
 const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
-  const { user, isSuperAdmin } = useAuth();
+  const { user, isUser, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -146,7 +146,7 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
             </div>
           ))}
         </div>
-        {!data?.isDeleted && Number(user?.id) === data?.userId && (
+        {isUser && !data?.isDeleted && Number(user?.id) === data?.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

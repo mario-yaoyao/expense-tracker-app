@@ -7,7 +7,7 @@ import { getExpensesAsync } from "../api/expense";
 import { useAuth } from "../hooks/useAuth";
 import { formatCurrency } from "../utils/format";
 import { getDateFilterLabel } from "../utils/helper";
-import { expenseBtnActions, expenseColumns } from "../constants/expense";
+import { expenseColumns, getExpenseBtnActions } from "../constants/expense";
 import ExpenseForm from "../components/Expense/ExpenseForm";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
@@ -20,7 +20,7 @@ import Button from "../components/ui/Button";
 import "../styles/expense/expense.scss";
 
 const ExpensePage = () => {
-  const { isSuperAdmin } = useAuth();
+  const { isUser, isSuperAdmin } = useAuth();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -68,6 +68,13 @@ const ExpensePage = () => {
   const expenses = data?.pages.flatMap((page) => page.data.items) ?? [];
   const summary = data?.pages[0].data;
   const metrics = summary?.metrics;
+  const actions = getExpenseBtnActions(isUser);
+  const addExpenseAction = actions.find(
+    (action) => action.label === "Add Expense",
+  );
+  const filterDateAction = actions.find(
+    (action) => action.label === "Filter Date",
+  );
 
   const metricsData = [
     ...(!isSuperAdmin
@@ -143,7 +150,7 @@ const ExpensePage = () => {
       </div>
       <Title
         text="Expenses"
-        action={expenseBtnActions[0]}
+        action={addExpenseAction}
         openModalFn={openModal}
       />
       <div className="toolbar">
@@ -155,7 +162,7 @@ const ExpensePage = () => {
         <div className="date-picker-wrapper" ref={wrapperRef}>
           <Button
             label={getDateFilterLabel(startDate, endDate)}
-            style={expenseBtnActions[1].variant}
+            style={filterDateAction?.variant}
             onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
           />
           <Popover
