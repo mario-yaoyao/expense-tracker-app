@@ -16,7 +16,7 @@ export type TRecentTransactions = {
     id: number;
     userId: number;
     username: string;
-    action: string;
+    type: number;
     activity: string;
     message: string;
     createdAt: string;

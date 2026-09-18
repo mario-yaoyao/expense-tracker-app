@@ -15,6 +15,8 @@ import Confirmation from "../ui/Confirmation";
 import CategoryForm from "./CategoryForm";
 import Modal from "../ui/Modal";
 import Skeleton from "../ui/Sekeleton";
+import EmptyState from "../ui/EmptyState";
+import ErrorState from "../ui/ErrorState";
 import "../../styles/category/category-details.scss";
 
 const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
@@ -61,41 +63,59 @@ const CategoryDetails = ({ categoryId }: TCategoryDetails) => {
     },
   });
 
-  if (isError || !data) {
-    return <p>Failed to load category details.</p>;
-  }
-
   const details = [
     ...(isSuperAdmin
       ? [
           {
             label: "Status",
-            value: <StatusBadge isActive={!data.isDeleted} />,
+            value: <StatusBadge isActive={!data?.isDeleted} />,
           },
           {
-            label: "ID",
-            value: data.id || "—",
+            label: "Username",
+            value: data?.username || "—",
           },
         ]
       : []),
     {
       label: "Name",
-      value: data.name?.trim() || "—",
+      value: data?.name?.trim() || "—",
     },
     {
       label: "Type",
-      value: getTypeBadge(data.type) || "—",
+      value: getTypeBadge(data?.type) || "—",
       isBadge: true,
     },
     {
       label: "Created At",
-      value: formatDate(data.createdAt),
+      value: formatDate(data?.createdAt),
     },
     {
       label: "Updated At",
-      value: formatDate(data.updatedAt),
+      value: formatDate(data?.updatedAt),
     },
   ];
+
+  if (!data) {
+    return (
+      <div className="category-details-section error">
+        <Title text="Category Details" />
+        <div className="category-details">
+          <EmptyState />
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="category-details-section error">
+        <Title text="Category Details" />
+        <div className="category-details">
+          <ErrorState />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="category-details-section">

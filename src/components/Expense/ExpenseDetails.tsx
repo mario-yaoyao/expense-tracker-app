@@ -62,6 +62,52 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
     },
   });
 
+  const details = [
+    ...(isSuperAdmin
+      ? [
+          {
+            label: "Status",
+            value: <StatusBadge isActive={!data?.isDeleted} />,
+          },
+          {
+            label: "ID",
+            value: data?.id || "—",
+          },
+          {
+            label: "Username",
+            value: data?.username || "—",
+          },
+          {
+            label: "Full Name",
+            value: data?.fullName || "—",
+          },
+        ]
+      : []),
+    {
+      label: "Category Name",
+      value: data?.categoryName?.trim() || "—",
+    },
+    {
+      label: "Amount",
+      value: `₱${data?.amount.toLocaleString()}`,
+      className: "amount",
+    },
+
+    {
+      label: "Description",
+      value: data?.description?.trim() || "—",
+      className: "description",
+    },
+    {
+      label: "Created At",
+      value: formatDate(data?.createdAt),
+    },
+    {
+      label: "Updated At",
+      value: formatDate(data?.updatedAt),
+    },
+  ];
+
   if (!data) {
     return (
       <div className="expense-details-section error">
@@ -84,52 +130,6 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
     );
   }
 
-  const details = [
-    ...(isSuperAdmin
-      ? [
-          {
-            label: "Status",
-            value: <StatusBadge isActive={!data.isDeleted} />,
-          },
-          {
-            label: "ID",
-            value: data.id || "—",
-          },
-          {
-            label: "Username",
-            value: data.username || "—",
-          },
-          {
-            label: "Full Name",
-            value: data.fullName || "—",
-          },
-        ]
-      : []),
-    {
-      label: "Category Name",
-      value: data.categoryName?.trim() || "—",
-    },
-    {
-      label: "Amount",
-      value: `₱${data.amount.toLocaleString()}`,
-      className: "amount",
-    },
-
-    {
-      label: "Description",
-      value: data.description?.trim() || "—",
-      className: "description",
-    },
-    {
-      label: "Created At",
-      value: formatDate(data.createdAt),
-    },
-    {
-      label: "Updated At",
-      value: formatDate(data.updatedAt),
-    },
-  ];
-
   return (
     <section className="expense-details-section">
       <Title text="Expense Details" />
@@ -151,7 +151,7 @@ const ExpenseDetails = ({ expenseId }: TExpenseDetails) => {
             </div>
           ))}
         </div>
-        {!data.isDeleted && Number(user?.id) === data.userId && (
+        {!data?.isDeleted && Number(user?.id) === data?.userId && (
           <div className="btn-actions">
             <Button
               key="warning"

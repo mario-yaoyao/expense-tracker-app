@@ -97,14 +97,12 @@ const UserPage = () => {
             isOpen={isDateFilterOpen}
             onClose={() => setIsDateFilterOpen(false)}
           >
-            <div>
-              <DatePicker
-                startDate={startDate}
-                endDate={endDate}
-                onStartDateChange={setStartDate}
-                onEndDateChange={setEndDate}
-              />
-            </div>
+            <DatePicker
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+            />
           </Popover>
         </div>
       </div>

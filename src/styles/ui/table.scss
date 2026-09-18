@@ -79,14 +79,26 @@
           font-size: 0.75rem;
           font-weight: 600;
 
-          &.income {
+          &.income,
+          &.create {
             background-color: $greenish-shadow;
             color: $green;
           }
 
-          &.expense {
+          &.update {
+            background-color: $yellowish-shadow;
+            color: $yellow;
+          }
+
+          &.expense,
+          &.delete {
             background-color: $redish-shadow;
             color: $red;
+          }
+
+          &.info {
+            background-color: $bluish-shadow;
+            color: $blue;
           }
         }
       }

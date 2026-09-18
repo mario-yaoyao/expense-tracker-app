@@ -1,6 +1,7 @@
 import { IoAddOutline } from "react-icons/io5";
 import { BsPencil, BsTrash3 } from "react-icons/bs";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosCalendar } from "react-icons/io";
 import { FiFilter } from "react-icons/fi";
 
 import type { TButton } from "../../types/ui";
@@ -22,6 +23,7 @@ const Button = ({
     danger: BsTrash3,
     back: IoIosArrowRoundBack,
     filter: FiFilter,
+    calendar: IoIosCalendar,
   };
   const Icon = icons[style as keyof typeof icons];
 

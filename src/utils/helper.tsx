@@ -40,3 +40,16 @@ export const RoleBadge = ({ isSuperAdmin }: TRoleBadge) => {
     </p>
   );
 };
+
+export const getLogTypeBadge = (value: number) => {
+  switch (value) {
+    case 0:
+      return <p className="create">Create</p>;
+    case 1:
+      return <p className="update">Update</p>;
+    case 2:
+      return <p className="delete">Delete</p>;
+    default:
+      return <p className="info">Info</p>;
+  }
+};

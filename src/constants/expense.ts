@@ -1,7 +1,17 @@
 import type { TAction } from "../types/ui";
+import { isSuperAdmin } from "../utils/auth";
 import { formatDate } from "../utils/format";
 
 export const expenseColumns = [
+  ...(isSuperAdmin()
+    ? [
+        {
+          accessorKey: "username",
+          header: "Username",
+          cell: (value: unknown) => String(value ?? "").trim() || "—",
+        },
+      ]
+    : []),
   {
     accessorKey: "description",
     header: "Description",
@@ -38,7 +48,7 @@ export const expenseBtnActions: TAction[] = [
   },
   {
     label: "Filter Date",
-    variant: "filter",
+    variant: "calendar",
     compactOnMobile: true,
   },
 ];

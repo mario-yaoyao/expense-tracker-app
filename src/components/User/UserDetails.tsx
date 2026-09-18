@@ -119,7 +119,6 @@ const UserDetails = ({ userId }: TUserDetails) => {
             key="warning"
             label={data?.isActive ? "Deactivate User" : "Activate User"}
             style={data?.isActive ? "deactivate" : "activate"}
-            compactOnMobile={true}
             onClickFn={openUserStatusConfirmation}
           />
         </div>

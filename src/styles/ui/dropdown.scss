@@ -27,6 +27,33 @@
         outline-color 0.2s ease,
         box-shadow 0.2s ease;
 
+      &.filter {
+        outline: none;
+        border: 1px solid $border;
+        border-radius: 10px;
+        background: $surface;
+        min-width: 120px;
+        background-color: $primary;
+        color: $surface;
+
+        &:focus-within {
+          border-color: $primary;
+        }
+
+        .dropdown-trigger {
+          padding: 10px 16px;
+          font-size: 0.875rem;
+          font-weight: 500;
+          gap: 8px;
+        }
+
+        .dropdown-menu {
+          margin-top: 4px;
+          border: 1px solid $border;
+          color: $text;
+        }
+      }
+
       &:focus-within {
         outline-color: $primary;
       }

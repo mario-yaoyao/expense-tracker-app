@@ -16,6 +16,7 @@ import IncomeForm from "./IncomeForm";
 import Confirmation from "../ui/Confirmation";
 import Skeleton from "../ui/Sekeleton";
 import ErrorState from "../ui/ErrorState";
+import EmptyState from "../ui/EmptyState";
 import "../../styles/income/income-details.scss";
 
 const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
@@ -101,6 +102,17 @@ const IncomeDetails = ({ incomeId }: TIncomeDetails) => {
       value: formatDate(data?.updatedAt),
     },
   ];
+
+  if (!data) {
+    return (
+      <div className="income-details-section error">
+        <Title text="Income Details" />
+        <div className="income-details">
+          <EmptyState />
+        </div>
+      </div>
+    );
+  }
 
   if (isError) {
     return (

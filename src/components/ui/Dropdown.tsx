@@ -6,37 +6,61 @@ import ErrorMessage from "./ErrorMessage";
 import "../../styles/ui/dropdown.scss";
 
 const Dropdown = ({
+  isOpen,
   name,
   label,
   options,
   errorMessage,
   defaultOption,
+  variant = "default",
+  onChangeFn,
+  onOpenChange,
 }: TDropdown) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const dropdownOpen = isOpen ?? internalIsOpen;
+
   const [selectedOption, setSelectedOption] = useState(defaultOption ?? null);
 
   const id = label?.toLowerCase() || "";
   const hasError = !!errorMessage;
 
+  const toggleDropdown = () => {
+    const next = !dropdownOpen;
+
+    if (isOpen === undefined) {
+      setInternalIsOpen(next);
+    }
+
+    onOpenChange?.(next);
+  };
+
   const handleSelect = (option: (typeof options)[number]) => {
     setSelectedOption(option);
-    setIsOpen(false);
+
+    if (isOpen === undefined) {
+      setInternalIsOpen(false);
+    }
+
+    onOpenChange?.(false);
+    onChangeFn?.(option);
   };
 
   return (
     <div className="dropdown-group">
       {label && <label htmlFor={id}>{label}</label>}
       <div className="dropdown-field">
-        <div className={`dropdown-wrapper ${hasError ? "error" : ""}`}>
+        <div
+          className={`dropdown-wrapper ${hasError ? "error" : ""} ${variant}`}
+        >
           <button
             type="button"
             className="dropdown-trigger"
-            onClick={() => setIsOpen((prev) => !prev)}
+            onClick={toggleDropdown}
           >
             <p>{selectedOption?.label ?? <span>Select type</span>}</p>
-            <IoChevronDown className={isOpen ? "rotate" : ""} />
+            <IoChevronDown className={dropdownOpen ? "rotate" : ""} />
           </button>
-          {isOpen && (
+          {dropdownOpen && (
             <div className="dropdown-menu">
               {options.length === 0 ? (
                 <button className="dropdown-item" disabled>

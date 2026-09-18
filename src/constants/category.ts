@@ -1,4 +1,5 @@
 import type { TAction } from "../types/ui";
+import { isSuperAdmin } from "../utils/auth";
 import { formatDate } from "../utils/format";
 import { getTypeBadge } from "../utils/helper";
 
@@ -16,6 +17,15 @@ export const typeOptions = [
 ];
 
 export const categoryColumns = [
+  ...(isSuperAdmin()
+    ? [
+        {
+          accessorKey: "username",
+          header: "Username",
+          cell: (value: unknown) => String(value ?? "").trim() || "—",
+        },
+      ]
+    : []),
   {
     accessorKey: "name",
     header: "Name",
@@ -47,7 +57,7 @@ export const categoryBtnActions: TAction[] = [
   },
   {
     label: "Filter Date",
-    variant: "filter",
+    variant: "calendar",
     compactOnMobile: true,
   },
 ];

@@ -14,6 +14,19 @@ const RecentTransactions = ({
 }: TRecentTransactions) => {
   const { isSuperAdmin } = useAuth();
 
+  const getClassName = (type: number) => {
+    switch (type) {
+      case 0:
+        return "create";
+      case 1:
+        return "update";
+      case 2:
+        return "delete";
+      default:
+        return "info";
+    }
+  };
+
   if (isError) {
     return (
       <div className="recent-transactions">
@@ -34,9 +47,7 @@ const RecentTransactions = ({
             ))
           : data?.map((data) => (
               <div key={data.id} className="row">
-                <div
-                  className={`indicator ${data.action.toLocaleLowerCase()}`}
-                />
+                <div className={`indicator ${getClassName(data.type)}`} />
                 <div className="content">
                   <p className="action">
                     {isSuperAdmin ? data.message : data.activity}

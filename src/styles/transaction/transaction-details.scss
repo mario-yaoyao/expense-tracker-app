@@ -1,6 +1,6 @@
 @use "../colors" as *;
 
-.category-details-section {
+.transaction-details-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -8,12 +8,12 @@
   &.error {
     height: 100%;
 
-    .category-details {
+    .transaction-details {
       height: 100%;
     }
   }
 
-  .category-details {
+  .transaction-details {
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -94,14 +94,24 @@
             font-size: 0.75rem;
             font-weight: 600;
 
-            &.income {
+            &.create {
               background-color: $greenish-shadow;
               color: $green;
             }
 
-            &.expense {
+            &.update {
+              background-color: $yellowish-shadow;
+              color: $yellow;
+            }
+
+            &.delete {
               background-color: $redish-shadow;
               color: $red;
+            }
+
+            &.info {
+              background-color: $bluish-shadow;
+              color: $blue;
             }
           }
         }
@@ -118,13 +128,14 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .category-details-section {
-    .category-details {
+  .transaction-details-section {
+    .transaction-details {
       .details-wrapper {
         grid-template-columns: 1fr 1fr;
 
         .detail-group {
-          &.description {
+          &.activity,
+          &.message {
             grid-column: span 2;
           }
         }

@@ -72,6 +72,7 @@ export type TVariant =
   | "warning"
   | "danger"
   | "filter"
+  | "calendar"
   | "activate"
   | "deactivate";
 
@@ -113,7 +114,15 @@ type TDropdownOptions = {
   label: string;
 };
 
+type TDropdownVariant = "default" | "filter";
+type TOption = {
+  id: number;
+  label: string;
+  value: number;
+};
+
 export type TDropdown = {
+  isOpen?: boolean;
   name?: string;
   label?: string;
   options: TDropdownOptions[];
@@ -122,8 +131,10 @@ export type TDropdown = {
     value: number;
     label: string;
   };
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   errorMessage?: string;
+  variant?: TDropdownVariant;
+  onChangeFn?: (option: TOption) => void;
+  onOpenChange?: (isOpen: boolean) => void;
 };
 
 export type TSearchBar = {

@@ -3,32 +3,33 @@ import { useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 
-import { getCategoriesAsync } from "../api/category";
+import { getTransactionsAsync } from "../api/transaction";
 import { getDateFilterLabel } from "../utils/helper";
-import { categoryBtnActions, categoryColumns } from "../constants/category";
+import {
+  transactionColumns,
+  transactionTypeOptions,
+} from "../constants/transaction";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
-import Modal from "../components/ui/Modal";
-import CategoryForm from "../components/Category/CategoryForm";
 import SearchBar from "../components/ui/SearchBar";
 import Button from "../components/ui/Button";
 import Popover from "../components/ui/Popover";
 import DatePicker from "../components/ui/DatePicker";
-import "../styles/category/category.scss";
+import Dropdown from "../components/ui/Dropdown";
+import "../styles/transaction/transaction.scss";
 
-const CategoryPage = () => {
+const TransactionPage = () => {
   const router = useRouter();
 
-  const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isTypeFilterOpen, setIsTypeFilterOpen] = useState(false);
   const [isDateFilterOpen, setIsDateFilterOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<number>(-1);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dateRef = useRef<HTMLDivElement>(null);
 
   const {
     data,
@@ -39,13 +40,15 @@ const CategoryPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: [
-      "categories",
+      selectedType,
+      "transactions",
       debouncedSearch,
       startDate?.toISOString(),
       endDate?.toISOString(),
     ],
     queryFn: async ({ pageParam }) => {
-      const response = await getCategoriesAsync({
+      const response = await getTransactionsAsync({
+        type: selectedType === -1 ? undefined : selectedType,
         page: pageParam,
         limit: 20,
         search: debouncedSearch,
@@ -62,7 +65,7 @@ const CategoryPage = () => {
     },
   });
 
-  const categories = data?.pages.flatMap((page) => page.data.items) ?? [];
+  const transactions = data?.pages.flatMap((page) => page.data.items) ?? [];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -73,14 +76,16 @@ const CategoryPage = () => {
   }, [search]);
 
   useEffect(() => {
-    if (!isDateFilterOpen) return;
+    if (!isDateFilterOpen && !isTypeFilterOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      const clickedDropdown = dropdownRef.current?.contains(target);
+      const clickedDate = dateRef.current?.contains(target);
+
+      if (!clickedDropdown && !clickedDate) {
         setIsDateFilterOpen(false);
+        setIsTypeFilterOpen(false);
       }
     };
 
@@ -89,26 +94,49 @@ const CategoryPage = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isDateFilterOpen]);
+  }, [isDateFilterOpen, isTypeFilterOpen]);
 
   return (
-    <section className="categories-section">
-      <Title
-        text="Categories"
-        action={categoryBtnActions[0]}
-        openModalFn={openModal}
-      />
+    <section className="transactions-section">
+      <Title text="Transactions" />
       <div className="toolbar">
         <SearchBar
           value={search}
           onChangeFn={setSearch}
-          placeholder="Search expenses..."
+          placeholder="Search transactions..."
         />
-        <div className="date-picker-wrapper" ref={wrapperRef}>
+        <div ref={dropdownRef}>
+          <Dropdown
+            isOpen={isTypeFilterOpen}
+            name="type"
+            options={transactionTypeOptions}
+            defaultOption={transactionTypeOptions[0]}
+            variant="filter"
+            onOpenChange={(isOpen) => {
+              setIsTypeFilterOpen(isOpen);
+
+              if (isOpen) {
+                setIsDateFilterOpen(false);
+              }
+            }}
+            onChangeFn={(option) => setSelectedType(Number(option.value))}
+          />
+        </div>
+        <div className="date-picker-wrapper" ref={dateRef}>
           <Button
             label={getDateFilterLabel(startDate, endDate)}
-            style={categoryBtnActions[1].variant}
-            onClickFn={() => setIsDateFilterOpen((prev) => !prev)}
+            style="calendar"
+            onClickFn={() => {
+              setIsDateFilterOpen((prev) => {
+                const next = !prev;
+
+                if (next) {
+                  setIsTypeFilterOpen(false);
+                }
+
+                return next;
+              });
+            }}
           />
           <Popover
             isOpen={isDateFilterOpen}
@@ -124,13 +152,13 @@ const CategoryPage = () => {
         </div>
       </div>
       <Table
-        columns={categoryColumns}
-        rows={categories ?? []}
-        onRowClick={(category) => {
+        columns={transactionColumns}
+        rows={transactions ?? []}
+        onRowClick={(transaction) => {
           router.navigate({
-            to: "/categories/$categoryId",
+            to: "/transactions/$transactionId",
             params: {
-              categoryId: category.id.toString(),
+              transactionId: transaction.id.toString(),
             },
           });
         }}
@@ -140,11 +168,8 @@ const CategoryPage = () => {
         isLoading={isLoading}
         isError={isError}
       />
-      <Modal isOpen={isOpen} title="Add Expense" onClose={closeModal}>
-        <CategoryForm action="add" closeModalFn={closeModal} />
-      </Modal>
     </section>
   );
 };
 
-export default CategoryPage;
+export default TransactionPage;
