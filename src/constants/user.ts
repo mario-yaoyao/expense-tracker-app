@@ -37,7 +37,7 @@ export const userColumns = [
 export const userBtnActions: TAction[] = [
   {
     label: "Filter Date",
-    variant: "filter",
+    variant: "calendar",
     compactOnMobile: true,
   },
 ];

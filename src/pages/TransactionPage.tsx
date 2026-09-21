@@ -105,50 +105,52 @@ const TransactionPage = () => {
           onChangeFn={setSearch}
           placeholder="Search transactions..."
         />
-        <div ref={dropdownRef}>
-          <Dropdown
-            isOpen={isTypeFilterOpen}
-            name="type"
-            options={transactionTypeOptions}
-            defaultOption={transactionTypeOptions[0]}
-            variant="filter"
-            onOpenChange={(isOpen) => {
-              setIsTypeFilterOpen(isOpen);
+        <div className="btns">
+          <div ref={dropdownRef}>
+            <Dropdown
+              isOpen={isTypeFilterOpen}
+              name="type"
+              options={transactionTypeOptions}
+              defaultOption={transactionTypeOptions[0]}
+              variant="filter"
+              onOpenChange={(isOpen) => {
+                setIsTypeFilterOpen(isOpen);
 
-              if (isOpen) {
-                setIsDateFilterOpen(false);
-              }
-            }}
-            onChangeFn={(option) => setSelectedType(Number(option.value))}
-          />
-        </div>
-        <div className="date-picker-wrapper" ref={dateRef}>
-          <Button
-            label={getDateFilterLabel(startDate, endDate)}
-            style="calendar"
-            onClickFn={() => {
-              setIsDateFilterOpen((prev) => {
-                const next = !prev;
-
-                if (next) {
-                  setIsTypeFilterOpen(false);
+                if (isOpen) {
+                  setIsDateFilterOpen(false);
                 }
-
-                return next;
-              });
-            }}
-          />
-          <Popover
-            isOpen={isDateFilterOpen}
-            onClose={() => setIsDateFilterOpen(false)}
-          >
-            <DatePicker
-              startDate={startDate}
-              endDate={endDate}
-              onStartDateChange={setStartDate}
-              onEndDateChange={setEndDate}
+              }}
+              onChangeFn={(option) => setSelectedType(Number(option.value))}
             />
-          </Popover>
+          </div>
+          <div className="date-picker-wrapper" ref={dateRef}>
+            <Button
+              label={getDateFilterLabel(startDate, endDate)}
+              style="calendar"
+              onClickFn={() => {
+                setIsDateFilterOpen((prev) => {
+                  const next = !prev;
+
+                  if (next) {
+                    setIsTypeFilterOpen(false);
+                  }
+
+                  return next;
+                });
+              }}
+            />
+            <Popover
+              isOpen={isDateFilterOpen}
+              onClose={() => setIsDateFilterOpen(false)}
+            >
+              <DatePicker
+                startDate={startDate}
+                endDate={endDate}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+              />
+            </Popover>
+          </div>
         </div>
       </div>
       <Table

@@ -99,9 +99,9 @@
 
   &.btn-calendar,
   &.btn-filter {
+    min-height: 29px;
     background-color: $primary;
     color: $surface;
-    padding: 8px 12px;
     font-size: 13px;
     transition: background-color 0.2s ease;
 
@@ -142,6 +142,11 @@
 // for laptop devices
 @media only screen and (min-width: 1024px) {
   .btn {
+    &.btn-calendar {
+      height: 100%;
+      padding: 8px 12px;
+    }
+
     &.btn-link,
     &.btn-back {
       &::after {

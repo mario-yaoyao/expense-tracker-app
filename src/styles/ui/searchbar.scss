@@ -13,7 +13,7 @@
 
     .search-wrapper {
       display: flex;
-      padding: 6px 12px;
+      padding: 8px 12px;
       outline: 1px solid $border;
       border-radius: 6px;
       background-color: $surface;
@@ -54,26 +54,16 @@
   }
 }
 
-// for tablet devices
-@media only screen and (min-width: 768px) {
-  .search-group {
-    width: auto;
-
-    .search-field {
-      .search-wrapper {
-        width: 400px;
-      }
-    }
-  }
-}
-
 // for laptop devices
 @media only screen and (min-width: 1024px) {
   .search-group {
-    .search-field {
-      .search-wrapper {
-        width: 600px;
-      }
-    }
+    width: 400px;
+  }
+}
+
+// for desktop devices
+@media only screen and (min-width: 1440px) {
+  .search-group {
+    width: 600px;
   }
 }
