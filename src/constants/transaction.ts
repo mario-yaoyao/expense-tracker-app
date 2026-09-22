@@ -1,9 +1,8 @@
-import { isSuperAdmin } from "../utils/auth";
 import { formatDate } from "../utils/format";
 import { getLogTypeBadge } from "../utils/helper";
 
-export const transactionColumns = [
-  ...(isSuperAdmin()
+export const getTransactionColumns = (isSuperAdmin: boolean) => [
+  ...(isSuperAdmin
     ? [
         {
           accessorKey: "username",

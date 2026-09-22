@@ -55,6 +55,7 @@ export type TModal = {
   onClose?: () => void;
   children: React.ReactNode;
   variant?: "modal" | "popover";
+  className?: string;
 };
 
 export interface ITitle {
@@ -146,10 +147,12 @@ export type TSearchBar = {
 export type TMetricCard = {
   id: number;
   title: string;
+  period?: string;
   value: number | string;
   className: string;
   isLoading: boolean;
   isError: boolean;
+  onClickFn?: () => void;
 };
 
 export type TDatePicker = {
@@ -198,5 +201,10 @@ export type TSkeleton = {
 };
 
 export type TEmptyState = {
+  message?: string;
+};
+
+export type TErrorState = {
+  singleLiner?: boolean;
   message?: string;
 };

@@ -21,6 +21,21 @@
     animation: fadeIn 0.3s ease-in-out;
     position: relative;
 
+    &.lg {
+      width: min(1200px, 95vw);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+
+      .modal-body {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+    }
+
     .modal-header {
       position: absolute;
       top: 0;
@@ -34,6 +49,17 @@
         svg {
           color: $red;
         }
+      }
+    }
+  }
+}
+
+// for desktop devices
+@media only screen and (min-width: 1440px) {
+  .modal-overlay {
+    .modal-content {
+      &.lg {
+        max-height: none;
       }
     }
   }

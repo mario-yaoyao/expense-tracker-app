@@ -22,15 +22,15 @@ export const getNavLinks = (isSuperAdmin: boolean): TNavLink[] => [
   },
   {
     id: 3,
-    to: "/categories",
-    label: "Categories",
-    icon: MdOutlineCategory,
-  },
-  {
-    id: 4,
     to: "/income",
     label: "Income",
     icon: TbMoneybagPlus,
+  },
+  {
+    id: 4,
+    to: "/categories",
+    label: "Categories",
+    icon: MdOutlineCategory,
   },
   ...(isSuperAdmin
     ? [

@@ -6,8 +6,8 @@ import { format } from "date-fns";
 import { getExpensesAsync } from "../api/expense";
 import { useAuth } from "../hooks/useAuth";
 import { formatCurrency } from "../utils/format";
-import { getDateFilterLabel } from "../utils/helper";
-import { expenseColumns, getExpenseBtnActions } from "../constants/expense";
+import { filterAction, getDateFilterLabel } from "../utils/helper";
+import { getExpenseBtnActions, getExpenseColumns } from "../constants/expense";
 import ExpenseForm from "../components/Expense/ExpenseForm";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
@@ -69,12 +69,8 @@ const ExpensePage = () => {
   const summary = data?.pages[0].data;
   const metrics = summary?.metrics;
   const actions = getExpenseBtnActions(isUser);
-  const addExpenseAction = actions.find(
-    (action) => action.label === "Add Expense",
-  );
-  const filterDateAction = actions.find(
-    (action) => action.label === "Filter Date",
-  );
+  const addExpenseAction = filterAction(actions, "Add Expense");
+  const filterDateAction = filterAction(actions, "Filter Date");
 
   const metricsData = [
     ...(!isSuperAdmin
@@ -179,7 +175,7 @@ const ExpensePage = () => {
         </div>
       </div>
       <Table
-        columns={expenseColumns}
+        columns={getExpenseColumns(isSuperAdmin)}
         rows={expenses ?? []}
         onRowClick={(expense) =>
           router.navigate({

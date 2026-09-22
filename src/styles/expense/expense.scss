@@ -40,7 +40,12 @@
     .metrics {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+}
 
+// for laptop devices
+@media only screen and (min-width: 1024px) {
+  .expenses-section {
     .toolbar {
       flex-direction: row;
 

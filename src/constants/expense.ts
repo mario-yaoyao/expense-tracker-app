@@ -1,9 +1,8 @@
 import type { TAction } from "../types/ui";
-import { isSuperAdmin } from "../utils/auth";
 import { formatDate } from "../utils/format";
 
-export const expenseColumns = [
-  ...(isSuperAdmin()
+export const getExpenseColumns = (isSuperAdmin: boolean) => [
+  ...(isSuperAdmin
     ? [
         {
           accessorKey: "username",

@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { getTransactionsAsync } from "../api/transaction";
 import { getDateFilterLabel } from "../utils/helper";
 import {
-  transactionColumns,
+  getTransactionColumns,
   transactionTypeOptions,
 } from "../constants/transaction";
 import Table from "../components/ui/Table";
@@ -17,8 +17,10 @@ import Popover from "../components/ui/Popover";
 import DatePicker from "../components/ui/DatePicker";
 import Dropdown from "../components/ui/Dropdown";
 import "../styles/transaction/transaction.scss";
+import { useAuth } from "../hooks/useAuth";
 
 const TransactionPage = () => {
+  const { isSuperAdmin } = useAuth();
   const router = useRouter();
 
   const [search, setSearch] = useState("");
@@ -154,7 +156,7 @@ const TransactionPage = () => {
         </div>
       </div>
       <Table
-        columns={transactionColumns}
+        columns={getTransactionColumns(isSuperAdmin)}
         rows={transactions ?? []}
         onRowClick={(transaction) => {
           router.navigate({

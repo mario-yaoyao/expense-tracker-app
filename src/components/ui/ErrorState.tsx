@@ -1,10 +1,7 @@
 import { IoWarning } from "react-icons/io5";
-import "../../styles/ui/error-state.scss";
 
-type TErrorState = {
-  singleLiner?: boolean;
-  message?: string;
-};
+import type { TErrorState } from "../../types/ui";
+import "../../styles/ui/error-state.scss";
 
 const ErrorState = ({
   singleLiner,

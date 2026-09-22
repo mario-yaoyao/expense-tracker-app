@@ -9,9 +9,10 @@ import {
 } from "recharts";
 
 import { formatWord } from "../../utils/format";
+import { getMonthName } from "../../utils/helper";
+import type { TBaseLineChart, TChartData } from "../../types/ui";
 import Skeleton from "./Sekeleton";
 import ErrorState from "./ErrorState";
-import type { TBaseLineChart, TChartData } from "../../types/ui";
 
 const Typed = createHorizontalChart<TChartData, string, number>()({
   XAxis,
@@ -44,24 +45,7 @@ const BaseLineChart = ({
       <Typed.XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
       <Typed.YAxis width="auto" tick={{ fontSize: 12 }} />
       <Tooltip
-        labelFormatter={(label) => {
-          const months: Record<string, string> = {
-            Jan: "January",
-            Feb: "February",
-            Mar: "March",
-            Apr: "April",
-            May: "May",
-            Jun: "June",
-            Jul: "July",
-            Aug: "August",
-            Sep: "September",
-            Oct: "October",
-            Nov: "November",
-            Dec: "December",
-          };
-
-          return months[label as string] ?? label;
-        }}
+        labelFormatter={(label) => getMonthName(String(label))}
         contentStyle={{
           fontSize: "14px",
           borderRadius: "10px",

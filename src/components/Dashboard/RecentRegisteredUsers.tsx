@@ -1,16 +1,20 @@
+import { useRouter } from "@tanstack/react-router";
+
 import { formatDate } from "../../utils/format";
 import { RoleBadge } from "../../utils/helper";
-import Skeleton from "../ui/Sekeleton";
 import type { TRecentRegisteredUsersProps } from "../../types/dashboard";
+import Skeleton from "../ui/Sekeleton";
 import EmptyState from "../ui/EmptyState";
-import "../../styles/dashboard/recent-users.scss";
 import ErrorState from "../ui/ErrorState";
+import "../../styles/dashboard/recent-users.scss";
 
 const RecentRegisteredUsers = ({
   data,
   isLoading,
   isError,
 }: TRecentRegisteredUsersProps) => {
+  const router = useRouter();
+
   if (isError) {
     return (
       <div className="recent-users">
@@ -32,15 +36,14 @@ const RecentRegisteredUsers = ({
           : data.map((recentUser) => (
               <div
                 key={recentUser.id}
-                // TODO: uncomment when users page is implemented
-                // onClick={() =>
-                //   router.navigate({
-                //     to: "/user/$userId",
-                //     params: {
-                //       userId: recentUser.id.toString(),
-                //     },
-                //   })
-                // }
+                onClick={() =>
+                  router.navigate({
+                    to: "/users/$userId",
+                    params: {
+                      userId: recentUser.id.toString(),
+                    },
+                  })
+                }
                 className="row"
               >
                 <div className="content">

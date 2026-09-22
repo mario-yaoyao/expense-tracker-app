@@ -5,8 +5,11 @@ import { format } from "date-fns";
 
 import { getCategoriesAsync } from "../api/category";
 import { useAuth } from "../hooks/useAuth";
-import { getDateFilterLabel } from "../utils/helper";
-import { categoryColumns, getCategoryBtnActions } from "../constants/category";
+import { filterAction, getDateFilterLabel } from "../utils/helper";
+import {
+  getCategoryBtnActions,
+  getCategoryColumns,
+} from "../constants/category";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
 import Modal from "../components/ui/Modal";
@@ -18,7 +21,7 @@ import DatePicker from "../components/ui/DatePicker";
 import "../styles/category/category.scss";
 
 const CategoryPage = () => {
-  const { isUser } = useAuth();
+  const { isUser, isSuperAdmin } = useAuth();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -66,12 +69,8 @@ const CategoryPage = () => {
 
   const categories = data?.pages.flatMap((page) => page.data.items) ?? [];
   const actions = getCategoryBtnActions(isUser);
-  const addCategoryAction = actions.find(
-    (action) => action.label === "Add Category",
-  );
-  const filterDateAction = actions.find(
-    (action) => action.label === "Filter Date",
-  );
+  const addCategoryAction = filterAction(actions, "Add Category");
+  const filterDateAction = filterAction(actions, "Filter Date");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -133,7 +132,7 @@ const CategoryPage = () => {
         </div>
       </div>
       <Table
-        columns={categoryColumns}
+        columns={getCategoryColumns(isSuperAdmin)}
         rows={categories ?? []}
         onRowClick={(category) => {
           router.navigate({

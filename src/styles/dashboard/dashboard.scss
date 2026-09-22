@@ -29,6 +29,7 @@
         border-radius: 12px;
         background-color: $surface;
         box-shadow: 0 4px 12px $shadow;
+        aspect-ratio: 16 / 9;
       }
     }
   }
@@ -40,13 +41,10 @@
     .dashboard-wrapper {
       .metrics {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .charts-wrapper {
-        flex-direction: row;
-        width: 100%;
-
         .line-chart-wrapper,
         .bar-chart-wrapper {
           width: 100%;
@@ -73,11 +71,20 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         max-height: fit-content;
+
+        &.user {
+          grid-template-columns: repeat(4, 1fr);
+        }
       }
 
       .charts-wrapper {
         grid-row: span 3;
         flex-direction: row;
+
+        .line-chart-wrapper,
+        .bar-chart-wrapper {
+          aspect-ratio: unset;
+        }
 
         .line-chart-wrapper {
           width: 60%;

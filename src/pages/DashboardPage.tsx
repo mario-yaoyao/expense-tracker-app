@@ -1,18 +1,30 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getDashboardAsync } from "../api/dashboard";
-import { formatCurrency } from "../utils/format";
+import {
+  formatCurrency,
+  formatCurrentMonthYear,
+  formatCurrentYear,
+} from "../utils/format";
 import { useAuth } from "../hooks/useAuth";
 import Title from "../components/ui/Title";
+import Modal from "../components/ui/Modal";
 import MetricCard from "../components/ui/MetricCard";
 import BaseLineChart from "../components/ui/LineChart";
 import BaseBarChart from "../components/ui/BarChart";
 import RecentTransactions from "../components/Dashboard/RecentTransactions";
 import RecentRegisteredUsers from "../components/Dashboard/RecentRegisteredUsers";
+import SavingsBreakdown from "../components/Dashboard/SavingsBreakdown";
 import "../styles/dashboard/dashboard.scss";
 
 const DashboardPage = () => {
   const { isSuperAdmin, isUser } = useAuth();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["dashboard"],
@@ -21,14 +33,15 @@ const DashboardPage = () => {
 
   const metrics = data?.metrics;
 
-  const balanceClassName =
-    metrics?.balance == null
+  const getMetricClassname = (metric: number) => {
+    return metric == null
       ? "info"
-      : metrics.balance > 0
+      : metric > 0
         ? "success"
-        : metrics.balance < 0
+        : metric < 0
           ? "danger"
           : "info";
+  };
 
   const metricsData = [
     ...(isSuperAdmin
@@ -58,20 +71,31 @@ const DashboardPage = () => {
           {
             id: 4,
             title: "Total Income",
+            period: formatCurrentMonthYear(),
             value: formatCurrency(metrics?.totalIncome),
             className: "success",
           },
           {
             id: 5,
             title: "Total Expense",
+            period: formatCurrentMonthYear(),
             value: formatCurrency(metrics?.totalExpense),
             className: "danger",
           },
           {
             id: 6,
             title: "Balance",
+            period: formatCurrentMonthYear(),
             value: formatCurrency(metrics?.balance),
-            className: balanceClassName,
+            className: getMetricClassname(metrics?.balance),
+          },
+          {
+            id: 7,
+            title: "Total Savings",
+            period: formatCurrentYear(),
+            value: formatCurrency(metrics?.totalSavings),
+            className: getMetricClassname(metrics?.totalSavings),
+            onClickFn: openModal,
           },
         ]
       : []),
@@ -81,15 +105,17 @@ const DashboardPage = () => {
     <section className="dashboard-section">
       <Title text="Dashboard" />
       <div className="dashboard-wrapper">
-        <div className="metrics">
+        <div className={`metrics ${isUser ? "user" : null}`}>
           {metricsData.map((metric) => {
             return (
               <MetricCard
                 key={metric.id}
                 id={metric.id}
                 title={metric.title}
+                period={metric.period}
                 value={metric.value}
                 className={metric.className}
+                onClickFn={metric.onClickFn}
                 isLoading={isLoading}
                 isError={isError}
               />
@@ -143,6 +169,14 @@ const DashboardPage = () => {
           />
         </div>
       </div>
+      <Modal isOpen={isOpen} onClose={closeModal} className="lg">
+        <SavingsBreakdown
+          title="Monthly Savings Breakdown"
+          description="Track how much you earned, spent, and saved each month throughout the year."
+          data={data?.savingsTrend}
+          isLoading={isLoading}
+        />
+      </Modal>
     </section>
   );
 };

@@ -1,5 +1,4 @@
 import type { TAction } from "../types/ui";
-import { isSuperAdmin } from "../utils/auth";
 import { formatDate } from "../utils/format";
 import { getTypeBadge } from "../utils/helper";
 
@@ -16,8 +15,8 @@ export const typeOptions = [
   },
 ];
 
-export const categoryColumns = [
-  ...(isSuperAdmin()
+export const getCategoryColumns = (isSuperAdmin: boolean) => [
+  ...(isSuperAdmin
     ? [
         {
           accessorKey: "username",

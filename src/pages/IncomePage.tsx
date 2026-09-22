@@ -5,9 +5,9 @@ import { format } from "date-fns";
 
 import { getIncomesAsync } from "../api/income";
 import { useAuth } from "../hooks/useAuth";
-import { getDateFilterLabel } from "../utils/helper";
+import { filterAction, getDateFilterLabel } from "../utils/helper";
 import { formatCurrency } from "../utils/format";
-import { getIncomeBtnActions, incomeColumns } from "../constants/income";
+import { getIncomeBtnActions, getIncomeColumns } from "../constants/income";
 import IncomeForm from "../components/Income/IncomeForm";
 import Table from "../components/ui/Table";
 import Title from "../components/ui/Title";
@@ -69,12 +69,8 @@ const IncomePage = () => {
   const summary = data?.pages[0].data;
   const metrics = summary?.metrics;
   const actions = getIncomeBtnActions(isUser);
-  const addIncomeAction = actions.find(
-    (action) => action.label === "Add Income",
-  );
-  const filterDateAction = actions.find(
-    (action) => action.label === "Filter Date",
-  );
+  const addIncomeAction = filterAction(actions, "Add Income");
+  const filterDateAction = filterAction(actions, "Filter Date");
 
   const metricsData = [
     ...(!isSuperAdmin
@@ -175,7 +171,7 @@ const IncomePage = () => {
         </div>
       </div>
       <Table
-        columns={incomeColumns}
+        columns={getIncomeColumns(isSuperAdmin)}
         rows={incomes ?? []}
         onRowClick={(income) =>
           router.navigate({

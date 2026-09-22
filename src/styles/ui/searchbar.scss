@@ -57,13 +57,6 @@
 // for laptop devices
 @media only screen and (min-width: 1024px) {
   .search-group {
-    width: 400px;
-  }
-}
-
-// for desktop devices
-@media only screen and (min-width: 1440px) {
-  .search-group {
     width: 600px;
   }
 }

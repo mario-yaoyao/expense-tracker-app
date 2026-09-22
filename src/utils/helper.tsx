@@ -1,4 +1,4 @@
-import type { TRoleBadge, TStatusBadge } from "../types/ui";
+import type { TAction, TRoleBadge, TStatusBadge } from "../types/ui";
 
 export const getDateFilterLabel = (
   startDate: Date | null,
@@ -52,4 +52,27 @@ export const getLogTypeBadge = (value: number) => {
     default:
       return <p className="info">Info</p>;
   }
+};
+
+export const getMonthName = (month: string | number) => {
+  const months: Record<string, string> = {
+    Jan: "January",
+    Feb: "February",
+    Mar: "March",
+    Apr: "April",
+    May: "May",
+    Jun: "June",
+    Jul: "July",
+    Aug: "August",
+    Sep: "September",
+    Oct: "October",
+    Nov: "November",
+    Dec: "December",
+  };
+
+  return months[month] ?? month;
+};
+
+export const filterAction = (actions: TAction[], searchText: string) => {
+  return actions.find((action) => action.label === searchText);
 };

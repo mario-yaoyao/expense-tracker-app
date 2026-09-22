@@ -1,11 +1,12 @@
 import { formatDate } from "../../utils/format";
 import { useAuth } from "../../hooks/useAuth";
+import { useRouter } from "@tanstack/react-router";
 
 import type { TRecentTransactions } from "../../types/dashboard";
 import Skeleton from "../ui/Sekeleton";
 import ErrorState from "../ui/ErrorState";
-import "../../styles/dashboard/recent-transactions.scss";
 import EmptyState from "../ui/EmptyState";
+import "../../styles/dashboard/recent-transactions.scss";
 
 const RecentTransactions = ({
   data,
@@ -13,6 +14,7 @@ const RecentTransactions = ({
   isError,
 }: TRecentTransactions) => {
   const { isSuperAdmin } = useAuth();
+  const router = useRouter();
 
   const getClassName = (type: number) => {
     switch (type) {
@@ -46,7 +48,18 @@ const RecentTransactions = ({
               </div>
             ))
           : data?.map((data) => (
-              <div key={data.id} className="row">
+              <div
+                key={data.id}
+                onClick={() =>
+                  router.navigate({
+                    to: "/transactions/$transactionId",
+                    params: {
+                      transactionId: data.id.toString(),
+                    },
+                  })
+                }
+                className="row"
+              >
                 <div className={`indicator ${getClassName(data.type)}`} />
                 <div className="content">
                   <p className="action">
