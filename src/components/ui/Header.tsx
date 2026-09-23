@@ -61,7 +61,10 @@ const Header = ({ toggleSidebarFn }: { toggleSidebarFn: () => void }) => {
         onClose={closeLogoutConfirmation}
       />
       <div className="profile-menu-wrapper" ref={wrapperRef}>
-        <button onClick={() => setIsProfileMenuOpen((prev) => !prev)}>
+        <button
+          onClick={() => setIsProfileMenuOpen((prev) => !prev)}
+          aria-label="Open profile menu"
+        >
           <RxAvatar size={30} />
         </button>
         <Popover isOpen={isProfileMenuOpen} onClose={closeProfileMenu}>

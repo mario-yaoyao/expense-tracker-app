@@ -35,11 +35,7 @@ const IncomeForm = ({ data, action, closeModalFn }: TIncomeForm) => {
     : "Enter the income details below.";
   const submitLabel = isUpdate ? "Update Income" : "Add Income";
 
-  const {
-    data: categoriesData,
-    // isLoading,
-    // isError,
-  } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
       return await getCategoriesAsync({

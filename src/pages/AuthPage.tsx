@@ -77,7 +77,7 @@ const AuthPage = ({ authForm }: { authForm: string }) => {
       </div>
       <img
         src="/entrepreneur-working-with-bills.jpg"
-        alt="expense tracker visual"
+        alt="Person reviewing bills and managing expenses"
         className="visual"
       />
     </div>
