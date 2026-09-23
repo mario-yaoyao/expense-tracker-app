@@ -6,3 +6,29 @@
   padding: 0;
   font-family: "Inter", sans-serif;
 }
+
+p,
+th,
+td,
+span,
+input::placeholder,
+textarea::placeholder,
+.dropdown-item,
+.dropdown-menu {
+  font-size: 0.8rem;
+}
+
+// for laptop devices
+@media only screen and (min-width: 1024px) {
+  p,
+  th,
+  td,
+  span,
+  input::placeholder,
+  div.detail-value,
+  textarea::placeholder,
+  .dropdown-item,
+  .dropdown-menu {
+    font-size: 0.875rem;
+  }
+}

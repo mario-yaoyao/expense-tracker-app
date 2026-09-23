@@ -3,6 +3,7 @@
 .dashboard-section {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 
   .dashboard-wrapper {
     display: flex;
@@ -30,18 +31,35 @@
         background-color: $surface;
         box-shadow: 0 4px 12px $shadow;
         aspect-ratio: 16 / 9;
+
+        .recharts-wrapper,
+        .recharts-surface {
+          -webkit-tap-highlight-color: transparent;
+          outline: none;
+        }
+
+        .recharts-wrapper *:focus,
+        .recharts-wrapper *:focus-visible,
+        .recharts-surface:focus,
+        .recharts-surface:focus-visible {
+          outline: none;
+        }
       }
     }
   }
 }
 
-// for laptop devices
+// for tablet devices
 @media only screen and (min-width: 768px) {
   .dashboard-section {
     .dashboard-wrapper {
       .metrics {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+
+        &.user {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       .charts-wrapper {
@@ -98,6 +116,7 @@
 
       .recent-data-wrapper {
         grid-row: span 2;
+        width: 100%;
       }
     }
   }

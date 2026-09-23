@@ -5,11 +5,25 @@
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 1rem;
-  min-height: 48px;
+  min-height: 32px;
+
+  h2 {
+    font-size: 1.4rem;
+  }
 
   .btns-wrapper {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .section-header {
+    min-height: 48px;
+
+    h2 {
+      font-size: revert;
+    }
   }
 }
