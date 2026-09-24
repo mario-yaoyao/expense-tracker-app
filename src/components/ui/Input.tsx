@@ -38,7 +38,11 @@ const Input = ({
             step="0.01"
           />
           {type === "password" && (
-            <button onClick={togglePasswordVisibility} type="button">
+            <button
+              onClick={togglePasswordVisibility}
+              type="button"
+              aria-label="Toggle password visibility"
+            >
               {passwordType === "password" ? (
                 <AiOutlineEyeInvisible size={24} />
               ) : (

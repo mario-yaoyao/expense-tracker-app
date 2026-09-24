@@ -76,7 +76,7 @@ const AuthPage = ({ authForm }: { authForm: string }) => {
         </div>
       </div>
       <img
-        src="/entrepreneur-working-with-bills.jpg"
+        src="/entrepreneur-working-with-bills.webp"
         alt="Person reviewing bills and managing expenses"
         className="visual"
       />

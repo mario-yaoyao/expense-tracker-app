@@ -14,7 +14,9 @@ function RootLayout() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Outlet />
+        <main>
+          <Outlet />
+        </main>
         <Toaster
           position="top-right"
           toastOptions={{
