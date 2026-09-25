@@ -112,20 +112,22 @@ const CategoryForm = ({ data, action, closeModalFn }: TCategoryForm) => {
         defaultValue={data?.name}
         errorMessage={nameError && nameError.messages[0]}
       />
-      <Dropdown
-        name="type"
-        label="Type"
-        options={typeOptions}
-        defaultOption={
-          data?.type !== undefined
-            ? {
-                value: data.type,
-                label: data.type === 0 ? "Expense" : "Income",
-              }
-            : undefined
-        }
-        errorMessage={typeError && typeError.messages[0]}
-      />
+      {!isUpdate && (
+        <Dropdown
+          name="type"
+          label="Type"
+          options={typeOptions}
+          defaultOption={
+            data?.type !== undefined
+              ? {
+                  value: data.type,
+                  label: data.type === 0 ? "Expense" : "Income",
+                }
+              : undefined
+          }
+          errorMessage={typeError && typeError.messages[0]}
+        />
+      )}
       <Button
         type="submit"
         label={mutation.isPending ? "Saving..." : submitLabel}
