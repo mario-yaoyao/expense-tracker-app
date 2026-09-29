@@ -21,7 +21,7 @@ const MetricCard = ({
         <label>
           {title} {period && `(${period})`}
         </label>
-        {id === 7 && (
+        {id === 7 && !isLoading && !isError && (
           <button onClick={onClickFn} title="View monthly savings breakdown">
             <IoInformationCircleOutline size={18} />
           </button>

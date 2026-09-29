@@ -75,7 +75,7 @@
 @media only screen and (min-width: 1024px) {
   .auth-container {
     flex-direction: row;
-    width: 60%;
+    width: 80%;
     height: 80%;
 
     .auth-content {
@@ -104,6 +104,8 @@
 // for desktop devices
 @media only screen and (min-width: 1440px) {
   .auth-container {
+    width: 60%;
+
     .auth-content {
       .auth-body {
         .auth-footer {
