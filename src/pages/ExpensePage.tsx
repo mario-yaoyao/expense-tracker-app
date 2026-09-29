@@ -185,6 +185,9 @@ const ExpensePage = () => {
             },
           })
         }
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        isFetchingNextPage={isFetchingNextPage}
         isLoading={isLoading}
         isError={isError}
       />

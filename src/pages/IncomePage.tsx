@@ -181,6 +181,9 @@ const IncomePage = () => {
             },
           })
         }
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+        isFetchingNextPage={isFetchingNextPage}
         isLoading={isLoading}
         isError={isError}
       />
